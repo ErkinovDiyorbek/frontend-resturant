@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Humo Choyxona</title>
+    <!-- Linking Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <!-- Linking AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="website icon"
+        href="https://asiaplustj.info/sites/default/files/articles/282346/%D1%85%D1%83%D0%BC%D0%BE.jpg">
+    <link rel="stylesheet" href="../Css/style.css">
+
+</head>
+
+<body>
+
+
+    <!-- Header / Navbar -->
+    <header>
+        <nav class="navbar section-content">
+            <a href="" class="nav-logo">
+                <div class="logo-container">
+                    <div class="logo-icon">🦅</div>
+                    <div class="logo-text">
+                        <span class="logo-name">HUMO</span>
+                        <span class="logo-tagline">CHOYXONASI</span>
+                    </div>
+                </div>
+            </a>
+            <ul class="nav-menu">
+                <button id="menu-close-button" class="fas fa-times"></button>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-translate="Asosiy">Asosiy</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about" class="nav-link" data-translate="Biz haqimizda">Biz haqimizda</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#menu" class="nav-link" data-translate="Taomnoma">Taomnoma</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#book-a-table" class="nav-link" data-translate="Buyurtma qilish">Buyurtma qilish</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#gallery" class="nav-link" data-translate="Galereya">Galereya</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link" data-translate="Aloqa">Aloqa</a>
+                </li>
+
+                <!-- Ro'yhatdan o'tish va kirish tugmalari -->
+                <li class="nav-item" id="login-link">
+                    <a href="login.html" data-translate="Kirish" class="nav-link">Kirish</a>
+                </li>
+
+                <li class="nav-item" id="profile-link" style="display: none;">
+                    <a href="profile.html" data-translate="Profil" class="nav-link">Profil</a>
+                </li>
+            </ul>
+
+            <!-- Tilni o'zgartirish tugmasi -->
+            <button id="language-toggle" class="language-btn">
+                <span class="flag-icon flag-uz"></span>
+                <span class="current-language">UZ</span>
+            </button>
+
+            <div class="menu--icons">
+                <div class="cart-icon">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>0</span>
+                </div>
+            </div>
+
+            <button id="menu-open-button" class="fas fa-bars"></button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <div class="hero-text" data-aos="fade-right">
+                        <div class="hero-tag">
+                            <span data-translate="An'anaviy ta'm">An'anaviy ta'm</span>
+                        </div>
+                        <h1 class="hero-title" data-translate="Eng zo'r Somsa">Eng zo'r Somsa</h1>
+                        <h2 class="hero-subtitle" data-translate="Bizning maxsus somsa bilan kuningiz maroqli o'tsin!">
+                            Bizning maxsus somsa bilan kuningiz maroqli o'tsin!
+                        </h2>
+                        <p class="hero-description"
+                            data-translate="Har bir parcha go‘sht o‘z tarixidan hikoya qiluvchi, har bir somsada quvonch uchqunlari bo‘lgan choyxonamizga xush kelibsiz.">
+                            Har bir parcha go‘sht o‘z tarixidan hikoya qiluvchi, har bir somsada quvonch uchqunlari
+                            bo‘lgan choyxonamizga xush kelibsiz.
+                        </p>
+
+                        <div class="hero-buttons">
+                            <a href="humo menu somsalar.html" class="btn-primary" data-translate="Hoziroq buyurtma">
+                                Hoziroq buyurtma
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                            <a href="#contact" class="btn-outline" data-translate="Biz bilan bog'lanish">
+                                Biz bilan bog'lanish
+                            </a>
+                        </div>
+
+                        <div class="hero-features">
+                            <div class="feature-item">
+                                <i class="fas fa-clock"></i>
+                                <span data-translate="Tez yetkazib berish">Tez yetkazib berish</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-leaf"></i>
+                                <span data-translate="Tabiiy mahsulotlar">Tabiiy mahsulotlar</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hero-image" data-aos="fade-left">
+                        <img src="../foto/somsa logo.png" alt="Humo Somsa" class="main-image">
+                        <div class="image-decoration"></div>
+                        <div class="rating-badge">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span data-translate="5.0 (500+)">5.0 (500+)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about-section" id="about">
+            <div class="about-container">
+                <div class="about-content">
+                    <!-- Image Section -->
+                    <div class="about-image-wrapper" data-aos="zoom-in">
+                        <div class="image-frame">
+                            <img src="../foto/person eating.jpg" alt="About Our Restaurant" class="about-image">
+                            <div class="experience-badge">
+                                <span class="years">5+</span>
+                                <span data-translate="Yillik tajriba">Yillik tajriba</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Text Section -->
+                    <div class="about-details" data-aos="fade-up">
+                        <h2 class="section-title" data-translate="Biz Haqimizda" data-aos="fade-up">Biz Haqimizda</h2>
+
+
+                        <p class="about-text"
+                            data-translate="Oʻzbek pazandaligida somsa asosan, tandirga yopib dumaloq shaklda tayyorlanadi. Hozir gaz duxovkalarida uchburchak, toʻrtburchak va nonli shaklda ham pishiriladi. Somsa tayyorlash uchun bugʻdoy unidan xamir qorilib, jild tayyorlanadi. Somsaga koʻpincha Sirka, pomidor qaylasi, Jizzax somsasiga esa oʻsimlik moyi sepilib tanovul qilinadi. Jizzax somsasining o‘ziga xos ta’mi qolgan viloyatlardagidan hajmi, go‘sht va dumba yog‘ining mo‘lligi bilan farq qiladi.">
+                            Oʻzbek pazandaligida somsa asosan, tandirga yopib dumaloq shaklda tayyorlanadi. Hozir gaz
+                            duxovkalarida uchburchak, toʻrtburchak va nonli shaklda ham pishiriladi. Somsa tayyorlash
+                            uchun bugʻdoy unidan xamir qorilib, jild tayyorlanadi. Somsaga koʻpincha Sirka, pomidor
+                            qaylasi, Jizzax somsasiga esa oʻsimlik moyi sepilib tanovul qilinadi. Jizzax somsasining
+                            o‘ziga xos ta’mi qolgan viloyatlardagidan hajmi, go‘sht va dumba yog‘ining mo‘lligi bilan
+                            farq qiladi.
+                        </p>
+
+                        <div class="about-features">
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-utensils"></i>
+                                </div>
+                                <div class="feature-text">
+                                    <h3 data-translate="An'anaviy taomlar">An'anaviy taomlar</h3>
+                                    <p data-translate="Qadriyatimizni saqlab qolgan retseptlar">Qadriyatimizni saqlab
+                                        qolgan retseptlar</p>
+                                </div>
+                            </div>
+
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-leaf"></i>
+                                </div>
+                                <div class="feature-text">
+                                    <h3 data-translate="Tabiiy mahsulotlar">Tabiiy mahsulotlar</h3>
+                                    <p data-translate="Atrofimizdagi fermerlardan sotib olinadi">Atrofimizdagi
+                                        fermerlardan sotib olinadi</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="social-links">
+                            <h4 data-translate="Bizni kuzatib boring">Bizni kuzatib boring:</h4>
+                            <div class="social-icons">
+                                <a href="https://www.facebook.com/profile.php?id=100077124204829" target="_blank"
+                                    class="social-link">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="https://www.instagram.com/diyorbek_24_10_" target="_blank" class="social-link">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="https://t.me/Diyorbek_24_10_2003" target="_blank" class="social-link">
+                                    <i class="fab fa-telegram-plane"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Menu Section -->
+        <section class="menu-section" id="menu">
+            <h2 class="section-title" data-translate="Bizning Taomnoma" data-aos="fade-up">Bizning Taomnoma</h2>
+            <div class="section-content">
+                <ul class="menu-list">
+                    <li class="menu-item" data-aos="zoom-in">
+                        <a href="humo menu somsalar.html"><img src="../foto/somsa menu.png" alt="Somsa"></a>
+                        <h3 class="name" data-translate="Somsa">Somsa</h3>
+                        <p class="text"
+                            data-translate="Sizning energiya darajangizni uch baravar oshiradigan oziq-ovqat">
+                            Sizning energiya darajangizni uch baravar oshiradigan oziq-ovqat.
+                        </p>
+                    </li>
+
+                    <li class="menu-item" data-aos="zoom-in">
+                        <a href="humo menu ichimliklar.html"><img src="../foto/Cool Drinks.png" alt="Cool Drinks"></a>
+                        <h3 class="name" data-translate="Salqin Ichimliklar">Salqin Ichimliklar
+                        </h3>
+                        <p class="text" data-translate="Sizni sovutish uchun ajoyib va gazli salqin ichimliklar">
+                            Sizni sovutish uchun ajoyib va gazli salqin ichimliklar.
+                        </p>
+                    </li>
+
+                    <li class="menu-item" data-aos="zoom-in">
+                        <a href="humo menu salatlar.html"><img src="../foto/Salads menu.png" alt="Refreshment"></a>
+                        <h3 class="name" data-translate="Salatlar va boshqa narsalar">Salatlar
+                            va boshqa
+                            narsalar</h3>
+                        <p class="text" data-translate="Bizning mazali salatlarimiz siz uchun">
+                            Bizning mazali salatlarimiz siz uchun.
+                        </p>
+                    </li>
+
+                    <li class="menu-item" data-aos="zoom-in">
+                        <a href="humo menu kebab.html"><img src="../foto/kebab.png" alt="Shashliklar"></a>
+                        <h3 class="name" data-translate="Shashliklar">Shashliklar</h3>
+                        <p class="text" data-translate="Sevimli kaboblaringiz hammasi bir joyda">
+                            Sevimli kaboblaringiz hammasi bir joyda.
+                        </p>
+                    </li>
+
+                    <li class="menu-item" data-aos="zoom-in">
+                        <a href="humo menu chicken.html"><img src="../foto/chicken menu.png" alt="Tovuqlar"></a>
+                        <h3 class="name" data-translate="Qovurilgan Tovuq">Qovurilgan Tovuq</h3>
+                        <p class="text" data-translate="Qovurilgan tovuq go'shtining ajoyib ta'mi">
+                            Qovurilgan tovuq go'shtining ajoyib ta'mi.
+                        </p>
+                    </li>
+
+                    <li class="menu-item" data-aos="zoom-in">
+                        <a href="humo menu osh.html"><img src="../foto/osh.png" alt="Osh"></a>
+                        <h3 class="name" data-translate="Osh">Osh</h3>
+                        <p class="text" data-translate="O'zbekistonning ajoyib ta'miga ega milliy taomi">
+                            O'zbekistonning ajoyib ta'miga ega milliy taomi.
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Loader -->
+        <!-- <div class="humo-loader" id="humoLoader">
+            <div class="loader-container">
+                <div class="tea-cup">
+                    <div class="cup-top">
+                        <div class="tea-steam">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div class="tea-liquid"></div>
+                    </div>
+                    <div class="cup-handle"></div>
+                </div>
+                <div class="loader-progress">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="loader-text" id="loaderText">Choy tayyorlanmoqda...</div>
+                <div class="loader-percentage" id="loaderPercentage">0%</div>
+            </div>
+        </div> -->
+
+        <!-- Asosiy kontent (yuklanish tugagandan so'ng ko'rinadi) -->
+        <div class="main-content" id="mainContent" style="display:none;">
+            <h1>Xush kelibsiz Humo Choyxonasiga!</h1>
+            <!-- Bu yerda saytning asosiy kontenti bo'ladi -->
+        </div>
+
+        <!-- Card Sidebar section -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-close">
+                <i class="fa-solid fa-close"></i>
+            </div>
+
+            <div class="cart-menu">
+                <h3 data-translate="Mening savatim">Mening savatim</h3>
+                <div class="cart-items"></div>
+            </div>
+
+            <div class="sidebar--footer">
+                <div class="total--amount">
+                    <h5 data-translate="Jami">Jami</h5>
+                    <div class="cart-total">0.00 <span data-translate="so'm">so'm</span></div>
+                </div>
+                <button class="checkout-btn" id="checkoutBtn" data-translate="Ro'yxatni yuborish">Ro'yxatni
+                    yuborish</button>
+            </div>
+        </div>
+
+        <!-- Modal oyna -->
+        <div id="orderModal" class="modal">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2 data-translate="Buyurtma ma'lumotlari">Buyurtma ma'lumotlari</h2>
+                <form id="orderForm" action="http://localhost:3001/submit-order" method="POST">
+                    <input type="text" id="name" placeholder="Ismingiz" required pattern="^[A-Za-zА-Яа-яЁё\s'-]+$"
+                        data-translate-placeholder="Ismingiz" />
+                    <input type="text" id="phone" placeholder="Telefon raqam" required pattern="^\+998\d{9}$"
+                        data-translate-placeholder="Telefon raqam" />
+                    <input type="text" id="address" placeholder="Manzilingiz" required
+                        data-translate-placeholder="Manzilingiz" />
+                    <textarea id="note" placeholder="Izoh (ixtiyoriy)"
+                        data-translate-placeholder="Izoh (ixtiyoriy)"></textarea>
+                    <button type="submit" class="send-button" data-translate="Yuborish">Yuborish</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Book a Table section -->
+        <section class="booking-section" id="book-a-table">
+            <div class="booking-container">
+                <h2 class="section-title" data-translate="Xona Buyurtma Qilish" data-aos="fade-up">Xona Buyurtma Qilish
+                </h2>
+
+                <div class="booking-content">
+                    <div class="booking-image" data-aos="zoom-in">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                            alt="Restaurant Interior">
+                        <div class="booking-overlay">
+                            <h3 data-translate="Zamonaviy va qulay xonalar">Zamonaviy va qulay xonalar</h3>
+                            <p
+                                data-translate="Oilaviy tadbirlar, ziyofatlar yoki biznes uchrashuvlari uchun ajoyib joy">
+                                Oilaviy tadbirlar, ziyofatlar yoki biznes uchrashuvlari uchun ajoyib joy</p>
+                        </div>
+                    </div>
+
+                    <form action="http://localhost:3001/book-table" method="POST" class="booking-form">
+                        <h3 class="form-title" data-translate="Xona band qilish" data-aos="fade-up">Xona band qilish
+                        </h3>
+
+                        <div class="form-grid">
+                            <div class="form-group" data-aos="fade-up" data-aos-delay="100">
+                                <div class="input-icon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <input type="text" id="name" name="name" placeholder="Ismingiz"
+                                    pattern="^[A-Za-z\u0400-\u04FF\s]{2,30}$" required
+                                    data-translate-placeholder="Ismingiz">
+                            </div>
+
+                            <div class="form-group" data-aos="fade-up" data-aos-delay="150">
+                                <div class="input-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <input type="tel" id="phone" pattern="^\+998\d{9}$" name="phone"
+                                    placeholder="Telefon raqam" required data-translate-placeholder="Telefon raqam">
+                            </div>
+
+                            <div class="form-group" data-aos="fade-up" data-aos-delay="200">
+                                <div class="input-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <input type="email" id="email" name="email" pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
+                                    placeholder="Elektron pochta" required data-translate-placeholder="Elektron pochta">
+                            </div>
+
+                            <div class="form-group" data-aos="fade-up" data-aos-delay="250">
+                                <div class="input-icon">
+                                    <i class="fas fa-calendar-day"></i>
+                                </div>
+                                <input type="date" id="date" name="date" min="2025-05-27" required>
+                            </div>
+
+                            <div class="form-group" data-aos="fade-up" data-aos-delay="300">
+                                <div class="input-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <input type="time" id="time" name="time" min="10:00" max="22:00" required>
+                            </div>
+
+                            <div class="form-group" data-aos="fade-up" data-aos-delay="350">
+                                <div class="input-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <input type="number" id="guests" name="guests" placeholder="Mehmonlar soni" min="1"
+                                    max="20" required data-translate-placeholder="Mehmonlar soni">
+                            </div>
+
+                            <div class="form-group" data-aos="fade-up" data-aos-delay="400">
+                                <div class="input-icon">
+                                    <i class="fas fa-door-open"></i>
+                                </div>
+                                <select id="room" name="room" required>
+                                    <option value="" disabled selected data-translate="Xona tanlang">Xona tanlang
+                                    </option>
+                                    <option value="1" data-translate="Xona 1 (2-4 kishi)">Xona 1 (2-4 kishi)</option>
+                                    <option value="2" data-translate="Xona 2 (4-6 kishi)">Xona 2 (4-6 kishi)</option>
+                                    <option value="3" data-translate="Xona 3 (6-8 kishi)">Xona 3 (6-8 kishi)</option>
+                                    <option value="4" data-translate="Xona 4 (8-12 kishi)">Xona 4 (8-12 kishi)</option>
+                                    <option value="5" data-translate="VIP Xona (12-20 kishi)">VIP Xona (12-20 kishi)
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group" data-aos="fade-up" data-aos-delay="450">
+                            <div class="input-icon">
+                                <i class="fas fa-comment-dots"></i>
+                            </div>
+                            <textarea id="special_request" name="special_request" placeholder="Maxsus talablar"
+                                data-translate-placeholder="Maxsus talablar"></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-button" data-translate="Buyurtma berish" data-aos="zoom-in"
+                            data-aos-delay="500">
+                            <span>Buyurtma berish</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+
+                        <div class="form-footer" data-aos="zoom-in" data-aos-delay="550">
+                            <i class="fas fa-shield-alt"></i>
+                            <span data-translate="Shaxsiy ma'lumotlaringiz himoya qilinadi">Shaxsiy ma'lumotlaringiz
+                                himoya qilinadi</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section class="gallery-section" id="gallery">
+            <div class="container">
+                <h2 class="section-title" data-translate="Galereya" data-aos="fade-up">Galereya</h2>
+
+                <div class="gallery-grid">
+                    <!-- Gallery Item 1 -->
+                    <div class="gallery-card" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="gallery-image-wrapper">
+                            <img src="../foto/somsa gallery.jpg" alt="Somsa" class="gallery-image">
+                            <div class="image-overlay">
+                                <h3 class="food-title" data-translate="Somsa">Somsa</h3>
+                                <p class="food-desc" data-translate="Xamirturushli xamirdan tayyorlangan mazali somsa">
+                                    Xamirturushli xamirdan tayyorlangan mazali somsa</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Item 2 -->
+                    <div class="gallery-card" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="gallery-image-wrapper">
+                            <img src="../foto/kebab gallery.jpg" alt="Kebab" class="gallery-image">
+                            <div class="image-overlay">
+                                <h3 class="food-title" data-translate="Shashlik">Shashlik</h3>
+                                <p class="food-desc" data-translate="Tabiiy go'shtdan tayyorlangan klassik shashlik">
+                                    Tabiiy go'shtdan tayyorlangan klassik shashlik</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Item 3 -->
+                    <div class="gallery-card" data-aos="zoom-in" data-aos-delay="300">
+                        <div class="gallery-image-wrapper">
+                            <img src="../foto/chicken gallery.jpg" alt="Tovuq" class="gallery-image">
+                            <div class="image-overlay">
+                                <h3 class="food-title" data-translate="Tovuq">Tovuq</h3>
+                                <p class="food-desc" data-translate="Nozik tandir usulida pishirilgan tovuq">
+                                    Nozik tandir usulida pishirilgan tovuq</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Item 4 -->
+                    <div class="gallery-card" data-aos="zoom-in" data-aos-delay="400">
+                        <div class="gallery-image-wrapper">
+                            <img src="../foto/pilaf gallery.jpg" alt="Osh" class="gallery-image">
+                            <div class="image-overlay">
+                                <h3 class="food-title" data-translate="Osh">Osh</h3>
+                                <p class="food-desc" data-translate="O'zbekistonning mashhur milliy taomi">
+                                    O'zbekistonning mashhur milliy taomi</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Item 5 -->
+                    <div class="gallery-card" data-aos="zoom-in" data-aos-delay="500">
+                        <div class="gallery-image-wrapper">
+                            <img src="../foto/jiz gallery.jpg" alt="Jiz" class="gallery-image">
+                            <div class="image-overlay">
+                                <h3 class="food-title" data-translate="Jiz">Jiz</h3>
+                                <p class="food-desc" data-translate="Qo'y go'shtidan tayyorlangan mazali taom">
+                                    Qo'y go'shtidan tayyorlangan mazali taom</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Item 6 -->
+                    <div class="gallery-card" data-aos="zoom-in" data-aos-delay="600">
+                        <div class="gallery-image-wrapper">
+                            <img src="../foto/soup gallery.jpg" alt="Shorva" class="gallery-image">
+                            <div class="image-overlay">
+                                <h3 class="food-title" data-translate="Shorva">Shorva</h3>
+                                <p class="food-desc" data-translate="Tabiiy masalliqlardan tayyorlangan issiq shorva">
+                                    Tabiiy masalliqlardan tayyorlangan issiq shorva</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Location -->
+        <section class="location-section">
+            <div class="location-container">
+                <div class="location-header" data-aos="fade-up" data-aos-delay="100">
+                    <h2 class="section-title" data-translate="Bizning manzil">Bizning manzil</h2>
+                    <p class="location-description" data-translate="Restoranimizga tashrif buyuring">
+                        Restoranimizga tashrif buyuring
+                    </p>
+                </div>
+
+                <div class="location-map-wrapper">
+                    <!-- Map Container -->
+                    <div class="map-container" data-aos="zoom-in" data-aos-delay="200">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2348.2725494937467!2d67.89202190019947!3d40.1247487505537!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38b2932dd892a0af%3A0x38855f64e01115c4!2sHumo%20choyxonasi!5e1!3m2!1suz!2s!4v1739332582528!5m2!1suz!2s"
+                            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade" class="google-map"></iframe>
+
+                        <!-- Map Overlay Card -->
+                        <div class="map-card" data-aos="fade-left" data-aos-delay="400">
+                            <div class="map-card-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="map-card-content">
+                                <h3 data-translate="Humo choyxonasi">Humo choyxonasi</h3>
+                                <p data-translate="Jizzax viloyati, Sharof Rashidov tumani, Qang'li MFY">
+                                    Jizzax viloyati, Sharof Rashidov tumani, Qang'li MFY
+                                </p>
+                                <a href="https://maps.google.com?q=Humo+choyxonasi" target="_blank"
+                                    class="direction-btn" data-translate="Yo'nalish">
+                                    <i class="fas fa-directions"></i>
+                                    <span data-translate="Yo'nalish">Yo'nalish</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location Info -->
+                    <div class="location-info">
+                        <div class="info-card" data-aos="fade-up" data-aos-delay="300">
+                            <div class="info-icon">
+                                <i class="fas fa-car"></i>
+                            </div>
+                            <div class="info-content">
+                                <h4 data-translate="Avtotransport">Avtotransport</h4>
+                                <p data-translate="Shahardan uzoq bo'lmagan masofada joylashgan">
+                                    Shahardan uzoq bo'lmagan masofada joylashgan
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="info-card" data-aos="fade-up" data-aos-delay="500">
+                            <div class="info-icon">
+                                <i class="fas fa-parking"></i>
+                            </div>
+                            <div class="info-content">
+                                <h4 data-translate="Bepul parkovka">Bepul parkovka</h4>
+                                <p data-translate="30 ta mashina sig'adigan parkovka maydoni">
+                                    30 ta mashina sig'adigan parkovka maydoni
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="info-card" data-aos="fade-up" data-aos-delay="700">
+                            <div class="info-icon">
+                                <i class="fas fa-subway"></i>
+                            </div>
+                            <div class="info-content">
+                                <h4 data-translate="Jamoat transporti">Jamoat transporti</h4>
+                                <p data-translate="Avtobus bekatidan 5 daqiqalik masofada">
+                                    Avtobus bekatidan 5 daqiqalik masofada
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Contact Us section -->
+        <section class="contact-section" id="contact" data-aos="fade-up">
+            <div class="contact-container">
+                <h2 class="section-title" data-translate="Biz bilan bog'lanish" data-aos="zoom-in" data-aos-delay="100">
+                    Biz bilan bog'lanish
+                </h2>
+
+                <div class="contact-content">
+                    <!-- Contact Information -->
+                    <div class="contact-info-wrapper" data-aos="fade-right" data-aos-delay="200">
+                        <div class="contact-card" data-aos="fade-up" data-aos-delay="300">
+                            <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="contact-details">
+                                <h3 data-translate="Manzil">Manzil</h3>
+                                <p data-translate="Jizzax viloyati, Sharof Rashidov tumani, Qang'li MFY">
+                                    Jizzax viloyati, Sharof Rashidov tumani, Qang'li MFY
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="contact-card" data-aos="fade-up" data-aos-delay="400">
+                            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                            <div class="contact-details">
+                                <h3>Email</h3>
+                                <p>info@humoresturantwebsite.com</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-card" data-aos="fade-up" data-aos-delay="500">
+                            <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+                            <div class="contact-details">
+                                <h3 data-translate="Telefon">Telefon</h3>
+                                <p>(+998) 99 747 29 10</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-card" data-aos="fade-up" data-aos-delay="600">
+                            <div class="contact-icon"><i class="fas fa-globe"></i></div>
+                            <div class="contact-details">
+                                <h3>Vebsayt</h3>
+                                <p>www.erkinovdiyorbek.com</p>
+                            </div>
+                        </div>
+
+                        <div class="working-hours" data-aos="fade-up" data-aos-delay="700">
+                            <h3 data-translate="Ish vaqtlari">Ish vaqtlari</h3>
+                            <ul>
+                                <li>
+                                    <span data-translate="Dushanba - Juma">Dushanba - Juma:</span>
+                                    <span>10:00 - 23:00</span>
+                                </li>
+                                <li>
+                                    <span data-translate="Shanba">Shanba:</span>
+                                    <span>10:00 - 22:00</span>
+                                </li>
+                                <li>
+                                    <span data-translate="Yakshanba">Yakshanba:</span>
+                                    <span data-translate="Yopiq">Yopiq</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <form action="#" id="contact-form" class="contact-form" data-aos="fade-left" data-aos-delay="300">
+                        <h3 class="form-title" data-translate="Xabar qoldiring">Xabar qoldiring</h3>
+
+                        <div class="form-group" data-aos="zoom-in" data-aos-delay="400">
+                            <div class="input-icon"><i class="fas fa-user"></i></div>
+                            <input type="text" name="name" placeholder="Ismingiz" class="form-input" required
+                                data-translate-placeholder="Ismingiz">
+                        </div>
+
+                        <div class="form-group" data-aos="zoom-in" data-aos-delay="500">
+                            <div class="input-icon"><i class="fas fa-phone"></i></div>
+                            <input type="tel" name="phone" placeholder="Telefon raqamingiz" class="form-input" required
+                                data-translate-placeholder="Telefon raqamingiz">
+                        </div>
+
+                        <div class="form-group" data-aos="zoom-in" data-aos-delay="600">
+                            <div class="input-icon"><i class="fas fa-envelope"></i></div>
+                            <textarea name="message" placeholder="Sizning xabaringiz..." class="form-input" required
+                                data-translate-placeholder="Sizning xabaringiz"></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-button" data-aos="fade-up" data-aos-delay="700">
+                            <span data-translate="Xabarni yuborish">Xabarni yuborish</span>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Footer Section -->
+        <footer class="footer-section">
+            <div class="icons-content">
+                <ul>
+                    <li style="--i:blue; --j:black" data-aos="zoom-in" data-aos-delay="150">
+                        <a href="https://www.facebook.com/profile.php?id=100077124204829&mibextid=kFxxJD"
+                            class="icon"><i class="fa fa-facebook"></i></a>
+                        <span class="titulo">Facebook</span>
+                    </li>
+                    <li style="--i:red; --j:red" data-aos="zoom-in" data-aos-delay="200">
+                        <a href="#" class="icon"><i class="fa fa-youtube"></i></a>
+                        <span class="titulo">You Tube</span>
+                    </li>
+                    <li style="--i:skyblue; --j:blue" data-aos="zoom-in" data-aos-delay="250">
+                        <a href="https://t.me/Diyorbek_24_10_2003" class="icon"><i class="fa fa-telegram"></i></a>
+                        <span class="titulo">Telegram</span>
+                    </li>
+                    <li style="--i:skyblue; --j:green" data-aos="zoom-in" data-aos-delay="300">
+                        <a href="#" class="icon"><i class="fa fa-whatsapp"></i></a>
+                        <span class="titulo">Whatsapp</span>
+                    </li>
+                    <li style="--i:blue; --j:white" data-aos="zoom-in" data-aos-delay="350">
+                        <a href="#" class="icon"><i class="fa fa-linkedin"></i></a>
+                        <span class="titulo">Linkedin</span>
+                    </li>
+                    <li style="--i:red; --j:blue" data-aos="zoom-in" data-aos-delay="400">
+                        <a href="https://www.instagram.com/diyorbek_24_10_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                            class="icon"><i class="fa fa-instagram"></i></a>
+                        <span class="titulo">Instagram</span>
+                    </li>
+                </ul>
+                <hr style="margin-top: 20px;">
+            </div>
+
+            <div class="section-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="footer-col" data-aos="fade-up" data-aos-delay="300">
+                            <a href="" class="nav-logo">
+                                <div class="logo-container">
+                                    <div class="logo-icon">🦅</div>
+                                    <div class="logo-text">
+                                        <span class="logo-name">HUMO</span>
+                                        <span class="logo-tagline">CHOYXONASI</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <ul>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link" data-translate="Asosiy">Asosiy</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#about" class="nav-link" data-translate="Biz haqimizda">Biz haqimizda</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#menu" class="nav-link" data-translate="Taomnoma">Taomnoma</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#book-a-table" class="nav-link" data-translate="Buyurtma qilish">Buyurtma
+                                        qilish</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#gallery" class="nav-link" data-translate="Galereya">Galereya</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#contact" class="nav-link" data-translate="Aloqa">Aloqa</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="footer-col" data-aos="fade-up" data-aos-delay="350">
+                            <h4 data-translate="To'lovlar">To'lovlar</h4>
+                            <ul>
+                                <li class="nav-item"><a href="https://www.paynet.uz/" data-translate="Paynet">Paynet</a>
+                                </li>
+                                <li class="nav-item"><a href="https://www.alifmobi.uz/ru"
+                                        data-translate="Alifmobi">Alifmobi</a></li>
+                                <li class="nav-item"><a href="https://xazna.uz/" data-translate="Xazna">Xazna</a></li>
+                                <li class="nav-item"><a href="https://payme.uz/home/main"
+                                        data-translate="Payme">Payme</a></li>
+                                <li class="nav-item"><a href="https://davrbank.uz/ru" data-translate="Davr Bank">Davr
+                                        Bank</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-col" data-aos="fade-up" data-aos-delay="400">
+                            <h4 data-translate="Onlayn buyurtma qiling">Onlayn buyurtma qiling</h4>
+                            <ul>
+                                <li class="nav-item"><a href="humo menu somsalar.html"
+                                        data-translate="Somsalar">Somsalar</a></li>
+                                <li class="nav-item"><a href="humo menu ichimliklar.html"
+                                        data-translate="Ichimliklar">Ichimliklar</a>
+                                </li>
+                                <li class="nav-item"><a href="humo menu osh.html" data-translate="Osh">Osh</a></li>
+                                <li class="nav-item"><a href="humo menu kebab.html"
+                                        data-translate="Shashlik">Shashlik</a></li>
+                                <li class="nav-item"><a href="humo menu chicken.html"
+                                        data-translate="Tovuq Go'shti">Tovuq Go'shti</a>
+                                </li>
+                                <li class="nav-item"><a href="humo menu salatlar.html"
+                                        data-translate="Salatlar">Salatlar</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-col" data-aos="fade-up" data-aos-delay="450">
+                            <h4 data-translate="Bizni kuzating">Bizni kuzating</h4>
+                            <div class="icons">
+                                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                                <a href="#"><i class="fa-brands fa-telegram"></i></a>
+                                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+
+    <!-- Cart Menu script -->
+    <script src="../dist/main.js"></script>
+    <!-- Linking custom script -->
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/logout.js"></script>
+    <script src="../js/loginForm.js"></script>
+    <!-- <script src="../js/loader.js"></script> -->
+
+
+
+    <!-- Linking Aos script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000, // animatsiya davomiyligi (ms)
+            once: true      // sahifada faqat bir marta animatsiya bo‘lishi uchun
+        });
+    </script>
+
+</body>
+
+</html>

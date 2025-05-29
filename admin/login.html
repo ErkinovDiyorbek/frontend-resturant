@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Admin Panel Login</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background: #1e1e2f;
+			color: white;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+		}
+
+		.login-container {
+			background: rgba(255, 255, 255, 0.1);
+			padding: 2rem;
+			border-radius: 8px;
+			width: 320px;
+			box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+		}
+
+		input {
+			width: 100%;
+			padding: 10px;
+			margin: 8px 0;
+			border: none;
+			border-radius: 4px;
+		}
+
+		button {
+			width: 100%;
+			padding: 10px;
+			background: #4caf50;
+			color: white;
+			font-weight: bold;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			margin-top: 10px;
+		}
+
+		button:hover {
+			background: #45a049;
+		}
+
+		.error {
+			color: #ff4c4c;
+			margin-top: 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="login-container">
+		<h2>Admin tizimiga kirish</h2>
+		<form id="loginForm">
+			<input type="text" id="loginOrEmail" placeholder="Login yoki Email" required />
+			<input type="password" id="password" placeholder="Parol" required />
+			<button type="submit">Kirish</button>
+			<div class="error" id="errorMsg"></div>
+		</form>
+	</div>
+
+	<script>
+		const form = document.getElementById('loginForm')
+		const errorMsg = document.getElementById('errorMsg')
+
+		form.addEventListener('submit', async (e) => {
+			e.preventDefault()
+			errorMsg.textContent = ''
+
+			const loginOrEmail = document.getElementById('loginOrEmail').value.trim()
+			const password = document.getElementById('password').value.trim()
+
+			try {
+				const res = await fetch('/admin/login', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ loginOrEmail, password }),
+					credentials: 'include', // cookie olish uchun
+				})
+
+				const data = await res.json()
+
+				if (!res.ok) {
+					errorMsg.textContent = data.error || 'Xatolik yuz berdi'
+					return
+				}
+
+				// Kirish muvaffaqiyatli bo'lsa, admin panelga o'tamiz
+				window.location.href = '../admin/dashbord.html'
+			} catch (error) {
+				errorMsg.textContent = 'Server bilan bog‘lanishda xatolik'
+			}
+		})
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Humo menu</title>
+	<link rel="stylesheet" href="../Css/style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<!-- Header / Navbar -->
+	<header>
+		<nav class="navbar section-content">
+			<a href="index.html" class="nav-logo">
+				<div class="logo-container">
+					<div class="logo-icon">🦅</div>
+					<div class="logo-text">
+						<span class="logo-name">HUMO</span>
+						<span class="logo-tagline">CHOYXONASI</span>
+					</div>
+				</div>
+			</a>
+			<ul class="nav-menu">
+
+				<button id="menu-close-button" class="fas fa-times"></button>
+
+				<li class="nav-item">
+					<a href="index.html" class="nav-link" data-translate="Asosiy">Asosiy</a>
+				</li>
+				<li class="nav-item">
+					<a href="humo menu somsalar.html" class="nav-link" data-translate="Somsalar">Somsalar</a>
+				</li>
+				<li class="nav-item">
+					<a href="humo menu ichimliklar.html" class="nav-link" data-translate="Ichimliklar">Ichimliklar</a>
+				</li>
+				<li class="nav-item">
+					<a href="humo menu salatlar.html" class="nav-link" data-translate="Salatlar">Salatlar</a>
+				</li>
+				<li class="nav-item">
+					<a href="humo menu kebab.html" class="nav-link" data-translate="Shashlik">Kaboblar</a>
+				</li>
+				<li class="nav-item">
+					<a href="humo menu chicken.html" class="nav-link" data-translate="Qovurilgan Tovuq">Qovurilgan tovuq</a>
+				</li>
+				<li class="nav-item">
+					<a href="humo menu osh.html" class="nav-link" data-translate="Osh">Oshlar</a>
+				</li>
+			</ul>
+
+			<!-- Tilni o'zgartirish tugmasi -->
+			<button id="language-toggle" class="language-btn">
+				<span class="flag-icon flag-uz"></span>
+				<span class="current-language">UZ</span>
+			</button>
+
+			<div class="menu--icons">
+				<div class="cart-icon">
+					<i class="fa-solid fa-cart-shopping"></i>
+					<span>0</span>
+				</div>
+			</div>
+
+			<button id="menu-open-button" class="fas fa-bars"></button>
+
+		</nav>
+	</header>
+
+
+	<!-- Section Menu Tovuq -->
+	<section class="menu-section" id="menu">
+		<h2 class="section-title" data-translate="menuChicken" data-aos="fade-up">Qovurilgan Tovuqlar</h2>
+		<div class="section-content">
+			<ul class="menu-list">
+				<li class="menu-item" data-aos="zoom-in">
+					<div class="card">
+						<img src="../menu foto/Qovurilgan Tovuq.png" alt="" class="menu-image" height="200px">
+						<h4 class="card-title" data-translate="friedChicken">Qovurilgan Tovuq</h4>
+
+						<div class="card--price">
+							<div class="price" data-translate="friedChickenPrice">60 000 so'm</div>
+							<i class="fa-solid fa-plus add-to-cart"></i>
+						</div>
+					</div>
+				</li>
+
+				<li class="menu-item" data-aos="zoom-in">
+					<div class="card">
+						<img src="../menu foto/Blyonniy.png" alt="" class="menu-image" height="200px">
+						<h4 class="card-title" data-translate="blyonniy">Blyonniy</h4>
+
+						<div class="card--price">
+							<div class="price" data-translate="blyonniyPrice">65 000 so'm</div>
+							<i class="fa-solid fa-plus add-to-cart"></i>
+						</div>
+					</div>
+				</li>
+
+				<li class="menu-item" data-aos="zoom-in">
+					<div class="card">
+						<img src="../menu foto/Gril.png" alt="" class="menu-image" height="200px">
+						<h4 class="card-title" data-translate="grill">Gril</h4>
+
+						<div class="card--price">
+							<div class="price" data-translate="grillPrice">55 000 so'm</div>
+							<i class="fa-solid fa-plus add-to-cart"></i>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</section>
+
+
+	<!-- Card Sidebar section -->
+	<div class="sidebar" id="sidebar">
+		<div class="sidebar-close">
+			<i class="fa-solid fa-close"></i>
+		</div>
+
+		<div class="cart-menu">
+			<h3 data-translate="Mening savatim">Mening savatim</h3>
+			<div class="cart-items"></div>
+		</div>
+
+		<div class="sidebar--footer">
+			<div class="total--amount">
+				<h5 data-translate="Jami">Jami</h5>
+				<div class="cart-total">0.00 <span data-translate="so'm">so'm</span></div>
+			</div>
+			<button class="checkout-btn" id="checkoutBtn" data-translate="Ro'yxatni yuborish">Ro'yxatni yuborish</button>
+		</div>
+	</div>
+
+
+
+	<!-- Modal oyna -->
+	<div id="orderModal" class="modal">
+		<div class="modal-content">
+			<span class="close-button">&times;</span>
+			<h2 data-translate="Buyurtma ma'lumotlari">Buyurtma ma'lumotlari</h2>
+			<form id="orderForm" action="http://localhost:3001/submit-order" method="POST">
+				<input type="text" id="name" placeholder="Ismingiz" required data-translate-placeholder="Ismingiz" />
+				<input type="text" id="phone" placeholder="Telefon raqam" required data-translate-placeholder="Telefon raqam" />
+				<input type="text" id="address" placeholder="Manzilingiz" required data-translate-placeholder="Manzilingiz" />
+				<textarea id="note" placeholder="Izoh (ixtiyoriy)" data-translate-placeholder="Izoh (ixtiyoriy)"></textarea>
+				<button type="submit" class="send-button" data-translate="Yuborish">Yuborish</button>
+			</form>
+		</div>
+	</div>
+
+
+
+
+
+
+
+	<script src="../dist/main.js"></script>
+
+	<!-- Cart Menu script -->
+	<script src="../js/sidebar.js"></script>
+	<script src="../js/logout.js"></script>
+
+	<!-- Linking Aos script -->
+	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+	<script>
+		AOS.init({
+			duration: 1000, // animatsiya davomiyligi (ms)
+			once: true      // sahifada faqat bir marta animatsiya bo‘lishi uchun
+		});
+	</script>
+
+
+</body>
+
+</html>

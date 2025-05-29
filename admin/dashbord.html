@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Admin Panel</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+	<style>
+		body {
+			background-color: #f8f9fa;
+		}
+
+		.sidebar {
+			height: 100vh;
+			background-color: #343a40;
+			color: white;
+		}
+
+		.sidebar a {
+			color: white;
+			display: block;
+			padding: 1rem;
+			text-decoration: none;
+		}
+
+		.sidebar a:hover {
+			background-color: #495057;
+		}
+
+		.content {
+			padding: 2rem;
+		}
+
+		table {
+			background: white;
+		}
+
+		.search-box {
+			margin-bottom: 1rem;
+		}
+
+		.stats {
+			margin-top: 2rem;
+		}
+
+		.stats h5 {
+			margin-bottom: 1rem;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-2 sidebar">
+				<h4 class="text-center py-3">Admin Panel</h4>
+				<a href="#" id="locationOrdersBtn">📍 Joy buyurtmalari</a>
+				<a href="#" id="productOrdersBtn">🍽 Mahsulot buyurtmalari</a>
+				<a href="#" id="logoutBtn">🚪 Chiqish</a>
+			</div>
+			<div class="col-md-10 content">
+				<h3 class="mb-4">Buyurtmalar ro'yxati</h3>
+
+				<!-- 🔍 Qidiruv -->
+				<input type="text" class="form-control search-box" id="searchInput"
+					placeholder="Qidiruv: ism, telefon, mahsulot..." />
+
+				<table class="table table-bordered" id="ordersTable">
+					<thead class="table-dark"></thead>
+					<tbody></tbody>
+				</table>
+
+				<!-- 📊 Statistika -->
+				<div class="stats">
+					<h5>📅 Statistikalar:</h5>
+					<p id="weeklyCount">Haftalik buyurtmalar: ...</p>
+					<p id="monthlyCount">Oylik buyurtmalar: ...</p>
+					<p id="topProducts">🥇 Eng ko‘p buyurtmalar: ...</p>
+					<p id="peakHours">⏰ Eng ko‘p zakaz vaqtlari: ...</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		const ordersTable = document.getElementById('ordersTable')
+		const tbody = ordersTable.querySelector('tbody')
+		const searchInput = document.getElementById('searchInput')
+		const weeklyCount = document.getElementById('weeklyCount')
+		const monthlyCount = document.getElementById('monthlyCount')
+		const topProducts = document.getElementById('topProducts')
+		const peakHours = document.getElementById('peakHours')
+
+		const locationOrdersHeader = `
+  <tr>
+    <th>ID</th><th>Ism</th><th>Telefon</th><th>Email</th>
+    <th>Sana</th><th>Vaqt</th><th>Mehmonlar</th><th>Xona</th><th>Izoh</th>
+  </tr>`
+
+		const productOrdersHeader = `
+  <tr>
+    <th>ID</th><th>Ism</th><th>Telefon</th><th>Manzil</th><th>Izoh</th>
+    <th>Mahsulot</th><th>Miqdor</th><th>Narx</th><th>Umumiy</th>
+  </tr>`
+
+		let currentView = 'location' // Hozirgi ko'rinish (location yoki product)
+		let allOrders = []           // Hamma buyurtmalarni saqlash uchun massiv
+		let refreshIntervalId = null // Avtomatik yangilash intervali uchun ID
+
+		// Joy buyurtmalarini serverdan olish
+		async function fetchLocationOrders() {
+			try {
+				const res = await fetch('http://localhost:3004/admin/orders', { credentials: 'include' })
+				if (!res.ok) throw new Error('Joy buyurtmalarini olishda xatolik')
+				const orders = await res.json()
+				allOrders = orders
+				renderTable(orders, 'location')
+				clearStats() // Statistikani location view uchun tozalash
+			} catch (err) {
+				alert(err.message)
+			}
+		}
+
+		// Mahsulot buyurtmalarini serverdan olish
+		async function fetchProductOrders() {
+			try {
+				const res = await fetch('http://localhost:3004/admin/customer_orders', { credentials: 'include' })
+				if (!res.ok) throw new Error('Mahsulot buyurtmalarini olishda xatolik')
+				const orders = await res.json()
+				allOrders = orders
+				renderTable(orders, 'product')
+				renderStats(orders)
+			} catch (err) {
+				alert(err.message)
+			}
+		}
+
+		// Jadvalni render qilish
+		function renderTable(data, type) {
+			ordersTable.querySelector('thead').innerHTML = (type === 'location') ? locationOrdersHeader : productOrdersHeader
+			tbody.innerHTML = ''
+
+			data.forEach(order => {
+				const tr = document.createElement('tr')
+				if (type === 'location') {
+					tr.innerHTML = `
+        <td>${order.id}</td>
+        <td>${order.name}</td>
+        <td>${order.phone}</td>
+        <td>${order.email}</td>
+        <td>${order.date}</td>
+        <td>${order.time}</td>
+        <td>${order.guests}</td>
+        <td>${order.room}</td>
+        <td>${order.special_request || '-'}</td>`
+				} else {
+					tr.innerHTML = `
+        <td>${order.id}</td>
+        <td>${order.name}</td>
+        <td>${order.phone}</td>
+        <td>${order.address}</td>
+        <td>${order.comment || '-'}</td>
+        <td>${order.product_name}</td>
+        <td>${order.quantity}</td>
+        <td>${order.price}</td>
+        <td>${order.total_price}</td>`
+				}
+				tbody.appendChild(tr)
+			})
+		}
+
+		// Avtomatik yangilashni boshlash (10 soniyada yangilanadi)
+		function startAutoRefresh() {
+			if (refreshIntervalId) clearInterval(refreshIntervalId)
+			refreshIntervalId = setInterval(() => {
+				if (currentView === 'location') {
+					fetchLocationOrders()
+				} else {
+					fetchProductOrders()
+				}
+			}, 10000)
+		}
+
+		// Statistikani tozalash (location ko’rinishda statistika yo’q)
+		function clearStats() {
+			weeklyCount.textContent = ''
+			monthlyCount.textContent = ''
+			topProducts.textContent = ''
+			peakHours.textContent = ''
+		}
+
+		// Statistika render qilish (faqat mahsulot buyurtmalari uchun)
+		function renderStats(orders) {
+			const thisWeek = []
+			const thisMonth = []
+			const productCount = {}
+			const hourCount = {}
+			const now = new Date()
+
+			orders.forEach(o => {
+				const date = new Date(o.date)
+				const hour = o.time?.split(':')[0]
+				// Oylik buyurtmalar
+				if (date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear()) {
+					thisMonth.push(o)
+				}
+				// Haftalik buyurtmalar
+				if (now - date <= 7 * 24 * 60 * 60 * 1000) {
+					thisWeek.push(o)
+				}
+
+				if (o.product_name) {
+					productCount[o.product_name] = (productCount[o.product_name] || 0) + o.quantity
+				}
+
+				if (hour) {
+					hourCount[hour] = (hourCount[hour] || 0) + 1
+				}
+			})
+
+			weeklyCount.textContent = `Haftalik buyurtmalar: ${thisWeek.length}`
+			monthlyCount.textContent = `Oylik buyurtmalar: ${thisMonth.length}`
+
+			// Eng ko'p buyurtma qilingan 3 ta mahsulot
+			const top = Object.entries(productCount)
+				.sort((a, b) => b[1] - a[1])
+				.slice(0, 3)
+				.map(([name, count]) => `${name} (${count} marta)`)
+				.join(', ')
+			topProducts.textContent = top ? `🥇 ${top}` : 'Ma\'lumot yo‘q'
+
+			// Eng ko'p buyurtma berilgan 3 ta soat
+			const peak = Object.entries(hourCount)
+				.sort((a, b) => b[1] - a[1])
+				.slice(0, 3)
+				.map(([h, c]) => `${h}:00 (${c} ta)`)
+				.join(', ')
+			peakHours.textContent = peak ? `⏰ ${peak}` : 'Ma\'lumot yo‘q'
+		}
+
+		// Tugmalar uchun eventlar
+		document.getElementById('locationOrdersBtn').addEventListener('click', () => {
+			currentView = 'location'
+			fetchLocationOrders()
+			startAutoRefresh()
+		})
+
+		document.getElementById('productOrdersBtn').addEventListener('click', () => {
+			currentView = 'product'
+			fetchProductOrders()
+			startAutoRefresh()
+		})
+
+		document.getElementById('logoutBtn').addEventListener('click', async () => {
+			await fetch('/admin/logout', { method: 'POST', credentials: 'include' })
+			window.location.href = '/index.html'
+		})
+
+		// Qidiruv funksiyasi
+		searchInput.addEventListener('input', () => {
+			const query = searchInput.value.toLowerCase()
+			const filtered = allOrders.filter(order =>
+				Object.values(order).some(val => val?.toString().toLowerCase().includes(query))
+			)
+			renderTable(filtered, currentView)
+		})
+
+		// Dastlab joy buyurtmalarini yuklash va avtomatik yangilashni boshlash
+		fetchLocationOrders()
+		startAutoRefresh();
+
+	</script>
+</body>
+
+</html>

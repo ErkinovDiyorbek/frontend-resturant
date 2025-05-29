@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Shaxsiy Kabinet</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700&display=swap"
+		rel="stylesheet">
+	<style>
+		:root {
+			--primary: #4361ee;
+			--primary-light: #e6f0ff;
+			--secondary: #3f37c9;
+			--success: #4cc9f0;
+			--danger: #f72585;
+			--warning: #f8961e;
+			--dark: #212529;
+			--light: #f8f9fa;
+			--gray: #6c757d;
+			--gray-light: #e9ecef;
+			--border-radius: 12px;
+			--box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+			--transition: all 0.3s ease;
+		}
+
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-family: 'Poppins', sans-serif;
+		}
+
+		body {
+			background-color: #f5f7fb;
+			color: var(--dark);
+			line-height: 1.6;
+		}
+
+		.container {
+			width: 100%;
+			max-width: 1400px;
+			margin: 0 auto;
+			padding: 0 20px;
+		}
+
+		/* Header Styles */
+		.header {
+			background-color: white;
+			box-shadow: var(--box-shadow);
+			position: sticky;
+			top: 0;
+			z-index: 100;
+		}
+
+		.header-content {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			height: 70px;
+		}
+
+		.logo {
+			font-size: 24px;
+			font-weight: 700;
+			color: var(--primary);
+			text-decoration: none;
+		}
+
+		.user-menu {
+			display: flex;
+			align-items: center;
+			gap: 15px;
+		}
+
+		.user-avatar {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			object-fit: cover;
+			border: 2px solid var(--primary-light);
+			cursor: pointer;
+			transition: var(--transition);
+		}
+
+		.user-avatar:hover {
+			transform: scale(1.05);
+		}
+
+		.avatar {
+			width: 100%;
+			height: 100%;
+			border-radius: 50%;
+			object-fit: cover;
+			border: 3px solid var(--primary);
+		}
+
+		.avatar-overlay {
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			width: 36px;
+			height: 36px;
+			background-color: var(--primary);
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: white;
+			cursor: pointer;
+			transition: var(--transition);
+		}
+
+		.avatar-overlay:hover {
+			background-color: var(--primary-dark);
+			transform: scale(1.1);
+		}
+
+		/* Main Content Layout */
+		.main-content {
+			display: flex;
+			gap: 30px;
+			padding: 30px 0;
+		}
+
+		/* Sidebar Styles */
+		.sidebar {
+			width: 280px;
+			flex-shrink: 0;
+			background: white;
+			border-radius: var(--border-radius);
+			box-shadow: var(--box-shadow);
+			padding: 25px 0;
+			height: fit-content;
+			position: sticky;
+			top: 90px;
+		}
+
+		.avatar-upload {
+			position: relative;
+			width: 120px;
+			height: 120px;
+			margin: 0 auto 25px;
+		}
+
+		.avatar {
+			width: 100%;
+			height: 100%;
+			border-radius: 50%;
+			object-fit: cover;
+			border: 3px solid white;
+			box-shadow: var(--box-shadow);
+		}
+
+		.avatar-overlay {
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			background: var(--primary);
+			width: 36px;
+			height: 36px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: white;
+			cursor: pointer;
+			transition: var(--transition);
+		}
+
+		.avatar-overlay:hover {
+			background: var(--secondary);
+			transform: scale(1.1);
+		}
+
+		.sidebar-menu {
+			list-style: none;
+			padding: 0 20px;
+		}
+
+		.sidebar-menu li {
+			margin-bottom: 5px;
+		}
+
+		.sidebar-menu a {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			padding: 12px 15px;
+			color: var(--gray);
+			text-decoration: none;
+			border-radius: 8px;
+			transition: var(--transition);
+		}
+
+		.sidebar-menu a:hover {
+			background-color: var(--primary-light);
+			color: var(--primary);
+		}
+
+		.sidebar-menu a.active {
+			background-color: var(--primary);
+			color: white;
+		}
+
+		.sidebar-menu i {
+			width: 20px;
+			text-align: center;
+		}
+
+		.language-btn {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 8px;
+			width: 100%;
+			margin-top: 30px;
+			padding: 12px;
+			background: transparent;
+			border: 1px solid var(--gray-light);
+			border-radius: 8px;
+			color: var(--gray);
+			cursor: pointer;
+			transition: var(--transition);
+		}
+
+		.language-btn:hover {
+			background: var(--primary-light);
+			color: var(--primary);
+		}
+
+		/* Main Content Area */
+		.section-tab {
+			flex-grow: 1;
+			background: white;
+			border-radius: var(--border-radius);
+			box-shadow: var(--box-shadow);
+			padding: 30px;
+		}
+
+		.section-title {
+			font-size: 24px;
+			margin-bottom: 25px;
+			color: var(--dark);
+			position: relative;
+			padding-bottom: 10px;
+		}
+
+		.section-title::after {
+			content: '';
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 60px;
+			height: 3px;
+			background: var(--primary);
+		}
+
+		/* Profile Section */
+		#profileDisplay p {
+			display: flex;
+			margin-bottom: 15px;
+			font-size: 16px;
+		}
+
+		#profileDisplay strong {
+			min-width: 100px;
+			color: var(--gray);
+		}
+
+		.btn {
+			padding: 10px 20px;
+			border-radius: 8px;
+			border: none;
+			font-weight: 500;
+			cursor: pointer;
+			transition: var(--transition);
+		}
+
+		.btn-primary {
+			background: var(--primary);
+			color: white;
+		}
+
+		.btn-primary:hover {
+			background: var(--secondary);
+		}
+
+		.btn-secondary {
+			background: var(--gray-light);
+			color: var(--gray);
+		}
+
+		.btn-secondary:hover {
+			background: #d1d7e0;
+		}
+
+		.btn-success {
+			background: var(--success);
+			color: white;
+		}
+
+		.btn-success:hover {
+			opacity: 0.9;
+		}
+
+		/* Form Styles */
+		.form-group {
+			margin-bottom: 20px;
+		}
+
+		.form-group label {
+			display: block;
+			margin-bottom: 8px;
+			font-weight: 500;
+			color: var(--dark);
+		}
+
+		.form-group input {
+			width: 100%;
+			padding: 12px 15px;
+			border: 1px solid var(--gray-light);
+			border-radius: 8px;
+			font-size: 16px;
+			transition: var(--transition);
+		}
+
+		.form-group input:focus {
+			outline: none;
+			border-color: var(--primary);
+			box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+		}
+
+		/* Stats Cards */
+		.stats-container {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+			gap: 20px;
+			margin-top: 30px;
+		}
+
+		.stat-card {
+			background: white;
+			border-radius: var(--border-radius);
+			padding: 25px;
+			box-shadow: var(--box-shadow);
+			display: flex;
+			align-items: center;
+			gap: 20px;
+			transition: var(--transition);
+		}
+
+		.stat-card:hover {
+			transform: translateY(-5px);
+		}
+
+		.stat-icon {
+			width: 60px;
+			height: 60px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 24px;
+			color: white;
+		}
+
+		.stat-icon.blue {
+			background: var(--primary);
+		}
+
+		.stat-icon.green {
+			background: var(--success);
+		}
+
+		.stat-title {
+			color: var(--gray);
+			font-size: 14px;
+			margin-bottom: 5px;
+		}
+
+		.stat-value {
+			font-size: 24px;
+			font-weight: 700;
+			color: var(--dark);
+		}
+
+		/* Orders Table */
+		.orders-table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-top: 20px;
+		}
+
+		.orders-table th,
+		.orders-table td {
+			padding: 12px 15px;
+			text-align: left;
+			border-bottom: 1px solid var(--gray-light);
+		}
+
+		.orders-table th {
+			background: var(--primary-light);
+			color: var(--primary);
+			font-weight: 600;
+		}
+
+		.orders-table tr:hover {
+			background-color: #f8f9fa;
+		}
+
+		/* Responsive Design */
+		@media (max-width: 992px) {
+			.main-content {
+				flex-direction: column;
+			}
+
+			.sidebar {
+				width: 100%;
+				position: static;
+			}
+		}
+
+		@media (max-width: 768px) {
+			.stats-container {
+				grid-template-columns: 1fr;
+			}
+
+			.orders-table {
+				display: block;
+				overflow-x: auto;
+			}
+		}
+	</style>
+</head>
+
+<body>
+
+	<!-- Header -->
+	<header class="header">
+		<div class="container header-content">
+			<a href="#" class="logo">EventPro</a>
+			<div class="user-menu">
+				<img
+					src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+					alt="User" class="user-avatar">
+			</div>
+		</div>
+
+
+	</header>
+
+	<!-- Asosiy kontent -->
+	<div class="container main-content">
+		<!-- Sidebar -->
+		<aside class="sidebar">
+			<div class="avatar-upload">
+				<img
+					src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+					alt="User" class="avatar" id="avatarImage">
+				<div class="avatar-overlay" onclick="document.getElementById('avatarInput').click()">
+					<i class="fas fa-camera"></i>
+				</div>
+				<input type="file" id="avatarInput" accept="image/*" style="display: none;">
+			</div>
+
+
+			<ul class="sidebar-menu">
+				<li>
+					<a href="#" class="active" data-section="profile" data-translate="Kabinet"><i
+							class="fa-solid fa-user-tie"></i> Kabinet </a>
+				</li>
+				<li>
+					<a href="#" data-section="orders" data-translate="Zakazlarim"><i class="fas fa-cart-shopping"></i>
+						Zakazlarim </a>
+				</li>
+				<li>
+					<a href="#" data-section="password" data-translate="Parolni o'zgartish"><i class="fas fa-unlock"></i> Parolni
+						o'zgartish</a>
+				</li>
+				<li>
+					<a href="#" data-section="home" data-translate="Bosh sahifa"><i class="fas fa-home"></i> Bosh sahifa</a>
+				</li>
+				<li>
+					<a href="#" data-section="logout" data-translate="Chiqish"><i class="fas fa-sign-out-alt"></i> Chiqish</a>
+				</li>
+			</ul>
+
+			<!-- Tilni o'zgartirish tugmasi -->
+			<button id="language-toggle" class="language-btn">
+				<span class="flag-icon flag-uz"></span>
+				<span class="current-language">UZ</span>
+			</button>
+		</aside>
+
+
+		<!-- Zakazlarim bo'limi -->
+		<div id="ordersSection" class="section-tab" style="display: none;">
+			<h2 class="section-title" data-translate="Zakazlarim">Zakazlarim</h2>
+			<table class="orders-table">
+				<thead>
+					<tr>
+						<th data-translate="Zakaz ID">Zakaz ID</th>
+						<th data-translate="Ism">Ism</th>
+						<th data-translate="Telefon">Telefon</th>
+						<th data-translate="Manzil">Manzil</th>
+						<th data-translate="Izoh">Izoh</th>
+						<th data-translate="Mahsulotlar">Mahsulotlar</th>
+						<th data-translate="Umumiy summa">Umumiy summa</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- Zakazlar bu yerga keladi -->
+				</tbody>
+			</table>
+		</div>
+
+
+
+		<!-- Parolni o'zgartirish formasi -->
+		<div id="passwordChangeForm" style="display: none; margin-top: 30px;">
+			<h2 class="section-title" data-translate="Parolni o'zgartirish">Parolni o'zgartirish</h2>
+			<form id="changePasswordForm" class="change-password-form">
+				<div class="form-group">
+					<label for="currentPassword" data-translate="Joriy parol">Joriy parol</label>
+					<input type="password" id="currentPassword" required>
+				</div>
+				<div class="form-group">
+					<label for="newPassword" data-translate="Yangi parol">Yangi parol</label>
+					<input type="password" id="newPassword" required>
+				</div>
+				<div class="form-group">
+					<label for="confirmPassword " data-translate="Yangi parol (takror)">Yangi parol (takror)</label>
+					<input type="password" id="confirmPassword" required>
+				</div>
+				<button type="submit" class="btn btn-primary" data-translate="Parolni o'zgartirish">Parolni
+					o'zgartirish</button>
+			</form>
+		</div>
+
+
+
+		<!-- Asosiy profil bo'limi -->
+		<main class="profile-section section-tab" id="profileSection">
+
+			<h2 class="section-title">Profil ma'lumotlari</h2>
+
+			<div id="profileDisplay">
+				<p><strong data-translate="Ism">Ism:</strong> <span id="profileName">Ali Valiyev</span></p>
+				<p><strong data-translate="Email">Email:</strong> <span id="profileEmail">ali@mail.com</span></p>
+				<p><strong data-translate="Telefon">Telefon:</strong> <span id="profilePhone">+998 90 123 45 67</span></p>
+				<p><strong data-translate="Manzil">Manzil:</strong> <span id="profileAddress">Toshkent shahar</span></p>
+
+				<button id="editProfileBtn" class="btn btn-primary" data-translate="Tahrirlash">Tahrirlash</button>
+			</div>
+
+			<!-- Tahrirlash formasi -->
+			<div id="profileEditForm" style="display: none; margin-top: 20px;">
+				<form id="editProfileForm">
+					<div class="form-group">
+						<label for="editName" data-translate="Ism">Ism</label>
+						<input type="text" id="editName" name="ism" required>
+					</div>
+					<div class="form-group">
+						<label for="editEmail" data-translate="Email">Email</label>
+						<input type="email" id="editEmail" name="email" required>
+					</div>
+					<div class="form-group">
+						<label for="editPhone" data-translate="Telefon">Telefon</label>
+						<input type="text" id="editPhone" name="telefon" required>
+					</div>
+					<div class="form-group">
+						<label for="editAddress" data-translate="Manzil">Manzil</label>
+						<input type="text" id="editAddress" name="manzil" required>
+					</div>
+
+					<button type="submit" class="btn btn-success" data-translate="Saqlash">Saqlash</button>
+					<button type="button" id="cancelEditBtn" class="btn btn-secondary" data-translate="Bekor qilish">Bekor
+						qilish</button>
+				</form>
+			</div>
+
+
+
+			<div class="section-header" style="margin-top: 40px;">
+				<h2 class="section-title" data-translate="Statistika">Statistika</h2>
+			</div>
+
+			<div class="stats-container">
+				<div class="stat-card">
+					<div class="stat-icon blue"><i class="fas fa-calendar-check"></i></div>
+					<p class="stat-title" data-translate="Aktiv tadbirlar">Aktiv tadbirlar</p>
+					<p class="stat-value">3</p>
+				</div>
+				<div class="stat-card">
+					<div class="stat-icon green"><i class="fas fa-users"></i></div>
+					<p class="stat-title" data-translate="Mehmonlar soni">Mehmonlar soni</p>
+					<p class="stat-value">124</p>
+				</div>
+			</div>
+		</main>
+	</div>
+
+	<script src="../js/logout.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jwt-decode@3/build/jwt-decode.min.js"></script>
+
+
+	<script>
+		document.addEventListener("DOMContentLoaded", () => {
+			const userId = localStorage.getItem('user_id')
+			const token = localStorage.getItem('auth_token')
+
+			if (!userId || !token) {
+				alert("Iltimos, avval tizimga kiring.")
+				window.location.href = 'login.html'
+				return
+			}
+
+			console.log('userId:', userId)
+			console.log('token:', token)
+
+			initProfilePage(userId, token)
+		})
+
+		// 🔁 Barcha sahifa funksiyalarini ishga tushuradi
+		function initProfilePage(userId, token) {
+			fetchProfile(userId, token)
+			fetchOrders(userId, token)
+			setupSidebarEvents()
+			setupProfileEvents(userId, token)
+			setupPasswordChange(token)
+			setupLogout()
+		}
+
+		// ✅ Foydalanuvchi profilini olish
+		function fetchProfile(userId, token) {
+			console.log('fetchProfile chaqirildi')
+			fetch(`http://localhost:3003/user/${userId}`, {
+				headers: { 'Authorization': `Bearer ${token}` }
+			})
+				.then(res => res.json())
+				.then(data => {
+					console.log('Backend javobi:', data.user)
+					if (data.success && data.user) {
+						const { ism, email, telefon, manzil } = data.user
+						document.getElementById('profileName').textContent = ism || ''
+						document.getElementById('profileEmail').textContent = email || ''
+						document.getElementById('profilePhone').textContent = telefon || ''
+						document.getElementById('profileAddress').textContent = manzil || ''
+					} else {
+						alert("Foydalanuvchi topilmadi.")
+					}
+				})
+				.catch(err => {
+					console.error("Xatolik:", err)
+					alert("Ma'lumotlarni olishda xatolik yuz berdi.")
+				})
+		}
+
+
+		function setupProfileEvents(userId, token) {
+			const editBtn = document.getElementById('editProfileBtn')
+			const cancelBtn = document.getElementById('cancelEditBtn')
+			const editForm = document.getElementById('editProfileForm')
+
+			editBtn.addEventListener('click', () => {
+				document.getElementById('editName').value = document.getElementById('profileName').textContent.trim()
+				document.getElementById('editEmail').value = document.getElementById('profileEmail').textContent.trim()
+				document.getElementById('editPhone').value = document.getElementById('profilePhone').textContent.trim()
+				document.getElementById('editAddress').value = document.getElementById('profileAddress').textContent.trim()
+
+				toggleProfileView(false)
+			})
+
+			cancelBtn.addEventListener('click', () => toggleProfileView(true))
+
+			editForm.addEventListener('submit', (e) => {
+				e.preventDefault()
+
+				const updatedData = {
+					ism: document.getElementById('editName').value.trim(),
+					email: document.getElementById('editEmail').value.trim(),
+					telefon: document.getElementById('editPhone').value.trim(),
+					manzil: document.getElementById('editAddress').value.trim()
+				}
+
+				if (!updatedData.ism || !updatedData.email) {
+					alert("Ism va email to‘ldirilishi shart.")
+					return
+				}
+
+				fetch(`http://localhost:3003/user/${userId}/update`, {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${token}`
+					},
+					body: JSON.stringify(updatedData)
+				})
+					.then(res => res.json())
+					.then(data => {
+						if (data.success) {
+							alert("Profil muvaffaqiyatli yangilandi.")
+							fetchProfile(userId, token)
+							toggleProfileView(true)
+						} else {
+							alert("Xatolik: " + (data.message || "Yangilashda muammo."))
+						}
+					})
+					.catch(err => {
+						console.error("Xatolik:", err)
+						alert("Tizimda xatolik yuz berdi.")
+					})
+			})
+		}
+
+		function toggleProfileView(showDisplay) {
+			document.getElementById('profileDisplay').style.display = showDisplay ? 'block' : 'none'
+			document.getElementById('profileEditForm').style.display = showDisplay ? 'none' : 'block'
+		}
+
+		document.addEventListener('DOMContentLoaded', () => {
+			const userId = localStorage.getItem('user_id')
+			const token = localStorage.getItem('auth_token')
+
+			if (!userId || !token) {
+				alert("Avval tizimga kiring.")
+				return
+			}
+
+			fetchProfile(userId, token)
+			setupProfileEvents(userId, token)
+		})
+
+
+		// Avatar upload
+		document.getElementById('avatarInput').addEventListener('change', function (e) {
+			const file = e.target.files[0]
+			if (file) {
+				const reader = new FileReader()
+				reader.onload = function (event) {
+					document.getElementById('avatarImage').src = event.target.result
+					document.querySelector('.user-avatar').src = event.target.result
+				}
+				reader.readAsDataURL(file)
+			}
+		})
+
+
+		// ✅ Zakazlarni olish
+		const token = localStorage.getItem('auth_token')
+		if (!token) {
+			alert('Tizimga kirilmagan')
+			// redirect qilishingiz mumkin
+		} else {
+			const decoded = jwt_decode(token)
+			const userId = decoded.userId || decoded.id || decoded.sub
+			fetchProfile(userId, token)
+		}
+
+		function fetchOrders(userId, token) {
+			fetch(`http://localhost:3003/user/${userId}/orders`, {
+				headers: {
+					'Authorization': `Bearer ${token}`
+				}
+			})
+				.then(response => {
+					if (!response.ok) {
+						throw new Error('Serverdan xatolik javob keldi: ' + response.status)
+					}
+					return response.json()
+				})
+				.then(data => {
+					const ordersTableBody = document.querySelector('.orders-table tbody')
+					ordersTableBody.innerHTML = ''
+
+					if (data.success && data.orders.length > 0) {
+						data.orders.forEach(order => {
+							let itemsText = '-'
+							if (Array.isArray(order.items)) {
+								itemsText = order.items.map(item => `${item.name} (${item.quantity} dona)`).join(', ')
+							}
+
+							const row = document.createElement('tr')
+							row.innerHTML = `
+              <td>${order.id}</td>
+              <td>${order.name}</td>
+              <td>${order.phone}</td>
+              <td>${order.address || '-'}</td>
+              <td>${order.note || '-'}</td>
+              <td>${itemsText}</td>
+              <td>${order.total_amount} so'm</td>
+            `
+							ordersTableBody.appendChild(row)
+						})
+					} else {
+						ordersTableBody.innerHTML = `<tr><td colspan="7" style="text-align:center;">Buyurtmalar topilmadi</td></tr>`
+					}
+				})
+				.catch(error => {
+					console.error('Xatolik:', error)
+					alert('Zakazlarni olishda xatolik yuz berdi.')
+				})
+		}
+
+		// ✅ Parolni o‘zgartirish
+		function setupPasswordChange(token) {
+			const form = document.querySelector('#changePasswordForm')
+			if (!form) return
+
+			form.addEventListener('submit', (e) => {
+				e.preventDefault()
+
+				const currentPassword = form.querySelector('#currentPassword').value.trim()
+				const newPassword = form.querySelector('#newPassword').value.trim()
+				const confirmPassword = form.querySelector('#confirmPassword').value.trim()
+
+				if (!currentPassword || !newPassword || !confirmPassword) {
+					alert("Iltimos, barcha parol maydonlarini to‘ldiring.")
+					return
+				}
+
+				if (newPassword !== confirmPassword) {
+					alert("Yangi parollar mos kelmadi!")
+					return
+				}
+
+				fetch('http://localhost:3003/api/change-password', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${token}`
+					},
+					body: JSON.stringify({ currentPassword, newPassword })
+				})
+					.then(res => res.text())
+					.then(text => {
+						try {
+							const data = JSON.parse(text)
+
+							if (!data.success && data.message === 'Eski parol noto‘g‘ri') {
+								alert("Eski parol noto‘g‘ri.")
+								return
+							}
+
+							alert(data.message)
+
+							if (data.success) {
+								form.reset()
+							}
+						} catch {
+							console.error('Javob JSON emas:', text)
+							alert('Serverdan kutilmagan javob keldi.')
+						}
+					})
+					.catch(err => {
+						console.error('Xatolik:', err)
+						alert("Server bilan bog‘lanishda muammo.")
+					})
+			})
+		}
+
+
+		// ✅ Sidebar hodisalari
+		function setupSidebarEvents() {
+			const tabs = document.querySelectorAll('.sidebar-menu a')
+			const sections = document.querySelectorAll('.section-tab')
+			const passwordForm = document.getElementById("passwordChangeForm")
+
+			tabs.forEach(tab => {
+				tab.addEventListener('click', (e) => {
+					e.preventDefault()
+
+					tabs.forEach(t => t.classList.remove('active'))
+					tab.classList.add('active')
+
+					sections.forEach(section => section.style.display = 'none')
+					if (passwordForm) passwordForm.style.display = "none"
+
+					const text = tab.textContent.trim()
+					const section = tab.dataset.section
+
+					if (/Kabinet|Dashboard|Кабинет/i.test(text)) {
+						document.getElementById('profileSection').style.display = 'block'
+					} else if (/Zakazlarim|My Orders|Мои заказы/i.test(text)) {
+						document.getElementById('ordersSection').style.display = 'block'
+					} else if (/Parolni|Change Password|пароль/i.test(text)) {
+						passwordForm.style.display = 'block'
+					} else if (section === 'home') {
+						window.location.href = 'index.html'
+					} else if (/Chiqish|Logout|Выход/i.test(text)) {
+						logoutUser()
+					}
+				})
+			})
+		}
+
+
+
+		// ✅ Logout funksiyasi
+		function setupLogout() {
+			const logoutBtn = document.querySelector(".sidebar-menu li:last-child a")
+			logoutBtn?.addEventListener("click", (e) => {
+				e.preventDefault()
+				logoutUser()
+			})
+		}
+
+		function logoutUser() {
+			localStorage.removeItem('user_id')
+			localStorage.removeItem('auth_token')
+			alert("Tizimdan chiqdingiz!")
+			window.location.href = "login.html"
+		}
+
+
+
+
+
+	</script>
+
+</body>
+
+</html>

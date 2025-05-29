@@ -1,0 +1,29 @@
+{
+  "name": "nice",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ErkinovDiyorbek/Nice.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ErkinovDiyorbek/Nice/issues"
+  },
+  "homepage": "https://github.com/ErkinovDiyorbek/Nice#readme",
+  "devDependencies": {
+    "webpack": "^5.99.5",
+    "webpack-cli": "^6.0.1"
+  },
+  "dependencies": {
+    "acorn": "^8.14.1",
+    "ajv": "^8.17.1",
+    "ejs": "^3.1.10"
+  },
+  "description": ""
+}
