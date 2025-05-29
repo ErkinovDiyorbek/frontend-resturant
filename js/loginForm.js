@@ -39,7 +39,7 @@ function logoutUser() {
 	localStorage.removeItem('auth_token')
 	localStorage.removeItem('user_id')
 	// Logout qilinganidan so'ng, asosiy sahifaga yo'naltirish
-	window.location.href = 'index.html'
+	window.location.href = '../index.html'
 }
 
 // Ro'yxatdan o'tish formasi uchun
