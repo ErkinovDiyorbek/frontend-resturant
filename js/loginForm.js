@@ -69,7 +69,7 @@ function initRegisterForm() {
 
 		try {
 			const response = await fetch(
-				'http://192.168.197.227:3003/api/auth/register',
+				'https://192.168.197.227:3003/api/auth/register',
 				{
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
@@ -110,7 +110,7 @@ function initLoginForm() {
 
 		try {
 			const response = await fetch(
-				'http://192.168.197.227:3003/api/auth/login',
+				'https://192.168.197.227:3003/api/auth/login',
 				{
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },

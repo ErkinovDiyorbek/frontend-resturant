@@ -222,7 +222,7 @@ function orderRoom() {
 		}
 
 		try {
-			const response = await fetch('http://192.168.197.227:3001/book-table', {
+			const response = await fetch('https://192.168.197.227:3001/book-table', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
