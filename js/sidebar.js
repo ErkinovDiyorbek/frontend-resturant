@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 
 		try {
-			const res = await fetch('https://192.168.197.227:3000/submit-order', {
+			const res = await fetch('http://192.168.197.227:3000/submit-order', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(order),
