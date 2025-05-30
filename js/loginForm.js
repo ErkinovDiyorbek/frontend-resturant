@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		})
 	}
 
-	// Quyidagi kodlar faqat login va register formalar uchun kerak,
+	//  kodlar faqat login va register formalar uchun kerak,
 	// agar sahifada bo'lsa, ularni ishlatamiz
 	initRegisterForm()
 	initLoginForm()
