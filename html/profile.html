@@ -637,7 +637,7 @@
 		// ✅ Foydalanuvchi profilini olish
 		function fetchProfile(userId, token) {
 			console.log('fetchProfile chaqirildi')
-			fetch(`http://localhost:3003/user/${userId}`, {
+			fetch(`http://192.168.197.227:3003/user/${userId}`, {
 				headers: { 'Authorization': `Bearer ${token}` }
 			})
 				.then(res => res.json())
@@ -691,7 +691,7 @@
 					return
 				}
 
-				fetch(`http://localhost:3003/user/${userId}/update`, {
+				fetch(`http://192.168.197.227:3003/user/${userId}/update`, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json',
@@ -761,7 +761,7 @@
 		}
 
 		function fetchOrders(userId, token) {
-			fetch(`http://localhost:3003/user/${userId}/orders`, {
+			fetch(`http://192.168.197.227:3003/user/${userId}/orders`, {
 				headers: {
 					'Authorization': `Bearer ${token}`
 				}
@@ -827,7 +827,7 @@
 					return
 				}
 
-				fetch('http://localhost:3003/api/change-password', {
+				fetch('http://192.168.197.227:3003/api/change-password', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',

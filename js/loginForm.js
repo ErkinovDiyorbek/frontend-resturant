@@ -68,11 +68,14 @@ function initRegisterForm() {
 		}
 
 		try {
-			const response = await fetch('http://localhost:3003/api/auth/register', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ login, ism, email, parol }),
-			})
+			const response = await fetch(
+				'http://192.168.197.227:3003/api/auth/register',
+				{
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ login, ism, email, parol }),
+				}
+			)
 
 			const data = await response.json()
 
@@ -106,11 +109,14 @@ function initLoginForm() {
 		}
 
 		try {
-			const response = await fetch('http://localhost:3003/api/auth/login', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ loginOrEmail, parol }),
-			})
+			const response = await fetch(
+				'http://192.168.197.227:3003/api/auth/login',
+				{
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ loginOrEmail, parol }),
+				}
+			)
 
 			const data = await response.json()
 

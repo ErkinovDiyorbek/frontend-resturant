@@ -6,6 +6,13 @@ document.addEventListener('DOMContentLoaded', function () {
 	const mainContent = document.getElementById('mainContent')
 	const teaLiquid = document.querySelector('.tea-liquid')
 
+	// Agar foydalanuvchi allaqachon kirgan bo‘lsa, loaderni o‘tkazib yuborish
+	if (sessionStorage.getItem('loaderShown')) {
+		loader.style.display = 'none'
+		mainContent.style.display = 'block'
+		return
+	}
+
 	// Yuklanishni simulatsiya qilish
 	function simulateLoading() {
 		let progress = 0
@@ -21,14 +28,10 @@ document.addEventListener('DOMContentLoaded', function () {
 			progress += Math.random() * 10
 			if (progress > 100) progress = 100
 
-			// Progressni yangilash
 			progressBar.style.width = `${progress}%`
 			loaderPercentage.textContent = `${Math.round(progress)}%`
-
-			// Choy suyuqligi darajasini yangilash
 			teaLiquid.style.transform = `scaleY(${progress / 100})`
 
-			// Xabarlarni almashtirish
 			if (progress < 20) {
 				loaderText.textContent = loadingMessages[0]
 			} else if (progress < 40) {
@@ -41,7 +44,6 @@ document.addEventListener('DOMContentLoaded', function () {
 				loaderText.textContent = loadingMessages[4]
 			}
 
-			// Yakunlash
 			if (progress >= 100) {
 				clearInterval(interval)
 				setTimeout(() => {
@@ -49,18 +51,16 @@ document.addEventListener('DOMContentLoaded', function () {
 					setTimeout(() => {
 						loader.style.display = 'none'
 						mainContent.style.display = 'block'
+						sessionStorage.setItem('loaderShown', 'true') // ← Faqat bir marta ko‘rsatish uchun saqlab qo‘yamiz
 					}, 500)
 				}, 500)
 			}
 		}, 300)
 	}
 
-	// Yuklashni boshlash
 	simulateLoading()
 
-	// Agar haqiqiy yuklashni kuzatmoqchi bo'lsangiz:
 	window.addEventListener('load', function () {
-		// Agar sahifa tez yuklansa, animatsiya kamida 2 soniya davom etadi
 		if (parseInt(loaderPercentage.textContent) < 70) {
 			progressBar.style.width = '70%'
 			loaderPercentage.textContent = '70%'
