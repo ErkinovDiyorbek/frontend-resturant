@@ -1,0 +1,99 @@
+/* Modal foni */
+.modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 9999;
+}
+
+/* Modal kontenti */
+.modal-content {
+	background-color: #fff;
+	border-radius: 12px;
+	padding: 30px;
+	width: 100%;
+	max-width: 450px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+	position: relative;
+	animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Modal yopish tugmasi */
+.close-add-modal {
+	position: absolute;
+	top: 15px;
+	right: 20px;
+	font-size: 22px;
+	font-weight: bold;
+	color: #555;
+	cursor: pointer;
+	transition: color 0.3s;
+}
+.close-add-modal:hover {
+	color: #e74c3c;
+}
+
+/* Modal sarlavhasi */
+.modal-content h3 {
+	text-align: center;
+	margin-bottom: 20px;
+	font-size: 22px;
+	color: #333;
+}
+
+/* Inputlar */
+.modal-content input {
+	width: 100%;
+	padding: 10px 14px;
+	margin-bottom: 15px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	font-size: 16px;
+	transition: border-color 0.3s;
+}
+.modal-content input:focus {
+	outline: none;
+	border-color: #3498db;
+	box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+/* Saqlash tugmasi */
+.modal-content button[type='submit'] {
+	width: 100%;
+	padding: 12px;
+	background-color: #3498db;
+	color: #fff;
+	border: none;
+	border-radius: 8px;
+	font-size: 16px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+.modal-content button[type='submit']:hover {
+	background-color: #2980b9;
+}
+
+/* Animatsiya */
+@keyframes fadeIn {
+	from {
+		transform: scale(0.9);
+		opacity: 0;
+	}
+	to {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+/* Mobil moslik */
+@media (max-width: 500px) {
+	.modal-content {
+		margin: 0 20px;
+	}
+}

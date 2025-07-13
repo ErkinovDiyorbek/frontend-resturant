@@ -249,6 +249,11 @@ document.addEventListener('DOMContentLoaded', function () {
 			Statistika: 'Statistika',
 			'Aktiv tadbirlar': 'Aktiv tadbirlar',
 			'Mehmonlar soni': 'Mehmonlar soni',
+			Buyurtmalar: 'Buyurtmalar',
+			'Joy buyurtmasi': 'Joy buyurtmasi',
+			Sana: 'Sana',
+			Vaqt: 'Vaqt',
+			Xona: 'Xona',
 		},
 		ru: {
 			Asosiy: 'Главная',
@@ -498,6 +503,11 @@ document.addEventListener('DOMContentLoaded', function () {
 			Statistika: 'Статистика',
 			'Aktiv tadbirlar': 'Активные мероприятия',
 			'Mehmonlar soni': 'Количество гостей',
+			Buyurtmalar: 'Заказы',
+			'Joy buyurtmasi': 'Разместить заказ',
+			Sana: 'Дата',
+			Vaqt: 'Время',
+			Xona: 'Комната',
 		},
 		en: {
 			Asosiy: 'Home',
@@ -761,6 +771,11 @@ document.addEventListener('DOMContentLoaded', function () {
 			Statistika: 'Statistics',
 			'Aktiv tadbirlar': 'Active Events',
 			'Mehmonlar soni': 'Number of Guests',
+			Buyurtmalar: 'Orders',
+			'Joy buyurtmasi': 'Place order',
+			Sana: 'Date',
+			Vaqt: 'Time',
+			Xona: 'Room',
 		},
 	}
 

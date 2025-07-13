@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 	updateNavbarUI()
 
-	// Profile sahifasida chiqish tugmasini aniqlab, funksiyasini beramiz
 	const logoutBtn = document.getElementById('logoutBtn')
 	if (logoutBtn) {
 		logoutBtn.addEventListener('click', e => {
@@ -10,16 +9,16 @@ document.addEventListener('DOMContentLoaded', () => {
 		})
 	}
 
-	//  kodlar faqat login va register formalar uchun kerak,
-	// agar sahifada bo'lsa, ularni ishlatamiz
 	initRegisterForm()
 	initLoginForm()
 })
 
+// ⛳ Tokenni olish
 function getAuthToken() {
 	return localStorage.getItem('auth_token')
 }
 
+// 🔁 Navbarni yangilash
 function updateNavbarUI() {
 	const token = getAuthToken()
 
@@ -35,14 +34,32 @@ function updateNavbarUI() {
 	}
 }
 
+// 🚪 Logout qilish
 function logoutUser() {
 	localStorage.removeItem('auth_token')
 	localStorage.removeItem('user_id')
-	// Logout qilinganidan so'ng, asosiy sahifaga yo'naltirish
 	window.location.href = '../index.html'
 }
 
-// Ro'yxatdan o'tish formasi uchun
+// 🔐 Kuchli parol tekshiruvi
+function validatePassword(password) {
+	const minLength = 8
+	const hasUpper = /[A-Z]/.test(password)
+	const hasLower = /[a-z]/.test(password)
+	const hasNumber = /\d/.test(password)
+	const hasSpecial = /[!@#$%^&*(),.?":{}|<>_\-]/.test(password)
+
+	if (password.length < minLength)
+		return "Parol kamida 8 ta belgidan iborat bo'lishi kerak."
+	if (!hasUpper) return "Parol katta harfni o'z ichiga olishi kerak."
+	if (!hasLower) return "Parol kichik harfni o'z ichiga olishi kerak."
+	if (!hasNumber) return "Parol raqamni o'z ichiga olishi kerak."
+	if (!hasSpecial)
+		return "Parol maxsus belgi (masalan, !@#$%, _, -) bo'lishi kerak."
+	return ''
+}
+
+// 📝 Ro‘yxatdan o‘tish formasi
 function initRegisterForm() {
 	const registerForm = document.getElementById('registerForm')
 	if (!registerForm) return
@@ -67,15 +84,18 @@ function initRegisterForm() {
 			return
 		}
 
+		const passwordError = validatePassword(parol)
+		if (passwordError) {
+			alert(passwordError)
+			return
+		}
+
 		try {
-			const response = await fetch(
-				'http://192.168.197.227:3003/api/auth/register',
-				{
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ login, ism, email, parol }),
-				}
-			)
+			const response = await fetch('http://localhost:3003/api/auth/register', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ login, ism, email, parol }),
+			})
 
 			const data = await response.json()
 
@@ -92,7 +112,7 @@ function initRegisterForm() {
 	})
 }
 
-// Kirish formasi uchun
+// 🔑 Kirish formasi
 function initLoginForm() {
 	const loginForm = document.getElementById('loginForm')
 	if (!loginForm) return
@@ -108,23 +128,31 @@ function initLoginForm() {
 			return
 		}
 
+		if (parol.length < 8) {
+			alert('Parol kamida 8 ta belgidan iborat bo‘lishi kerak.')
+			return
+		}
+
 		try {
-			const response = await fetch(
-				'http://192.168.197.227:3003/api/auth/login',
-				{
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ loginOrEmail, parol }),
-				}
-			)
+			const response = await fetch('http://localhost:3003/api/auth/login', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ loginOrEmail, parol }),
+			})
 
 			const data = await response.json()
 
 			if (response.ok) {
 				localStorage.setItem('auth_token', data.token)
 				localStorage.setItem('user_id', data.user.id)
-				alert(data.message)
-				window.location.href = 'profile.html'
+
+				if (data.user.is_admin) {
+					alert('Admin sifatida tizimga kirdingiz')
+					window.location.href = '../admin/admin.html'
+				} else {
+					alert(data.message)
+					window.location.href = '../html/profile.html'
+				}
 			} else {
 				alert(data.error || 'Xatolik yuz berdi.')
 			}

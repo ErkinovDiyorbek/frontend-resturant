@@ -1,0 +1,1752 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Admin Panel</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<style>
+		:root {
+			--sidebar-bg: #1e293b;
+			--sidebar-active: #334155;
+			--primary-color: #3b82f6;
+			--danger-color: #ef4444;
+			--success-color: #10b981;
+			--warning-color: #f59e0b;
+		}
+
+		body {
+			background-color: #f1f5f9;
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		}
+
+		/* Sidebar umumiy stil */
+		.sidebar {
+			width: 250px;
+			height: 100vh;
+			background-color: #1e293b;
+			/* quyuq fon */
+			color: #fff;
+			position: fixed;
+			left: 0;
+			top: 0;
+			z-index: 1000;
+			overflow-y: auto;
+			transition: all 0.3s ease;
+			box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+		}
+
+		.sidebar-header {
+			padding: 20px;
+			background-color: #334155;
+			border-bottom: 1px solid #475569;
+		}
+
+		.sidebar-header h4 {
+			color: #fff;
+			font-size: 18px;
+			margin: 0;
+		}
+
+		.btn-toggle {
+			background: none;
+			border: none;
+			color: #fff;
+			font-size: 20px;
+			cursor: pointer;
+		}
+
+		.sidebar-menu {
+			padding: 10px 0;
+		}
+
+		.sidebar-item {
+			padding: 12px 20px;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			transition: background 0.3s;
+		}
+
+		.sidebar-item i {
+			margin-right: 10px;
+			font-size: 18px;
+		}
+
+		.sidebar-item:hover {
+			background-color: #475569;
+		}
+
+		.sidebar-item.active {
+			background-color: #3b82f6;
+			color: #fff;
+		}
+
+		/* Mobil uchun toggle */
+		@media (max-width: 768px) {
+			.sidebar {
+				transform: translateX(-100%);
+			}
+
+			.sidebar.active {
+				transform: translateX(0);
+			}
+		}
+
+		.content {
+			margin-left: 280px;
+			padding: 1.5rem;
+			transition: all 0.3s;
+		}
+
+		.content-expanded {
+			margin-left: 0;
+		}
+
+		.navbar-custom {
+			background-color: white;
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+			padding: 0.75rem 1.5rem;
+		}
+
+		.card {
+			border: none;
+			border-radius: 0.5rem;
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+			margin-bottom: 1.5rem;
+		}
+
+		.card-header {
+			background-color: white;
+			border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+			padding: 1rem 1.5rem;
+			font-weight: 600;
+		}
+
+		.table-responsive {
+			border-radius: 0.5rem;
+			overflow: hidden;
+		}
+
+		.table {
+			margin-bottom: 0;
+		}
+
+		.table thead th {
+			background-color: #f8fafc;
+			border-bottom-width: 1px;
+			font-weight: 600;
+			padding: 1rem;
+		}
+
+		.table tbody td {
+			padding: 1rem;
+			vertical-align: middle;
+		}
+
+		.badge {
+			font-weight: 500;
+			padding: 0.35em 0.65em;
+		}
+
+		.badge-primary {
+			background-color: var(--primary-color);
+		}
+
+		.badge-success {
+			background-color: var(--success-color);
+		}
+
+		.badge-warning {
+			background-color: var(--warning-color);
+		}
+
+		.badge-danger {
+			background-color: var(--danger-color);
+		}
+
+		.stats-card {
+			border-left: 4px solid;
+			transition: transform 0.2s;
+		}
+
+		.stats-card:hover {
+			transform: translateY(-5px);
+		}
+
+		.stats-card.primary {
+			border-left-color: var(--primary-color);
+		}
+
+		.stats-card.success {
+			border-left-color: var(--success-color);
+		}
+
+		.stats-card.warning {
+			border-left-color: var(--warning-color);
+		}
+
+		.stats-card.danger {
+			border-left-color: var(--danger-color);
+		}
+
+		.search-box {
+			position: relative;
+			margin-bottom: 1.5rem;
+		}
+
+		.search-box i {
+			position: absolute;
+			left: 1rem;
+			top: 50%;
+			transform: translateY(-50%);
+			color: #94a3b8;
+		}
+
+		.search-box input {
+			padding-left: 2.5rem;
+			border-radius: 0.5rem;
+			border: 1px solid #e2e8f0;
+		}
+
+		.btn-toggle {
+			background: none;
+			border: none;
+			color: #64748b;
+			font-size: 1.25rem;
+		}
+
+		.user-dropdown img {
+			width: 36px;
+			height: 36px;
+			border-radius: 50%;
+			object-fit: cover;
+		}
+
+		.chart-container {
+			height: 300px;
+			position: relative;
+		}
+
+		.action-btn {
+			padding: 0.25rem 0.5rem;
+			font-size: 0.875rem;
+		}
+
+		.status-pending {
+			color: var(--warning-color);
+			background-color: rgba(245, 158, 11, 0.1);
+			padding: 0.25rem 0.5rem;
+			border-radius: 0.25rem;
+		}
+
+		.status-completed {
+			color: var(--success-color);
+			background-color: rgba(16, 185, 129, 0.1);
+			padding: 0.25rem 0.5rem;
+			border-radius: 0.25rem;
+		}
+
+		.status-cancelled {
+			color: var(--danger-color);
+			background-color: rgba(239, 68, 68, 0.1);
+			padding: 0.25rem 0.5rem;
+			border-radius: 0.25rem;
+		}
+
+		@media (max-width: 992px) {
+			.sidebar {
+				margin-left: -280px;
+			}
+
+			.sidebar-show {
+				margin-left: 0;
+			}
+
+			.content {
+				margin-left: 0;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="d-flex">
+		<!-- Sidebar -->
+		<div class="sidebar" id="sidebar">
+			<div class="sidebar-header d-flex justify-content-between align-items-center">
+				<h4 class="mb-0"><i class="bi bi-speedometer2"></i> Admin Panel</h4>
+				<button class="btn-toggle" id="toggleSidebar"><i class="bi bi-x-lg"></i></button>
+			</div>
+			<div class="sidebar-menu">
+				<div class="sidebar-item active" id="dashboardBtn">
+					<i class="bi bi-grid"></i> Dashboard
+				</div>
+				<div class="sidebar-item" id="locationOrdersBtn">
+					<i class="bi bi-geo-alt"></i> Joy buyurtmalari
+				</div>
+				<div class="sidebar-item" id="productOrdersBtn">
+					<i class="bi bi-cart"></i> Mahsulot buyurtmalari
+				</div>
+				<div class="sidebar-item" id="productsBtn">
+					<i class="bi bi-box-seam"></i> Mahsulotlar
+				</div>
+				<div class="sidebar-item" id="usersBtn">
+					<i class="bi bi-people"></i> Foydalanuvchilar
+				</div>
+				<div class="sidebar-item" id="settingsBtn">
+					<i class="bi bi-gear"></i> Sozlamalar
+				</div>
+				<div class="sidebar-item" id="logoutBtn">
+					<i class="bi bi-box-arrow-right"></i> Chiqish
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Main Content -->
+		<div class="content" id="mainContent">
+			<!-- Top Navbar -->
+			<nav class="navbar navbar-expand-lg navbar-custom mb-4">
+				<div class="container-fluid">
+					<button class="btn-toggle me-3 d-lg-none" id="mobileToggle">
+						<i class="bi bi-list"></i>
+					</button>
+					<div class="d-flex align-items-center">
+						<h5 class="mb-0" id="pageTitle">Dashboard</h5>
+					</div>
+					<div class="ms-auto d-flex align-items-center">
+						<div class="dropdown">
+							<button class="btn btn-link text-dark dropdown-toggle d-flex align-items-center" type="button"
+								id="notificationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+								<i class="bi bi-bell fs-5"></i>
+								<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+									id="notificationBadge">
+									3
+								</span>
+							</button>
+							<ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="notificationsDropdown">
+								<li>
+									<h6 class="dropdown-header">Yangiliklar (3)</h6>
+								</li>
+								<li><a class="dropdown-item" href="#">Yangi buyurtma #1256</a></li>
+								<li><a class="dropdown-item" href="#">Mahsulot qo'shildi</a></li>
+								<li><a class="dropdown-item" href="#">Tizim yangilandi</a></li>
+								<li>
+									<hr class="dropdown-divider">
+								</li>
+								<li><a class="dropdown-item text-primary" href="#">Barchasini ko'rish</a></li>
+							</ul>
+						</div>
+						<div class="dropdown ms-3">
+							<button class="btn btn-link text-dark dropdown-toggle d-flex align-items-center user-dropdown"
+								type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+								<img src="https://ui-avatars.com/api/?name=Admin&background=3b82f6&color=fff" alt="User" class="me-2">
+								<span>Admin</span>
+							</button>
+							<ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
+								<li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i> Profil</a></li>
+								<li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i> Sozlamalar</a></li>
+								<li>
+									<hr class="dropdown-divider">
+								</li>
+								<li><a class="dropdown-item" href="#" id="logoutBtn2"><i class="bi bi-box-arrow-right me-2"></i>
+										Chiqish</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</nav>
+
+			<!-- Dashboard Content -->
+			<div id="dashboardContent">
+				<div class="row mb-4">
+					<div class="col-md-3">
+						<div class="card stats-card primary">
+							<div class="card-body">
+								<div class="d-flex justify-content-between align-items-center">
+									<div>
+										<h6 class="text-muted mb-2">Bugungi buyurtmalar</h6>
+										<h3 id="todayOrders">24</h3>
+									</div>
+									<div class="bg-primary bg-opacity-10 p-3 rounded">
+										<i class="bi bi-cart text-primary fs-4"></i>
+									</div>
+								</div>
+								<div class="mt-3">
+									<span class="text-success"><i class="bi bi-arrow-up"></i> 12% o'tgan haftaga nisbatan</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="card stats-card success">
+							<div class="card-body">
+								<div class="d-flex justify-content-between align-items-center">
+									<div>
+										<h6 class="text-muted mb-2">Haftalik buyurtmalar</h6>
+										<h3 id="weeklyOrders">156</h3>
+									</div>
+									<div class="bg-success bg-opacity-10 p-3 rounded">
+										<i class="bi bi-calendar-week text-success fs-4"></i>
+									</div>
+								</div>
+								<div class="mt-3">
+									<span class="text-success"><i class="bi bi-arrow-up"></i> 8% o'tgan haftaga nisbatan</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="card stats-card warning">
+							<div class="card-body">
+								<div class="d-flex justify-content-between align-items-center">
+									<div>
+										<h6 class="text-muted mb-2">Jarayondagi buyurtmalar</h6>
+										<h3 id="pendingOrders">8</h3>
+									</div>
+									<div class="bg-warning bg-opacity-10 p-3 rounded">
+										<i class="bi bi-clock-history text-warning fs-4"></i>
+									</div>
+								</div>
+								<div class="mt-3">
+									<span class="text-danger"><i class="bi bi-arrow-down"></i> 2% o'tgan haftaga nisbatan</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="card stats-card danger">
+							<div class="card-body">
+								<div class="d-flex justify-content-between align-items-center">
+									<div>
+										<h6 class="text-muted mb-2">Bekor qilingan</h6>
+										<h3 id="cancelledOrders">3</h3>
+									</div>
+									<div class="bg-danger bg-opacity-10 p-3 rounded">
+										<i class="bi bi-x-circle text-danger fs-4"></i>
+									</div>
+								</div>
+								<div class="mt-3">
+									<span class="text-success"><i class="bi bi-arrow-down"></i> 5% o'tgan haftaga nisbatan</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-8">
+						<div class="card">
+							<div class="card-header d-flex justify-content-between align-items-center">
+								<h6 class="mb-0">Buyurtmalar statistikasi</h6>
+								<select class="form-select form-select-sm w-auto" id="chartPeriod">
+									<option value="week">Haftalik</option>
+									<option value="month" selected>Oylik</option>
+									<option value="year">Yillik</option>
+								</select>
+							</div>
+							<div class="card-body">
+								<div class="chart-container">
+									<canvas id="ordersChart"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card">
+							<div class="card-header">
+								<h6 class="mb-0">Eng ko'p buyurtma qilingan mahsulotlar</h6>
+							</div>
+							<div class="card-body">
+								<ul class="list-group list-group-flush" id="topProductsList">
+									<li class="list-group-item d-flex justify-content-between align-items-center">
+										<span>1. Osh</span>
+										<span class="badge bg-primary rounded-pill">56</span>
+									</li>
+									<li class="list-group-item d-flex justify-content-between align-items-center">
+										<span>2. Lag'mon</span>
+										<span class="badge bg-primary rounded-pill">42</span>
+									</li>
+									<li class="list-group-item d-flex justify-content-between align-items-center">
+										<span>3. Manti</span>
+										<span class="badge bg-primary rounded-pill">38</span>
+									</li>
+									<li class="list-group-item d-flex justify-content-between align-items-center">
+										<span>4. Shashlik</span>
+										<span class="badge bg-primary rounded-pill">35</span>
+									</li>
+									<li class="list-group-item d-flex justify-content-between align-items-center">
+										<span>5. Choy</span>
+										<span class="badge bg-primary rounded-pill">28</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row mt-4">
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-header d-flex justify-content-between align-items-center">
+								<h6 class="mb-0">So'ngi buyurtmalar</h6>
+								<a href="#" class="btn btn-sm btn-outline-primary" id="viewAllOrders">Barchasini ko'rish</a>
+							</div>
+							<div class="card-body">
+								<div class="table-responsive">
+									<table class="table table-hover" id="recentOrdersTable">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>Mijoz</th>
+												<th>Telefon</th>
+												<th>Mahsulot</th>
+												<th>Miqdor</th>
+												<th>Narx</th>
+												<th>Holat</th>
+												<th>Harakatlar</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>#1256</td>
+												<td>Ali Valiyev</td>
+												<td>+998901234567</td>
+												<td>Osh</td>
+												<td>2</td>
+												<td>30,000 so'm</td>
+												<td><span class="status-pending">Jarayonda</span></td>
+												<td>
+													<button class="btn btn-sm btn-outline-success action-btn"><i class="bi bi-check"></i></button>
+													<button class="btn btn-sm btn-outline-danger action-btn"><i class="bi bi-x"></i></button>
+													<button class="btn btn-sm btn-outline-primary action-btn"><i class="bi bi-eye"></i></button>
+												</td>
+											</tr>
+											<tr>
+												<td>#1255</td>
+												<td>Gulnora Karimova</td>
+												<td>+998907654321</td>
+												<td>Lag'mon</td>
+												<td>1</td>
+												<td>25,000 so'm</td>
+												<td><span class="status-completed">Tugallangan</span></td>
+												<td>
+													<button class="btn btn-sm btn-outline-success action-btn"><i class="bi bi-check"></i></button>
+													<button class="btn btn-sm btn-outline-danger action-btn"><i class="bi bi-x"></i></button>
+													<button class="btn btn-sm btn-outline-primary action-btn"><i class="bi bi-eye"></i></button>
+												</td>
+											</tr>
+											<tr>
+												<td>#1254</td>
+												<td>Jamshid Bekov</td>
+												<td>+998935678901</td>
+												<td>Manti</td>
+												<td>3</td>
+												<td>45,000 so'm</td>
+												<td><span class="status-cancelled">Bekor qilingan</span></td>
+												<td>
+													<button class="btn btn-sm btn-outline-success action-btn"><i class="bi bi-check"></i></button>
+													<button class="btn btn-sm btn-outline-danger action-btn"><i class="bi bi-x"></i></button>
+													<button class="btn btn-sm btn-outline-primary action-btn"><i class="bi bi-eye"></i></button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Location Orders Content -->
+			<div id="locationOrdersContent" style="display: none;">
+				<div class="card">
+					<div class="card-header d-flex justify-content-between align-items-center">
+						<h6 class="mb-0">Joy buyurtmalari</h6>
+						<div>
+							<button class="btn btn-sm btn-primary" id="addLocationOrderBtn">
+								<i class="bi bi-plus"></i> Qo'shish
+							</button>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="search-box">
+							<i class="bi bi-search"></i>
+							<input type="text" class="form-control" id="locationSearchInput"
+								placeholder="Qidiruv: ism, telefon, xona...">
+						</div>
+						<div class="table-responsive">
+							<table class="table table-hover" id="locationOrdersTable">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Ism</th>
+										<th>Telefon</th>
+										<th>Sana</th>
+										<th>Vaqt</th>
+										<th>Mehmonlar</th>
+										<th>Xona</th>
+										<th>Holat</th>
+										<th>Harakatlar</th>
+									</tr>
+								</thead>
+								<tbody>
+									<!-- Data will be loaded here -->
+								</tbody>
+							</table>
+						</div>
+						<nav class="mt-3">
+							<ul class="pagination justify-content-end">
+								<li class="page-item disabled">
+									<a class="page-link" href="#" tabindex="-1" aria-disabled="true">Oldingi</a>
+								</li>
+								<li class="page-item active"><a class="page-link" href="#">1</a></li>
+								<li class="page-item"><a class="page-link" href="#">2</a></li>
+								<li class="page-item"><a class="page-link" href="#">3</a></li>
+								<li class="page-item">
+									<a class="page-link" href="#">Keyingi</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+
+			<!-- Product Orders Content -->
+			<div id="productOrdersContent" style="display: none;">
+				<div class="card">
+					<div class="card-header d-flex justify-content-between align-items-center">
+						<h6 class="mb-0">Mahsulot buyurtmalari</h6>
+						<div>
+							<button class="btn btn-sm btn-primary" id="exportOrdersBtn">
+								<i class="bi bi-download"></i> Export
+							</button>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="row mb-3">
+							<div class="col-md-3">
+								<select class="form-select" id="filterStatus">
+									<option value="">Barcha holatlar</option>
+									<option value="pending">Jarayonda</option>
+									<option value="completed">Tugallangan</option>
+									<option value="cancelled">Bekor qilingan</option>
+								</select>
+							</div>
+							<div class="col-md-3">
+								<input type="date" class="form-control" id="filterDate">
+							</div>
+							<div class="col-md-6">
+								<div class="search-box">
+									<i class="bi bi-search"></i>
+									<input type="text" class="form-control" id="productSearchInput"
+										placeholder="Qidiruv: ism, telefon, mahsulot...">
+								</div>
+							</div>
+						</div>
+						<div class="table-responsive">
+							<table class="table table-hover" id="productOrdersTable">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Ism</th>
+										<th>Telefon</th>
+										<th>Mahsulot</th>
+										<th>Miqdor</th>
+										<th>Narx</th>
+										<th>Umumiy</th>
+										<th>Holat</th>
+										<th>Harakatlar</th>
+									</tr>
+								</thead>
+								<tbody>
+									<!-- Data will be loaded here -->
+								</tbody>
+							</table>
+						</div>
+						<nav class="mt-3">
+							<ul class="pagination justify-content-end">
+								<li class="page-item disabled">
+									<a class="page-link" href="#" tabindex="-1" aria-disabled="true">Oldingi</a>
+								</li>
+								<li class="page-item active"><a class="page-link" href="#">1</a></li>
+								<li class="page-item"><a class="page-link" href="#">2</a></li>
+								<li class="page-item"><a class="page-link" href="#">3</a></li>
+								<li class="page-item">
+									<a class="page-link" href="#">Keyingi</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+
+			<!-- Products Content -->
+			<div id="productsContent" style="display: none;">
+				<div class="card">
+					<div class="card-header d-flex justify-content-between align-items-center">
+						<h6 class="mb-0">Mahsulotlar</h6>
+						<div>
+							<button class="btn btn-sm btn-primary" id="addProductBtn">
+								<i class="bi bi-plus"></i> Yangi mahsulot
+							</button>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="search-box">
+							<i class="bi bi-search"></i>
+							<input type="text" class="form-control" id="productSearch"
+								placeholder="Mahsulot nomi bo'yicha qidiruv...">
+						</div>
+						<div class="table-responsive">
+							<table class="table table-hover" id="productsTable">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Rasm</th>
+										<th>Nomi</th>
+										<th>Kategoriya</th>
+										<th>Narx</th>
+										<th>Holat</th>
+										<th>Harakatlar</th>
+									</tr>
+								</thead>
+								<tbody>
+									<!-- Data will be loaded here -->
+								</tbody>
+							</table>
+						</div>
+						<nav class="mt-3">
+							<ul class="pagination justify-content-end">
+								<li class="page-item disabled">
+									<a class="page-link" href="#" tabindex="-1" aria-disabled="true">Oldingi</a>
+								</li>
+								<li class="page-item active"><a class="page-link" href="#">1</a></li>
+								<li class="page-item"><a class="page-link" href="#">2</a></li>
+								<li class="page-item"><a class="page-link" href="#">3</a></li>
+								<li class="page-item">
+									<a class="page-link" href="#">Keyingi</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+
+			<!-- Users Content -->
+			<div id="usersContent" style="display: none;">
+				<div class="card">
+					<div class="card-header d-flex justify-content-between align-items-center">
+						<h6 class="mb-0">Foydalanuvchilar</h6>
+						<div>
+							<button class="btn btn-sm btn-primary" id="addUserBtn">
+								<i class="bi bi-plus"></i> Yangi foydalanuvchi
+							</button>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="search-box">
+							<i class="bi bi-search"></i>
+							<input type="text" class="form-control" id="userSearch"
+								placeholder="Ism yoki telefon bo'yicha qidiruv...">
+						</div>
+						<div class="table-responsive">
+							<table class="table table-hover" id="usersTable">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Rasm</th>
+										<th>Ism</th>
+										<th>Telefon</th>
+										<th>Rol</th>
+										<th>Holat</th>
+										<th>Harakatlar</th>
+									</tr>
+								</thead>
+								<tbody>
+									<!-- Data will be loaded here -->
+								</tbody>
+							</table>
+						</div>
+						<nav class="mt-3">
+							<ul class="pagination justify-content-end">
+								<li class="page-item disabled">
+									<a class="page-link" href="#" tabindex="-1" aria-disabled="true">Oldingi</a>
+								</li>
+								<li class="page-item active"><a class="page-link" href="#">1</a></li>
+								<li class="page-item"><a class="page-link" href="#">2</a></li>
+								<li class="page-item"><a class="page-link" href="#">3</a></li>
+								<li class="page-item">
+									<a class="page-link" href="#">Keyingi</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+
+			<!-- Settings Content -->
+			<div id="settingsContent" style="display: none;">
+				<div class="card">
+					<div class="card-header">
+						<h6 class="mb-0">Sozlamalar</h6>
+					</div>
+					<div class="card-body">
+						<ul class="nav nav-tabs" id="settingsTabs" role="tablist">
+							<li class="nav-item" role="presentation">
+								<button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general"
+									type="button" role="tab" aria-controls="general" aria-selected="true">Umumiy</button>
+							</li>
+							<li class="nav-item" role="presentation">
+								<button class="nav-link" id="notifications-tab" data-bs-toggle="tab" data-bs-target="#notifications"
+									type="button" role="tab" aria-controls="notifications" aria-selected="false">Bildirishnomalar</button>
+							</li>
+							<li class="nav-item" role="presentation">
+								<button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security" type="button"
+									role="tab" aria-controls="security" aria-selected="false">Xavfsizlik</button>
+							</li>
+						</ul>
+						<div class="tab-content p-3 border border-top-0 rounded-bottom" id="settingsTabsContent">
+							<div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+								<form>
+									<div class="row mb-3">
+										<div class="col-md-6">
+											<label for="restaurantName" class="form-label">Restoran nomi</label>
+											<input type="text" class="form-control" id="restaurantName" value="Osiyo Restoran">
+										</div>
+										<div class="col-md-6">
+											<label for="timezone" class="form-label">Vaqt mintaqasi</label>
+											<select class="form-select" id="timezone">
+												<option value="Asia/Tashkent" selected>Toshkent (UTC+5)</option>
+												<option value="Asia/Samarkand">Samarqand (UTC+5)</option>
+											</select>
+										</div>
+									</div>
+									<div class="row mb-3">
+										<div class="col-md-6">
+											<label for="currency" class="form-label">Valyuta</label>
+											<select class="form-select" id="currency">
+												<option value="UZS" selected>So'm (UZS)</option>
+												<option value="USD">Dollar (USD)</option>
+											</select>
+										</div>
+										<div class="col-md-6">
+											<label for="language" class="form-label">Til</label>
+											<select class="form-select" id="language">
+												<option value="uz" selected>O'zbekcha</option>
+												<option value="ru">Ruscha</option>
+												<option value="en">Inglizcha</option>
+											</select>
+										</div>
+									</div>
+									<div class="mb-3">
+										<label for="restaurantLogo" class="form-label">Restoran logosi</label>
+										<input class="form-control" type="file" id="restaurantLogo">
+									</div>
+									<button type="submit" class="btn btn-primary">Saqlash</button>
+								</form>
+							</div>
+							<div class="tab-pane fade" id="notifications" role="tabpanel" aria-labelledby="notifications-tab">
+								<div class="form-check form-switch mb-3">
+									<input class="form-check-input" type="checkbox" id="emailNotifications" checked>
+									<label class="form-check-label" for="emailNotifications">Email bildirishnomalari</label>
+								</div>
+								<div class="form-check form-switch mb-3">
+									<input class="form-check-input" type="checkbox" id="smsNotifications" checked>
+									<label class="form-check-label" for="smsNotifications">SMS bildirishnomalari</label>
+								</div>
+								<div class="form-check form-switch mb-3">
+									<input class="form-check-input" type="checkbox" id="orderAlerts" checked>
+									<label class="form-check-label" for="orderAlerts">Yangi buyurtma haqida ogohlantirish</label>
+								</div>
+								<div class="form-check form-switch mb-3">
+									<input class="form-check-input" type="checkbox" id="promoNotifications">
+									<label class="form-check-label" for="promoNotifications">Promo-aktsiyalar haqida xabarlar</label>
+								</div>
+								<button type="button" class="btn btn-primary">Saqlash</button>
+							</div>
+							<div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
+								<form>
+									<div class="mb-3">
+										<label for="currentPassword" class="form-label">Joriy parol</label>
+										<input type="password" class="form-control" id="currentPassword">
+									</div>
+									<div class="mb-3">
+										<label for="newPassword" class="form-label">Yangi parol</label>
+										<input type="password" class="form-control" id="newPassword">
+									</div>
+									<div class="mb-3">
+										<label for="confirmPassword" class="form-label">Yangi parolni tasdiqlang</label>
+										<input type="password" class="form-control" id="confirmPassword">
+									</div>
+									<button type="submit" class="btn btn-primary">Parolni yangilash</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Add Product Modal -->
+	<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="addProductModalLabel">Yangi mahsulot qo'shish</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form id="productForm">
+						<div class="row mb-3">
+							<div class="col-md-6">
+								<label for="productName" class="form-label">Mahsulot nomi</label>
+								<input type="text" class="form-control" id="productName" required>
+							</div>
+							<div class="col-md-6">
+								<label for="productCategory" class="form-label">Kategoriya</label>
+								<select class="form-select" id="productCategory" required>
+									<option value="">Tanlang</option>
+									<option value="1">Milliy taomlar</option>
+									<option value="2">Yevropa taomlari</option>
+									<option value="3">Ichimliklar</option>
+									<option value="4">Shirinliklar</option>
+								</select>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<div class="col-md-6">
+								<label for="productPrice" class="form-label">Narx</label>
+								<input type="number" class="form-control" id="productPrice" required>
+							</div>
+							<div class="col-md-6">
+								<label for="productStatus" class="form-label">Holat</label>
+								<select class="form-select" id="productStatus">
+									<option value="1">Faol</option>
+									<option value="0">Nofaol</option>
+								</select>
+							</div>
+						</div>
+						<div class="mb-3">
+							<label for="productDescription" class="form-label">Tavsif</label>
+							<textarea class="form-control" id="productDescription" rows="3"></textarea>
+						</div>
+						<div class="mb-3">
+							<label for="productImage" class="form-label">Rasm</label>
+							<input class="form-control" type="file" id="productImage">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bekor qilish</button>
+					<button type="button" class="btn btn-primary" id="saveProductBtn">Saqlash</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Order Detail Modal -->
+	<div class="modal fade" id="orderDetailModal" tabindex="-1" aria-labelledby="orderDetailModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="orderDetailModalLabel">Buyurtma #1256</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row mb-4">
+						<div class="col-md-6">
+							<h6>Mijoz ma'lumotlari:</h6>
+							<p><strong>Ism:</strong> Ali Valiyev</p>
+							<p><strong>Telefon:</strong> +998901234567</p>
+							<p><strong>Manzil:</strong> Toshkent sh., Yunusobod t., 12-uy</p>
+						</div>
+						<div class="col-md-6">
+							<h6>Buyurtma ma'lumotlari:</h6>
+							<p><strong>Sana:</strong> 2023-10-15</p>
+							<p><strong>Vaqt:</strong> 18:30</p>
+							<p><strong>Holat:</strong> <span class="status-pending">Jarayonda</span></p>
+						</div>
+					</div>
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Mahsulot</th>
+									<th>Miqdor</th>
+									<th>Narx</th>
+									<th>Jami</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Osh</td>
+									<td>2</td>
+									<td>30,000 so'm</td>
+									<td>60,000 so'm</td>
+								</tr>
+								<tr>
+									<td>Choy</td>
+									<td>2</td>
+									<td>5,000 so'm</td>
+									<td>10,000 so'm</td>
+								</tr>
+								<tr>
+									<td colspan="3" class="text-end"><strong>Umumiy:</strong></td>
+									<td><strong>70,000 so'm</strong></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="mb-3">
+						<label for="orderNotes" class="form-label">Izoh</label>
+						<textarea class="form-control" id="orderNotes" rows="2">Tez yetkazib berilsin</textarea>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" id="completeOrderBtn">Tugallangan</button>
+					<button type="button" class="btn btn-danger" id="cancelOrderBtn">Bekor qilish</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Yopish</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<script>
+
+
+		// Settings Content
+		document.addEventListener('DOMContentLoaded', () => {
+			const settingsBtn = document.getElementById('settingsBtn')
+			const settingsContent = document.getElementById('settingsContent')
+
+			// Boshqa kontentlarni ham yashirmoqchi bo‘lsangiz, ularni tanlang:
+			const allSections = [
+				document.getElementById('ordersTable'),
+				document.getElementById('searchInput'),
+				document.getElementById('weeklyCount'),
+				document.getElementById('monthlyCount'),
+				document.getElementById('topProducts'),
+				document.getElementById('peakHours'),
+				document.getElementById('settingsContent')
+			]
+
+			function hideAllSections() {
+				allSections.forEach(section => {
+					if (section) section.style.display = 'none'
+				})
+			}
+
+			// Sozlamalar tugmasi bosilganda
+			settingsBtn.addEventListener('click', (e) => {
+				e.preventDefault()
+				hideAllSections()
+				settingsContent.style.display = 'block'
+			})
+
+			// UMUMIY - Sozlamalar form submit
+			document.querySelector('#general form').addEventListener('submit', function (e) {
+				e.preventDefault()
+				const name = document.getElementById('restaurantName').value
+				const timezone = document.getElementById('timezone').value
+				const currency = document.getElementById('currency').value
+				const language = document.getElementById('language').value
+				const logo = document.getElementById('restaurantLogo').files[0]
+
+				console.log('✅ Umumiy sozlamalar: ', { name, timezone, currency, language, logo })
+				alert('Umumiy sozlamalar saqlandi!')
+			})
+
+			// XAVFSIZLIK - Parol o‘zgartirish
+			document.querySelector('#security form').addEventListener('submit', function (e) {
+				e.preventDefault()
+				const current = document.getElementById('currentPassword').value
+				const newPass = document.getElementById('newPassword').value
+				const confirm = document.getElementById('confirmPassword').value
+
+				if (newPass !== confirm) {
+					alert('❌ Yangi parollar mos emas!')
+					return
+				}
+
+				console.log('🔐 Parol yangilanmoqda: ', { current, newPass })
+				alert('Parol muvaffaqiyatli yangilandi!')
+			})
+
+			// BILDIRISHNOMALAR - Saqlash tugmasi
+			document.querySelector('#notifications button').addEventListener('click', function () {
+				const email = document.getElementById('emailNotifications').checked
+				const sms = document.getElementById('smsNotifications').checked
+				const orderAlerts = document.getElementById('orderAlerts').checked
+				const promo = document.getElementById('promoNotifications').checked
+
+				console.log('📨 Bildirishnoma sozlamalari: ', { email, sms, orderAlerts, promo })
+				alert('Bildirishnoma sozlamalari saqlandi!')
+			})
+		})
+
+		//Users Content
+		document.addEventListener('DOMContentLoaded', () => {
+			const usersBtn = document.getElementById('usersBtn')
+			const usersContent = document.getElementById('usersContent')
+			const usersTableBody = document.querySelector('#usersTable tbody')
+			const userSearch = document.getElementById('userSearch')
+			const addUserBtn = document.getElementById('addUserBtn')
+
+			const dummyUsers = [
+				{ id: 1, name: "Ali Karimov", phone: "+998901112233", role: "Admin", status: "faol", image: "https://via.placeholder.com/40" },
+				{ id: 2, name: "Dilnoza Usmonova", phone: "+998909998877", role: "Foydalanuvchi", status: "bloklangan", image: "https://via.placeholder.com/40" },
+				{ id: 3, name: "Azizbek Qodirov", phone: "+998933456789", role: "Foydalanuvchi", status: "faol", image: "https://via.placeholder.com/40" },
+			]
+
+			let displayedUsers = [...dummyUsers]
+
+			function renderUsers(users) {
+				usersTableBody.innerHTML = ''
+				users.forEach(user => {
+					const tr = document.createElement('tr')
+					tr.innerHTML = `
+				<td>${user.id}</td>
+				<td><img src="${user.image}" alt="rasm" class="rounded-circle" width="40" height="40"></td>
+				<td>${user.name}</td>
+				<td>${user.phone}</td>
+				<td>${user.role}</td>
+				<td>
+					<span class="badge ${user.status === 'faol' ? 'bg-success' : 'bg-danger'}">${user.status}</span>
+				</td>
+				<td>
+					<button class="btn btn-sm btn-warning">✏️</button>
+					<button class="btn btn-sm btn-danger">🗑️</button>
+				</td>
+			`
+					usersTableBody.appendChild(tr)
+				})
+			}
+
+			// Qidiruv funksiyasi
+			userSearch.addEventListener('input', () => {
+				const q = userSearch.value.toLowerCase()
+				const filtered = displayedUsers.filter(u =>
+					u.name.toLowerCase().includes(q) || u.phone.includes(q)
+				)
+				renderUsers(filtered)
+			})
+
+			// Yangi foydalanuvchi
+			addUserBtn.addEventListener('click', () => {
+				alert("🧑‍💼 Yangi foydalanuvchi qo‘shish oynasi ochiladi (hozircha yo‘q)")
+			})
+
+			// Foydalanuvchilar bo‘limini ko‘rsatish
+			usersBtn.addEventListener('click', () => {
+				hideAllSections()
+				usersContent.style.display = 'block'
+				renderUsers(displayedUsers)
+			})
+
+			// Boshqa bo‘limlarni yashiruvchi funksiya
+			function hideAllSections() {
+				document.querySelectorAll('[id$="Content"]').forEach(section => {
+					section.style.display = 'none'
+				})
+			}
+		})
+
+		// Products Content
+		document.addEventListener('DOMContentLoaded', () => {
+			const productsBtn = document.getElementById('productsBtn')
+			const productsContent = document.getElementById('productsContent')
+			const productSearch = document.getElementById('productSearch')
+			const productsTableBody = document.querySelector('#productsTable tbody')
+			const addProductBtn = document.getElementById('addProductBtn')
+
+			const dummyProducts = [
+				{ id: 1, name: "Norin", category: "Quyuq taom", price: 15000, status: "faol", image: "https://via.placeholder.com/40" },
+				{ id: 2, name: "Choy", category: "Ichimlik", price: 3000, status: "faol", image: "https://via.placeholder.com/40" },
+				{ id: 3, name: "Lag‘mon", category: "Issiq taom", price: 18000, status: "bloklangan", image: "https://via.placeholder.com/40" },
+			]
+
+			let displayedProducts = [...dummyProducts]
+
+			function renderProducts(products) {
+				productsTableBody.innerHTML = ''
+				products.forEach(p => {
+					const tr = document.createElement('tr')
+					tr.innerHTML = `
+				<td>${p.id}</td>
+				<td><img src="${p.image}" alt="rasm" class="rounded" width="40" height="40"></td>
+				<td>${p.name}</td>
+				<td>${p.category}</td>
+				<td>${p.price} so'm</td>
+				<td><span class="badge ${p.status === 'faol' ? 'bg-success' : 'bg-danger'}">${p.status}</span></td>
+				<td>
+					<button class="btn btn-sm btn-warning">✏️</button>
+					<button class="btn btn-sm btn-danger">🗑️</button>
+				</td>
+			`
+					productsTableBody.appendChild(tr)
+				})
+			}
+
+			// Qidiruv
+			productSearch.addEventListener('input', () => {
+				const q = productSearch.value.toLowerCase()
+				const filtered = displayedProducts.filter(p =>
+					p.name.toLowerCase().includes(q)
+				)
+				renderProducts(filtered)
+			})
+
+			// Yangi mahsulot tugmasi
+			addProductBtn.addEventListener('click', () => {
+				alert("🆕 Yangi mahsulot qo‘shish formasi ochiladi (hozircha yo‘q)")
+			})
+
+			// Mahsulotlar tugmasi
+			productsBtn.addEventListener('click', () => {
+				hideAllSections()
+				productsContent.style.display = 'block'
+				renderProducts(displayedProducts)
+			})
+
+			// Boshqa bo‘limlarni yashirish funksiyasi
+			function hideAllSections() {
+				document.querySelectorAll('[id$="Content"]').forEach(el => {
+					el.style.display = 'none'
+				})
+			}
+		})
+
+		// Product Orders Content
+		document.addEventListener('DOMContentLoaded', () => {
+			console.log("✅ DOM to‘liq yuklandi")
+
+			const productOrdersBtn = document.getElementById('productOrdersBtn')
+			const productOrdersContent = document.getElementById('productOrdersContent')
+			const productOrdersTableBody = document.querySelector('#productOrdersTable tbody')
+			const productSearchInput = document.getElementById('productSearchInput')
+			const filterStatus = document.getElementById('filterStatus')
+			const filterDate = document.getElementById('filterDate')
+			const exportOrdersBtn = document.getElementById('exportOrdersBtn')
+
+			if (!productOrdersBtn || !productOrdersContent || !productOrdersTableBody) {
+				console.error("❌ Elementlardan biri topilmadi:", {
+					productOrdersBtn,
+					productOrdersContent,
+					productOrdersTableBody
+				})
+				return
+			}
+
+			const dummyProductOrders = [
+				{ id: 1, name: "Ali", phone: "998901234567", product: "Norin", quantity: 2, price: 15000, status: "completed", date: "2025-06-24" },
+				{ id: 2, name: "Vali", phone: "998911112233", product: "Lag‘mon", quantity: 1, price: 18000, status: "pending", date: "2025-06-23" },
+				{ id: 3, name: "Dilnoza", phone: "998933331111", product: "Somsa", quantity: 4, price: 5000, status: "cancelled", date: "2025-06-22" },
+			]
+
+			let currentOrders = [...dummyProductOrders]
+
+			function renderProductOrders(data) {
+				console.log("📋 Buyurtmalar render qilinmoqda:", data)
+				productOrdersTableBody.innerHTML = ''
+				data.forEach(order => {
+					const total = order.quantity * order.price
+					const tr = document.createElement('tr')
+					tr.innerHTML = `
+				<td>${order.id}</td>
+				<td>${order.name}</td>
+				<td>${order.phone}</td>
+				<td>${order.product}</td>
+				<td>${order.quantity}</td>
+				<td>${order.price} so'm</td>
+				<td>${total} so'm</td>
+				<td><span class="badge ${getStatusClass(order.status)}">${getStatusText(order.status)}</span></td>
+				<td>
+					<button class="btn btn-sm btn-warning">✏️</button>
+					<button class="btn btn-sm btn-danger">🗑️</button>
+				</td>
+			`
+					productOrdersTableBody.appendChild(tr)
+				})
+			}
+
+			function getStatusClass(status) {
+				switch (status) {
+					case 'pending': return 'bg-warning'
+					case 'completed': return 'bg-success'
+					case 'cancelled': return 'bg-danger'
+					default: return 'bg-secondary'
+				}
+			}
+
+			function getStatusText(status) {
+				switch (status) {
+					case 'pending': return 'Jarayonda'
+					case 'completed': return 'Tugallangan'
+					case 'cancelled': return 'Bekor qilingan'
+					default: return status
+				}
+			}
+
+			function applyFilters() {
+				const q = productSearchInput.value.toLowerCase()
+				const status = filterStatus.value
+				const date = filterDate.value
+
+				console.log("🔍 Filtrlar qo‘llanmoqda:", { q, status, date })
+
+				const filtered = currentOrders.filter(o =>
+					(!status || o.status === status) &&
+					(!date || o.date === date) &&
+					(
+						o.name.toLowerCase().includes(q) ||
+						o.phone.includes(q) ||
+						o.product.toLowerCase().includes(q)
+					)
+				)
+				renderProductOrders(filtered)
+			}
+
+			// Export tugmasi
+			exportOrdersBtn?.addEventListener('click', () => {
+				console.log("⬇️ Export tugmasi bosildi:", currentOrders)
+				alert("Export muvaffaqiyatli bajarildi!")
+			})
+
+			// Filtrlar
+			productSearchInput?.addEventListener('input', applyFilters)
+			filterStatus?.addEventListener('change', applyFilters)
+			filterDate?.addEventListener('change', applyFilters)
+
+			// Menudan ochishda
+			productOrdersBtn.addEventListener('click', () => {
+				console.log("📦 Mahsulot buyurtmalari bo‘limi bosildi")
+				hideAllSections()
+				productOrdersContent.style.display = 'block'
+				renderProductOrders(currentOrders)
+			})
+
+			// Boshqa bo‘limlarni yopish
+			function hideAllSections() {
+				const sections = document.querySelectorAll('[id$="Content"]')
+				console.log("🚫 Barcha bo‘limlar yopilmoqda:", sections)
+				sections.forEach(el => {
+					el.style.display = 'none'
+				})
+			}
+		})
+
+		//Location Orders Content
+		document.addEventListener('DOMContentLoaded', () => {
+			const locationOrdersBtn = document.getElementById('locationOrdersBtn')
+			const locationOrdersContent = document.getElementById('locationOrdersContent')
+			const locationSearchInput = document.getElementById('locationSearchInput')
+			const locationOrdersTableBody = document.querySelector('#locationOrdersTable tbody')
+
+			// Sun'iy joy buyurtmalari (backend yo'q bo'lsa ishlaydi)
+			const dummyLocationOrders = [
+				{ id: 1, name: "Sardor", phone: "998901234567", date: "2025-06-25", time: "18:00", guests: 15, room: "VIP-1", status: "pending" },
+				{ id: 2, name: "Malika", phone: "998901234568", date: "2025-06-24", time: "13:00", guests: 10, room: "Kichik-2", status: "completed" },
+				{ id: 3, name: "Oybek", phone: "998901234569", date: "2025-06-26", time: "19:00", guests: 20, room: "Banket", status: "cancelled" },
+			]
+
+			let currentLocationOrders = [...dummyLocationOrders]
+
+			// Jadvalni render qilish
+			function renderLocationOrders(data) {
+				locationOrdersTableBody.innerHTML = ''
+				data.forEach(order => {
+					const tr = document.createElement('tr')
+					tr.innerHTML = `
+				<td>${order.id}</td>
+				<td>${order.name}</td>
+				<td>${order.phone}</td>
+				<td>${order.date}</td>
+				<td>${order.time}</td>
+				<td>${order.guests}</td>
+				<td>${order.room}</td>
+				<td><span class="badge ${getStatusClass(order.status)}">${getStatusText(order.status)}</span></td>
+				<td>
+					<button class="btn btn-sm btn-warning">✏️</button>
+					<button class="btn btn-sm btn-danger">🗑️</button>
+				</td>
+			`
+					locationOrdersTableBody.appendChild(tr)
+				})
+			}
+
+			// Holatga qarab rang berish
+			function getStatusClass(status) {
+				switch (status) {
+					case 'pending': return 'bg-warning'
+					case 'completed': return 'bg-success'
+					case 'cancelled': return 'bg-danger'
+					default: return 'bg-secondary'
+				}
+			}
+			function getStatusText(status) {
+				switch (status) {
+					case 'pending': return 'Jarayonda'
+					case 'completed': return 'Tugallangan'
+					case 'cancelled': return 'Bekor qilingan'
+					default: return status
+				}
+			}
+
+			// Qidiruv
+			locationSearchInput.addEventListener('input', () => {
+				const query = locationSearchInput.value.toLowerCase()
+				const filtered = currentLocationOrders.filter(o =>
+					o.name.toLowerCase().includes(query) ||
+					o.phone.includes(query) ||
+					o.room.toLowerCase().includes(query)
+				)
+				renderLocationOrders(filtered)
+			})
+
+			// Joy buyurtmalar tugmasi bosilganda
+			locationOrdersBtn.addEventListener('click', () => {
+				hideAllSections()
+				locationOrdersContent.style.display = 'block'
+				renderLocationOrders(currentLocationOrders)
+			})
+
+			// Boshqa kontentlarni yashirish
+			function hideAllSections() {
+				document.querySelectorAll('[id$="Content"]').forEach(el => {
+					el.style.display = 'none'
+				})
+			}
+		})
+
+		// Dashboard Content
+		document.addEventListener('DOMContentLoaded', () => {
+			const dashboardBtn = document.getElementById('dashboardBtn')
+			const dashboardContent = document.getElementById('dashboardContent')
+			const chartPeriod = document.getElementById('chartPeriod')
+			const ctx = document.getElementById('ordersChart').getContext('2d')
+
+			// Faqat bitta ko‘rinadigan qilish
+			function hideAllSections() {
+				document.querySelectorAll('[id$="Content"]').forEach(el => {
+					el.style.display = 'none'
+				})
+			}
+
+			// Chart uchun dummy data
+			const chartData = {
+				week: {
+					labels: ['Du', 'Se', 'Chor', 'Pay', 'Ju', 'Sha', 'Yak'],
+					data: [12, 19, 8, 15, 10, 17, 20]
+				},
+				month: {
+					labels: ['1-hafta', '2-hafta', '3-hafta', '4-hafta'],
+					data: [65, 59, 80, 81]
+				},
+				year: {
+					labels: ['Yan', 'Fev', 'Mar', 'Apr', 'May', 'Iyn'],
+					data: [120, 132, 101, 134, 90, 230]
+				}
+			}
+
+			let ordersChart = new Chart(ctx, {
+				type: 'line',
+				data: {
+					labels: chartData.month.labels,
+					datasets: [{
+						label: 'Buyurtmalar soni',
+						data: chartData.month.data,
+						borderColor: 'rgba(54, 162, 235, 1)',
+						backgroundColor: 'rgba(54, 162, 235, 0.2)',
+						tension: 0.4,
+						fill: true
+					}]
+				},
+				options: {
+					responsive: true,
+					plugins: {
+						legend: { display: false }
+					},
+					scales: {
+						y: {
+							beginAtZero: true,
+							ticks: { stepSize: 10 }
+						}
+					}
+				}
+			})
+
+			// Select tanlanganda grafik yangilansin
+			chartPeriod.addEventListener('change', () => {
+				const period = chartPeriod.value
+				const data = chartData[period]
+
+				ordersChart.data.labels = data.labels
+				ordersChart.data.datasets[0].data = data.data
+				ordersChart.update()
+			})
+
+			// Tugma bosilganda dashboard ko‘rsatiladi
+			dashboardBtn.addEventListener('click', () => {
+				hideAllSections()
+				dashboardContent.style.display = 'block'
+			})
+		})
+
+		// Top Navbar
+		document.addEventListener('DOMContentLoaded', () => {
+			// 🔁 1. Mobil menyu toggle (faqat kichik ekranlarda)
+			const mobileToggle = document.getElementById('mobileToggle')
+			const sidebar = document.getElementById('sidebar') // Sizda sidebar bo‘lishi kerak
+
+			if (mobileToggle && sidebar) {
+				mobileToggle.addEventListener('click', () => {
+					sidebar.classList.toggle('d-none') // yoki sidebar.classList.toggle('show')
+				})
+			}
+
+			// 🔔 2. Bildirishnoma belgisidagi raqam (demo)
+			const notificationBadge = document.getElementById('notificationBadge')
+			const notificationsDropdown = document.getElementById('notificationsDropdown')
+
+			if (notificationsDropdown) {
+				notificationsDropdown.addEventListener('click', () => {
+					// Belgini 0 qilish yoki yashirish
+					if (notificationBadge) {
+						notificationBadge.style.display = 'none'
+					}
+				})
+			}
+
+			// 👤 3. Logout tugmasi ishlashi
+			const logoutBtn2 = document.getElementById('logoutBtn2')
+			if (logoutBtn2) {
+				logoutBtn2.addEventListener('click', (e) => {
+					e.preventDefault()
+					// Mahalliy xotirani tozalash
+					localStorage.removeItem('auth_token')
+					localStorage.removeItem('user_id')
+
+					// Cookie bo‘lsa, uni ham tozalash (agar ishlatilgan bo‘lsa)
+					document.cookie = 'auth_token=; Max-Age=0; path=/'
+
+					// Login sahifaga qaytarish
+					window.location.href = 'login.html'
+				})
+			}
+		})
+
+		// Sidebar
+		document.addEventListener('DOMContentLoaded', () => {
+			console.log("✅ Admin panel JS ishga tushdi")
+
+			const menuItems = [
+				{ buttonId: 'dashboardBtn', contentId: 'dashboardContent' },
+				{ buttonId: 'locationOrdersBtn', contentId: 'locationOrdersContent' },
+				{ buttonId: 'productOrdersBtn', contentId: 'productOrdersContent' },
+				{ buttonId: 'productsBtn', contentId: 'productsContent' },
+				{ buttonId: 'usersBtn', contentId: 'usersContent' },
+				{ buttonId: 'settingsBtn', contentId: 'settingsContent' }
+			]
+
+			const sidebarItems = document.querySelectorAll('.sidebar-item')
+			const allSections = [
+				'dashboardContent',
+				'locationOrdersContent',
+				'productOrdersContent',
+				'productsContent',
+				'usersContent',
+				'settingsContent'
+			]
+
+			function hideAllSections() {
+				allSections.forEach(id => {
+					const section = document.getElementById(id)
+					if (section) section.style.display = 'none'
+				})
+			}
+
+			function removeActiveClasses() {
+				sidebarItems.forEach(item => item.classList.remove('active'))
+			}
+
+			menuItems.forEach(({ buttonId, contentId }) => {
+				const btn = document.getElementById(buttonId)
+				const content = document.getElementById(contentId)
+
+				if (btn && content) {
+					btn.addEventListener('click', () => {
+						console.log(`➡️ ${buttonId} bosildi => ${contentId} ochilmoqda`)
+
+						hideAllSections()
+						removeActiveClasses()
+
+						btn.classList.add('active')
+						content.style.display = 'block'
+					})
+				}
+			})
+
+			// Sahifa yuklanganda dashboard bo‘limini ko‘rsatish
+			hideAllSections()
+			const defaultContent = document.getElementById('dashboardContent')
+			if (defaultContent) defaultContent.style.display = 'block'
+		})
+
+
+
+	</script>
+</body>
+
+</html>
+<!-- orderRoom.js -->
+<script>
+	function orderRoom() {
+		const form =
+			document.getElementById('bookingForm') ||
+			document.querySelector('.booking-form')
+		if (!form) {
+			console.error('Forma topilmadi')
+			return
+		}
+
+		const dateInput = document.getElementById('date')
+		const timeInput = document.getElementById('time')
+		const submitBtn = form.querySelector('button[type="submit"]')
+
+		// Sana va vaqtni formatlash
+		const getTodayDate = () => new Date().toISOString().split('T')[0]
+		const getCurrentTime = () => new Date().toTimeString().slice(0, 5)
+
+		// Validatsiyalar
+		const validateEmail = email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+		const validatePhone = phone => /^\+998\d{9}$/.test(phone)
+
+		// Sana va vaqt chegaralari
+		const updateDateTimeLimits = () => {
+			const today = getTodayDate()
+			const currentTime = getCurrentTime()
+			dateInput.min = today
+			if (!dateInput.value) dateInput.value = today
+			timeInput.min = dateInput.value === today ? currentTime : '10:00'
+			timeInput.max = '22:00'
+		}
+
+		updateDateTimeLimits()
+		dateInput.addEventListener('change', updateDateTimeLimits)
+
+		form.addEventListener('submit', async event => {
+			event.preventDefault()
+
+			const userId = localStorage.getItem('user_id')
+			const token = localStorage.getItem('auth_token')
+
+			if (!userId || !token) {
+				alert('Iltimos, buyurtma berish uchun tizimga kiring.')
+				window.location.href = 'login.html'
+				return
+			}
+
+			// Form ma'lumotlarini olish
+			const name = form.name.value.trim()
+			const phone = form.phone.value.trim()
+			const email = form.email.value.trim()
+			const date = dateInput.value
+			const time = timeInput.value
+			const room = parseInt(form.room.value, 10)
+			const guests = parseInt(form.guests.value, 10)
+			const special_request = form.special_request.value.trim() || ''
+
+			const selectedDateTime = new Date(`${date}T${time}`)
+			const now = new Date()
+
+			// Tekshiruvlar
+			if (!date || !time) {
+				alert('Sana va vaqtni tanlang!')
+				return
+			}
+			if (selectedDateTime <= now) {
+				alert('O‘tgan vaqtga zakaz berib bo‘lmaydi.')
+				return
+			}
+			if (!validatePhone(phone)) {
+				alert('Telefon raqam +998... formatida bo‘lishi kerak.')
+				return
+			}
+			if (!validateEmail(email)) {
+				alert('Email noto‘g‘ri formatda kiritilgan.')
+				return
+			}
+			if (isNaN(guests) || guests < 1 || guests > 20) {
+				alert('Mehmonlar soni 1 dan 20 gacha bo‘lishi kerak.')
+				return
+			}
+			if (isNaN(room) || room < 1 || room > 14) {
+				alert('Xona raqami 1 dan 14 gacha bo‘lishi kerak.')
+				return
+			}
+
+			submitBtn.disabled = true
+			submitBtn.textContent = 'Yuborilmoqda...'
+
+			// Buyurtmani yuborish
+			try {
+				const response = await fetch('http://192.168.245.227:3005/book-table', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${token}`,
+					},
+					body: JSON.stringify({
+						name,
+						phone,
+						email,
+						date,
+						time,
+						room,
+						guests,
+						special_request,
+						user_id: Number(userId),
+					}),
+				})
+
+				if (!response.ok) {
+					const errorText = await response.text()
+					throw new Error(errorText || `Xatolik: ${response.status}`)
+				}
+
+				const contentType = response.headers.get('content-type')
+				if (contentType?.includes('application/json')) {
+					const data = await response.json()
+					alert(data.message || 'Buyurtma muvaffaqiyatli yuborildi!')
+				} else {
+					alert('Buyurtma yuborildi.')
+				}
+
+				form.reset()
+				updateDateTimeLimits()
+			} catch (err) {
+				console.error('Xatolik:', err.message)
+				alert(`Xatolik yuz berdi: ${err.message}`)
+			} finally {
+				submitBtn.disabled = false
+				submitBtn.textContent = 'Buyurtma berish'
+			}
+		})
+	}
+
+	// document.addEventListener('DOMContentLoaded', orderRoom)
+
+	export default orderRoom
+
+</script>

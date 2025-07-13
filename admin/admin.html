@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Admin Panel</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<style>
+		:root {
+			--sidebar-bg: #1e293b;
+			--sidebar-active: #334155;
+			--primary-color: #3b82f6;
+			--danger-color: #ef4444;
+			--success-color: #10b981;
+			--warning-color: #f59e0b;
+		}
+
+		body {
+			background-color: #f1f5f9;
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		}
+
+		#topProductsList.scrollable {
+			max-height: 300px;
+			overflow-y: auto;
+		}
+
+		#topProductsList {
+			transition: opacity 0.4s ease-in-out;
+			opacity: 1;
+		}
+
+		#topProductsList.fade-out {
+			opacity: 0.2;
+			/* 0 emas! Yopilish emas, silliq o‘tish */
+		}
+
+		#topProductsList.fade-in {
+			opacity: 1;
+		}
+
+		.modal {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.5);
+			justify-content: center;
+			align-items: center;
+			z-index: 9999;
+		}
+
+		.modal.show {
+			display: flex;
+		}
+
+		.modal-content {
+			background: #fff;
+			border-radius: 10px;
+			padding: 30px;
+			width: 100%;
+			max-width: 500px;
+			position: relative;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+			animation: fadeIn 0.3s ease-in-out;
+		}
+
+		.modal-content input,
+		.modal-content select,
+		.modal-content textarea,
+		.modal-content button {
+			width: 100%;
+			padding: 10px;
+			margin-bottom: 15px;
+			border-radius: 6px;
+			border: 1px solid #ccc;
+			font-size: 15px;
+		}
+
+		.modal-content button {
+			background-color: #3498db;
+			color: #fff;
+			border: none;
+			cursor: pointer;
+			transition: 0.3s;
+		}
+
+		.modal-content button:hover {
+			background-color: #2980b9;
+		}
+
+		.modal-content .close-modal {
+			position: absolute;
+			top: 15px;
+			right: 20px;
+			font-size: 22px;
+			cursor: pointer;
+			color: #888;
+		}
+
+		.modal-content .close-modal:hover {
+			color: #e74c3c;
+		}
+
+		@keyframes fadeIn {
+			from {
+				transform: scale(0.95);
+				opacity: 0;
+			}
+
+			to {
+				transform: scale(1);
+				opacity: 1;
+			}
+		}
+
+
+		/* Sidebar umumiy stil */
+		.sidebar {
+			width: 250px;
+			height: 100vh;
+			background-color: #1e293b;
+			/* quyuq fon */
+			color: #fff;
+			position: fixed;
+			left: 0;
+			top: 0;
+			z-index: 1000;
+			overflow-y: auto;
+			transition: all 0.3s ease;
+			box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+		}
+
+		.sidebar-header {
+			padding: 20px;
+			background-color: #334155;
+			border-bottom: 1px solid #475569;
+		}
+
+		.sidebar-header h4 {
+			color: #fff;
+			font-size: 18px;
+			margin: 0;
+		}
+
+		.btn-toggle {
+			background: none;
+			border: none;
+			color: #fff;
+			font-size: 20px;
+			cursor: pointer;
+		}
+
+		.sidebar-menu {
+			padding: 10px 0;
+		}
+
+		.sidebar-item {
+			padding: 12px 20px;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			transition: background 0.3s;
+		}
+
+		.sidebar-item i {
+			margin-right: 10px;
+			font-size: 18px;
+		}
+
+		.sidebar-item:hover {
+			background-color: #475569;
+		}
+
+		.sidebar-item.active {
+			background-color: #3b82f6;
+			color: #fff;
+		}
+
+		/* Mobil uchun toggle */
+		@media (max-width: 768px) {
+			.sidebar {
+				transform: translateX(-100%);
+			}
+
+			.sidebar.active {
+				transform: translateX(0);
+			}
+		}
+
+		.content {
+			margin-left: 280px;
+			padding: 1.5rem;
+			transition: all 0.3s;
+		}
+
+		.content-expanded {
+			margin-left: 0;
+		}
+
+		.navbar-custom {
+			background-color: white;
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+			padding: 0.75rem 1.5rem;
+		}
+
+		.card {
+			border: none;
+			border-radius: 0.5rem;
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+			margin-bottom: 1.5rem;
+		}
+
+		.card-header {
+			background-color: white;
+			border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+			padding: 1rem 1.5rem;
+			font-weight: 600;
+		}
+
+		.table-responsive {
+			border-radius: 0.5rem;
+			overflow: hidden;
+		}
+
+		.table {
+			margin-bottom: 0;
+		}
+
+		.table thead th {
+			background-color: #f8fafc;
+			border-bottom-width: 1px;
+			font-weight: 600;
+			padding: 1rem;
+		}
+
+		.table tbody td {
+			padding: 1rem;
+			vertical-align: middle;
+		}
+
+		.badge {
+			font-weight: 500;
+			padding: 0.35em 0.65em;
+		}
+
+		.badge-primary {
+			background-color: var(--primary-color);
+		}
+
+		.badge-success {
+			background-color: var(--success-color);
+		}
+
+		.badge-warning {
+			background-color: var(--warning-color);
+		}
+
+		.badge-danger {
+			background-color: var(--danger-color);
+		}
+
+		.stats-card {
+			border-left: 4px solid;
+			transition: transform 0.2s;
+		}
+
+		.stats-card:hover {
+			transform: translateY(-5px);
+		}
+
+		.stats-card.primary {
+			border-left-color: var(--primary-color);
+		}
+
+		.stats-card.success {
+			border-left-color: var(--success-color);
+		}
+
+		.stats-card.warning {
+			border-left-color: var(--warning-color);
+		}
+
+		.stats-card.danger {
+			border-left-color: var(--danger-color);
+		}
+
+		.search-box {
+			position: relative;
+			margin-bottom: 1.5rem;
+		}
+
+		.search-box i {
+			position: absolute;
+			left: 1rem;
+			top: 50%;
+			transform: translateY(-50%);
+			color: #94a3b8;
+		}
+
+		.search-box input {
+			padding-left: 2.5rem;
+			border-radius: 0.5rem;
+			border: 1px solid #e2e8f0;
+		}
+
+		.btn-toggle {
+			background: none;
+			border: none;
+			color: #64748b;
+			font-size: 1.25rem;
+		}
+
+		.user-dropdown img {
+			width: 36px;
+			height: 36px;
+			border-radius: 50%;
+			object-fit: cover;
+		}
+
+		.chart-container {
+			height: 300px;
+			position: relative;
+		}
+
+		.action-btn {
+			padding: 0.25rem 0.5rem;
+			font-size: 0.875rem;
+		}
+
+		.status-pending {
+			color: var(--warning-color);
+			background-color: rgba(197, 158, 11, 0.1);
+			padding: 0.25rem 0.5rem;
+			border-radius: 0.25rem;
+		}
+
+		.status-completed {
+			color: var(--success-color);
+			background-color: rgba(16, 185, 129, 0.1);
+			padding: 0.25rem 0.5rem;
+			border-radius: 0.25rem;
+		}
+
+		.status-cancelled {
+			color: var(--danger-color);
+			background-color: rgba(239, 68, 68, 0.1);
+			padding: 0.25rem 0.5rem;
+			border-radius: 0.25rem;
+		}
+
+		@media (max-width: 992px) {
+			.sidebar {
+				margin-left: -280px;
+			}
+
+			.sidebar-show {
+				margin-left: 0;
+			}
+
+			.content {
+				margin-left: 0;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="d-flex">
+		<!-- Sidebar -->
+		<div class="sidebar" id="sidebar">
+			<div class="sidebar-header d-flex justify-content-between align-items-center">
+				<h4 class="mb-0"><i class="bi bi-speedometer2"></i> Admin Panel</h4>
+				<button class="btn-toggle" id="toggleSidebar"><i class="bi bi-x-lg"></i></button>
+			</div>
+			<div class="sidebar-menu">
+				<div class="sidebar-item active" id="dashboardBtn">
+					<i class="bi bi-grid"></i> Dashboard
+				</div>
+				<div class="sidebar-item" id="locationOrdersBtn">
+					<i class="bi bi-geo-alt"></i> Joy buyurtmalari
+				</div>
+				<div class="sidebar-item" id="productOrdersBtn">
+					<i class="bi bi-cart"></i> Mahsulot buyurtmalari
+				</div>
+				<div class="sidebar-item" id="productsBtn">
+					<i class="bi bi-box-seam"></i> Mahsulotlar
+				</div>
+				<div class="sidebar-item" id="usersBtn">
+					<i class="bi bi-people"></i> Foydalanuvchilar
+				</div>
+				<div class="sidebar-item" id="employeesBtn">
+					<i class="bi bi-person-badge"></i> Xodimlar
+				</div>
+				<div class="sidebar-item" id="adminProfileBtn">
+					<i class="bi bi-person-circle"></i> Admin Profil
+				</div>
+				<div class="sidebar-item" id="settingsBtn">
+					<i class="bi bi-gear"></i> Sozlamalar
+				</div>
+				<div class="sidebar-item" id="logoutBtn">
+					<i class="bi bi-box-arrow-right"></i> Chiqish
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Main Content -->
+		<div class="content" id="mainContent">
+			<!-- Top Navbar -->
+			<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+				<div class="container-fluid">
+					<button class="btn btn-outline-secondary me-3 d-lg-none" id="mobileToggle">
+						<i class="bi bi-list"></i>
+					</button>
+					<div class="d-flex align-items-center">
+						<h5 class="mb-0" id="pageTitle">Dashboard</h5>
+					</div>
+					<div class="ms-auto d-flex align-items-center">
+						<!-- Notifications -->
+						<div class="dropdown">
+							<button class="btn btn-link text-dark dropdown-toggle d-flex align-items-center position-relative"
+								type="button" id="notificationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+								<i class="bi bi-bell fs-5"></i>
+								<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none"
+									id="notificationBadge">0</span>
+							</button>
+
+							<ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="notificationsDropdown"
+								id="notificationMenu">
+								<li>
+									<h6 class="dropdown-header">Yangiliklar (0)</h6>
+								</li>
+								<li>
+									<a class="dropdown-item text-muted" href="#">Xabarlar mavjud emas</a>
+								</li>
+								<li>
+									<hr class="dropdown-divider">
+								</li>
+								<li>
+									<a class="dropdown-item text-primary" href="#">Barchasini ko‘rish</a>
+								</li>
+							</ul>
+						</div>
+
+
+						<!-- User menu -->
+						<div class="dropdown ms-3">
+							<button class="btn btn-link text-dark dropdown-toggle d-flex align-items-center user-dropdown"
+								type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+								<img id="userAvatar" src="default-avatar.png" alt="User" width="32" height="32"
+									class="rounded-circle me-2">
+								<span id="userName">Admin</span>
+							</button>
+							<ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
+								<li><a class="dropdown-item" href="#" id="adminProfileLink"><i class="bi bi-person me-2"></i> Profil</a>
+								</li>
+								<li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i> Sozlamalar</a></li>
+								<li>
+									<hr class="dropdown-divider">
+								</li>
+								<li><a class="dropdown-item" href="#" id="logoutBtn2"><i class="bi bi-box-arrow-right me-2"></i>
+										Chiqish</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</nav>
+
+			<!-- 🔹 Admin Profil (ko‘rinadigan qismi) -->
+			<div id="adminProfileSection" style="display: none;" class="card p-4 mt-4 shadow-lg">
+				<h4 class="mb-3">👤 Admin Profil</h4>
+				<div class="d-flex align-items-center mb-4">
+					<img id="adminAvatar" src="default-avatar.png" alt="Avatar" width="80" height="80"
+						class="rounded-circle me-3 border">
+					<div>
+						<h5 id="adminName" class="mb-0">Ismi</h5>
+						<small id="adminRole" class="text-muted">Admin</small>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<p><strong>Email:</strong> <span id="adminEmail"></span></p>
+						<p><strong>Login:</strong> <span id="adminLogin"></span></p>
+					</div>
+					<div class="col-md-6">
+						<p><strong>Telefon:</strong> <span id="adminPhone"></span></p>
+						<p><strong>Manzil:</strong> <span id="adminAddress"></span></p>
+					</div>
+				</div>
+				<div class="mt-4 d-flex gap-3">
+					<button class="btn btn-primary" id="editProfileBtn"><i class="bi bi-pencil-square me-1"></i>
+						Tahrirlash</button>
+					<button class="btn btn-outline-secondary" id="changePasswordBtn"><i class="bi bi-key me-1"></i> Parolni
+						o‘zgartirish</button>
+					<button class="btn btn-outline-info" id="changeAvatarBtn"><i class="bi bi-image me-1"></i> Avatarni
+						almashtirish</button>
+				</div>
+			</div>
+
+			<!-- 🔹 Tahrirlash Modal -->
+			<div class="modal" id="editProfileModal" tabindex="-1">
+				<div class="modal-dialog">
+					<div class="modal-content p-3">
+						<h5 class="modal-title mb-3">📝 Profilni tahrirlash</h5>
+						<form id="editProfileForm">
+							<input type="text" id="editName" class="form-control mb-2" placeholder="Ism">
+							<input type="email" id="editEmail" class="form-control mb-2" placeholder="Email">
+							<input type="text" id="editPhone" class="form-control mb-2" placeholder="Telefon">
+							<input type="text" id="editAddress" class="form-control mb-2" placeholder="Manzil">
+							<div class="d-flex justify-content-end mt-3">
+								<button type="submit" class="btn btn-success">Saqlash</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<!-- 🔹 Avatarni almashtirish Modal -->
+			<div class="modal" id="avatarModal" tabindex="-1">
+				<div class="modal-dialog">
+					<div class="modal-content p-3">
+						<h5 class="modal-title mb-3">📷 Yangi avatar yuklash</h5>
+						<form id="avatarForm" enctype="multipart/form-data">
+							<input type="file" name="avatar" class="form-control mb-3" required>
+							<div class="d-flex justify-content-end">
+								<button type="submit" class="btn btn-primary">Yuklash</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<!-- 🔹 Parolni o‘zgartirish Modal -->
+			<div class="modal" id="changePasswordModal" tabindex="-1">
+				<div class="modal-dialog">
+					<div class="modal-content p-3">
+						<h5 class="modal-title mb-3">🔐 Parolni o‘zgartirish</h5>
+						<form id="changePasswordForm">
+							<input type="password" id="oldPassword" class="form-control mb-2" placeholder="Joriy parol">
+							<input type="password" id="newPassword" class="form-control mb-2" placeholder="Yangi parol">
+							<input type="password" id="confirmPassword" class="form-control mb-2" placeholder="Yangi parol (qayta)">
+							<div class="d-flex justify-content-end mt-3">
+								<button type="submit" class="btn btn-warning">Parolni yangilash</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+
+
+			<!-- Dashboard Content -->
+			<div id="dashboardContent">
+				<div class="row mb-4">
+					<div class="col-md-3">
+						<div class="card stats-card primary">
+							<div class="card-body">
+								<div class="d-flex justify-content-between align-items-center">
+									<div>
+										<h6 class="text-muted mb-2">Bugungi buyurtmalar</h6>
+										<h3 id="todayOrders">0</h3>
+									</div>
+									<div class="bg-primary bg-opacity-10 p-3 rounded">
+										<i class="bi bi-cart text-primary fs-4"></i>
+									</div>
+								</div>
+								<div class="mt-3">
+									<span id="todayChange" class="text-success"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="card stats-card success">
+							<div class="card-body">
+								<div class="d-flex justify-content-between align-items-center">
+									<div>
+										<h6 class="text-muted mb-2">Haftalik buyurtmalar</h6>
+										<h3 id="weeklyOrders">0</h3>
+									</div>
+									<div class="bg-success bg-opacity-10 p-3 rounded">
+										<i class="bi bi-calendar-week text-success fs-4"></i>
+									</div>
+								</div>
+								<div class="mt-3">
+									<span id="weekChange" class="text-success"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="card stats-card warning">
+							<div class="card-body">
+								<div class="d-flex justify-content-between align-items-center">
+									<div>
+										<h6 class="text-muted mb-2">Jarayondagi buyurtmalar</h6>
+										<h3 id="pendingOrders">0</h3>
+									</div>
+									<div class="bg-warning bg-opacity-10 p-3 rounded">
+										<i class="bi bi-clock-history text-warning fs-4"></i>
+									</div>
+								</div>
+								<div class="mt-3">
+									<span id="pendingChange" class="text-danger"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="card stats-card danger">
+							<div class="card-body">
+								<div class="d-flex justify-content-between align-items-center">
+									<div>
+										<h6 class="text-muted mb-2">Bekor qilingan</h6>
+										<h3 id="cancelledOrders">0</h3>
+									</div>
+									<div class="bg-danger bg-opacity-10 p-3 rounded">
+										<i class="bi bi-x-circle text-danger fs-4"></i>
+									</div>
+								</div>
+								<div class="mt-3">
+									<span id="cancelledChange" class="text-danger"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="row">
+					<!-- Statistik grafik kartasi -->
+					<div class="col-md-8">
+						<div class="card">
+							<div class="card-header d-flex justify-content-between align-items-center">
+								<h6 class="mb-0">Buyurtmalar statistikasi</h6>
+								<select class="form-select form-select-sm w-auto" id="chartPeriod">
+									<option value="week">Haftalik</option>
+									<option value="month" selected>Oylik</option>
+									<option value="year">Yillik</option>
+								</select>
+							</div>
+							<div class="card-body">
+								<div class="chart-container">
+									<canvas id="ordersChart" height="120"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="card">
+							<div class="card-header">
+								<h6 class="mb-0">Eng ko'p buyurtma qilingan mahsulotlar</h6>
+							</div>
+							<div class="card-body">
+								<!-- Filter tugmalar -->
+								<div class="btn-group mb-3 w-100" role="group" id="timeFrameButtons">
+									<button class="btn btn-outline-primary timeframe-btn active" data-type="day"
+										onclick="changeTimeFrame('day')">Kunlik</button>
+									<button class="btn btn-outline-primary timeframe-btn" data-type="week"
+										onclick="changeTimeFrame('week')">Haftalik</button>
+									<button class="btn btn-outline-primary timeframe-btn" data-type="month"
+										onclick="changeTimeFrame('month')">Oylik</button>
+									<button class="btn btn-outline-primary timeframe-btn" data-type="year"
+										onclick="changeTimeFrame('year')">Yillik</button>
+								</div>
+
+								<!-- Mahsulotlar ro'yxati -->
+								<ul class="list-group list-group-flush" id="topProductsList">
+									<!-- Mahsulotlar JS orqali qo‘shiladi -->
+								</ul>
+
+								<!-- Ko‘proq/Yopish tugmasi -->
+								<button id="toggleBtn" class="btn btn-secondary mt-3 w-100"
+									onclick="toggleAllProducts()">Ko‘proq</button>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+
+
+				<div class="col-md-8">
+					<div class="card">
+						<div class="card-header d-flex justify-content-between align-items-center">
+							<h6 class="mb-0">Buyurtmalar statistikasi</h6>
+							<select class="form-select form-select-sm w-auto" id="chartPeriod">
+								<option value="week">Haftalik</option>
+								<option value="month" selected>Oylik</option>
+								<option value="year">Yillik</option>
+							</select>
+						</div>
+						<div class="card-body">
+							<div class="chart-container">
+								<canvas id="locationOrdersChart" height="120"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<h3>Eng ko'p buyurtma bergan mijozlar</h3>
+				<table class="table table-hover" id="topCustomersTable">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Ism</th>
+							<th>Telefon</th>
+							<th>Address</th>
+							<th>Buyurtmalar soni</th>
+							<th>User ID</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+
+				<nav class="mt-3">
+					<ul class="pagination justify-content-end" id="topCustomersPagination">
+						<!-- Dynamic pagination here -->
+					</ul>
+				</nav>
+			</div>
+
+			<!-- Location Orders Content -->
+			<div id="locationOrdersContent" style="display: none;">
+				<div class="card">
+					<div class="card-header d-flex justify-content-between align-items-center">
+						<h6 class="mb-0">Joy buyurtmalari</h6>
+						<div>
+							<button class="btn btn-sm btn-primary" id="addLocationOrderBtn">
+								<i class="bi bi-plus"></i> Qo'shish
+							</button>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="search-box">
+							<i class="bi bi-search"></i>
+							<input type="text" class="form-control" id="locationSearchInput"
+								placeholder="Qidiruv: ism, telefon, xona...">
+						</div>
+
+						<select id="dateFilter" class="form-select"
+							style="max-width: 200px; display: inline-block; margin-left: 10px;">
+							<option value="all">Barchasi</option>
+							<option value="today">Bugun</option>
+							<option value="week">Haftalik</option>
+							<option value="month">Oylik</option>
+							<option value="year">Yillik</option>
+						</select>
+
+
+						<div class="table-responsive">
+							<table class="table table-hover" id="locationOrdersTable">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Ism</th>
+										<th>Telefon</th>
+										<th>Sana</th>
+										<th>Vaqt</th>
+										<th>Mehmonlar</th>
+										<th>Xona</th>
+										<th>Holat</th>
+										<th>Zakaz vaqti</th>
+										<th>Harakatlar</th>
+									</tr>
+								</thead>
+								<tbody>
+									<!-- Data will be loaded here -->
+								</tbody>
+							</table>
+						</div>
+						<nav class="mt-3">
+							<ul class="pagination justify-content-end">
+								<li class="page-item disabled">
+									<a class="page-link" href="#" tabindex="-1" aria-disabled="true">Oldingi</a>
+								</li>
+								<li class="page-item active"><a class="page-link" href="#">1</a></li>
+								<li class="page-item"><a class="page-link" href="#">2</a></li>
+								<li class="page-item"><a class="page-link" href="#">3</a></li>
+								<li class="page-item">
+									<a class="page-link" href="#">Keyingi</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+
+			<!-- Qo‘shish Modal -->
+			<div id="addOrderModal" class="modal" style="display: none;">
+				<div class="modal-content">
+					<span class="close" onclick="closeModal('addOrderModal')">&times;</span>
+					<h4>Yangi buyurtma qo‘shish</h4>
+					<form id="addOrderForm">
+						<input type="text" id="newName" placeholder="Ism" required>
+						<input type="text" id="newPhone" placeholder="Telefon" required>
+						<input type="date" id="newDate" required>
+						<input type="time" id="newTime" required>
+						<input type="number" id="newGuests" placeholder="Mehmonlar soni" required>
+						<select id="newRoom" required>
+							<option value="">Xona tanlang</option>
+							<option value="1-xona">1-xona</option>
+							<option value="2-xona">2-xona</option>
+							<option value="2-xona">3-xona</option>
+							<option value="2-xona">4-xona</option>
+							<option value="2-xona">5-xona</option>
+							<option value="2-xona">6-xona</option>
+						</select>
+						<button type="submit">Saqlash</button>
+					</form>
+				</div>
+			</div>
+
+
+			<!-- Tahrirlash modal -->
+			<div id="editOrderModal" class="modal" style="display: none;">
+				<div class="modal-content">
+					<span class="close" onclick="closeModal('editOrderModal')">&times;</span>
+					<h4>Buyurtmani tahrirlash</h4>
+					<form id="editOrderForm">
+						<input type="hidden" id="editId" />
+
+						<label for="editName">Ism:</label>
+						<input type="text" id="editName" required />
+
+						<label for="editPhone">Telefon:</label>
+						<input type="text" id="editPhone" required />
+
+						<label for="editDate">Sana:</label>
+						<input type="date" id="editDate" required />
+
+						<label for="editTime">Vaqt:</label>
+						<input type="time" id="editTime" required />
+
+						<label for="editGuests">Mehmonlar soni:</label>
+						<input type="number" id="editGuests" min="1" required />
+
+						<label for="editRoom">Xona:</label>
+						<input type="text" id="editRoom" required />
+
+						<button type="submit" class="btn btn-success">Saqlash</button>
+					</form>
+				</div>
+			</div>
+
+
+
+			<!-- Product Orders Content -->
+			<div id="productOrdersContent" style="display: none;">
+				<div class="card">
+					<div class="card-header d-flex justify-content-between align-items-center">
+						<h6 class="mb-0">Mahsulot buyurtmalari</h6>
+						<div>
+							<button class="btn btn-sm btn-primary" id="exportOrdersBtn">
+								<i class="bi bi-download"></i> Export
+							</button>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="row mb-3">
+							<div class="col-md-3">
+								<select class="form-select" id="filterRange">
+									<option value="">Barcha vaqtlar</option>
+									<option value="daily">Bugungi</option>
+									<option value="weekly">Haftalik</option>
+									<option value="monthly">Oylik</option>
+									<option value="yearly">Yillik</option>
+								</select>
+							</div>
+							<div class="col-md-3">
+								<input type="date" class="form-control" id="filterDate">
+							</div>
+							<div class="col-md-6">
+								<div class="search-box">
+									<i class="bi bi-search"></i>
+									<input type="text" class="form-control" id="productSearchInput"
+										placeholder="Qidiruv: ism, telefon, mahsulot...">
+								</div>
+							</div>
+						</div>
+						<div class="table-responsive">
+							<table class="table table-hover" id="productOrdersTable">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Ism</th>
+										<th>Telefon</th>
+										<th>Manzil</th>
+										<th>Izoh</th>
+										<th>Mahsulotlar</th>
+										<th>Umumiy summa</th>
+										<th>Foydalanuvchi ID</th>
+										<th>Zakaz vaqti</th>
+										<th>Harakatlar</th>
+									</tr>
+								</thead>
+								<tbody>
+									<!-- Data will be loaded here -->
+								</tbody>
+							</table>
+						</div>
+						<nav class="mt-3">
+							<ul class="pagination justify-content-end" id="paginationControls">
+								<!-- Sahifalash tugmalari JS orqali to‘ldiriladi -->
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+
+			<!-- Mahsulot buyurtmasini tahrirlash oynasi -->
+			<div id="editProductOrderModal" class="modal" style="display: none;">
+				<div class="modal-content">
+					<span class="close"
+						onclick="document.getElementById('editProductOrderModal').style.display='none'">&times;</span>
+					<h4>Buyurtmani tahrirlash</h4>
+					<form id="editProductOrderForm">
+						<input type="hidden" id="productOrderId">
+
+						<label>Ism:</label>
+						<input type="text" id="productOrderName" class="form-control" required>
+
+						<label>Telefon:</label>
+						<input type="text" id="productOrderPhone" class="form-control" required>
+
+						<label>Manzil:</label>
+						<input type="text" id="productOrderAddress" class="form-control">
+
+						<label>Izoh:</label>
+						<input type="text" id="productOrderNote" class="form-control">
+
+						<label>Umumiy summa:</label>
+						<input type="number" id="productOrderTotalAmount" class="form-control">
+
+						<!-- 🆕 Zakazlar bo‘limi -->
+						<label>Zakazlar:</label>
+						<div id="productOrderItemsContainer" class="mb-3"></div>
+
+						<div class="mt-3">
+							<button type="submit" class="btn btn-success">Saqlash</button>
+						</div>
+					</form>
+				</div>
+			</div>
+
+
+
+			<!-- Products Content -->
+			<div id="productsContent" style="display: none;">
+				<div class="card">
+					<div class="card-header d-flex justify-content-between align-items-center">
+						<h6 class="mb-0">Mahsulotlar</h6>
+						<div>
+							<button class="btn btn-sm btn-primary" id="addProductBtn">
+								<i class="bi bi-plus"></i> Yangi mahsulot
+							</button>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="search-box">
+							<i class="bi bi-search"></i>
+							<input type="text" class="form-control" id="productSearch"
+								placeholder="Mahsulot nomi bo'yicha qidiruv...">
+						</div>
+						<div class="table-responsive">
+							<table class="table table-hover" id="productsTable">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Rasm</th>
+										<th>Nomi</th>
+										<th>Kategoriya</th>
+										<th>Narx</th>
+										<th>Holat</th>
+										<th>Harakatlar</th>
+									</tr>
+								</thead>
+								<tbody>
+									<!-- Data will be loaded here -->
+								</tbody>
+							</table>
+						</div>
+						<nav class="mt-3">
+							<ul class="pagination justify-content-end" id="productPagination">
+								<!-- Sahifalar shu yerga JS orqali qo‘shiladi -->
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+
+			<!-- Yangi mahsulot qo‘shish Modal oynasi -->
+			<div id="addModal" class="modal">
+				<div class="modal-content">
+					<span class="close-modal" onclick="closeAddModal()">&times;</span>
+					<h4>Yangi mahsulot qo‘shish</h4>
+					<form id="addProductForm" enctype="multipart/form-data">
+						<div class="form-group">
+							<label for="productName">Nomi:</label>
+							<input type="text" id="productName" class="form-control" required />
+						</div>
+
+						<div class="form-group">
+							<label for="productCategory">Kategoriya:</label>
+							<input type="text" id="productCategory" class="form-control" required />
+						</div>
+
+						<div class="form-group">
+							<label for="productPrice">Narx:</label>
+							<input type="number" id="productPrice" class="form-control" required />
+						</div>
+
+						<div class="form-group">
+							<label for="productStatus">Holat:</label>
+							<select id="productStatus" class="form-control">
+								<option value="active">Active</option>
+								<option value="inactive">Inactive</option>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label for="productImage">Rasm:</label>
+							<input type="file" id="productImage" class="form-control" accept="image/*" required />
+						</div>
+
+						<button type="submit" class="btn btn-success mt-3">Qo‘shish</button>
+					</form>
+				</div>
+			</div>
+
+			<!-- Mahsulotni tahrirlash oynasi (Modal) -->
+			<div id="editModal" class="modal" style="display: none;">
+				<div class="modal-content">
+					<span class="close" onclick="closeEditModal()">&times;</span>
+					<h4>Mahsulotni tahrirlash</h4>
+					<form id="editForm">
+						<input type="hidden" id="editProductId">
+						<input type="hidden" id="editProductImageUrl"> <!-- ✅ Rasm uchun yashirin input -->
+
+						<div class="form-group">
+							<label for="editProductName">Nomi:</label>
+							<input type="text" class="form-control" id="editProductName" required>
+						</div>
+
+						<div class="form-group">
+							<label for="editProductCategory">Kategoriya:</label>
+							<input type="text" class="form-control" id="editProductCategory" required>
+						</div>
+
+						<div class="form-group">
+							<label for="editProductPrice">Narx:</label>
+							<input type="number" class="form-control" id="editProductPrice" required>
+						</div>
+
+						<div class="form-group">
+							<label for="editProductStatus">Holat:</label>
+							<select id="editProductStatus" class="form-control">
+								<option value="active">Active</option>
+								<option value="inactive">Inactive</option>
+							</select>
+						</div>
+
+						<button type="submit" class="btn btn-success mt-3">Saqlash</button>
+					</form>
+				</div>
+			</div>
+
+			<!-- Users Content -->
+			<div id="usersContent" style="display: none;">
+				<div class="card">
+					<div class="card-header d-flex justify-content-between align-items-center">
+						<h6 class="mb-0">Foydalanuvchilar</h6>
+						<div>
+							<button class="btn btn-sm btn-primary" id="addUserBtn">
+								<i class="bi bi-plus"></i> Yangi foydalanuvchi
+							</button>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="search-box">
+							<i class="bi bi-search"></i>
+							<input type="text" class="form-control" id="userSearch"
+								placeholder="Ism yoki telefon bo'yicha qidiruv...">
+						</div>
+						<div class="table-responsive">
+							<table class="table table-hover" id="usersTable">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Login</th>
+										<th>Ism</th>
+										<th>Email</th>
+										<th>Parol</th>
+										<th>Rasm</th>
+										<th>Telefon</th>
+										<th>Manzil</th>
+										<th>Holat</th>
+										<th>Harakatlar</th>
+									</tr>
+								</thead>
+								<tbody>
+									<!-- Data will be loaded here -->
+								</tbody>
+							</table>
+						</div>
+						<nav class="mt-3">
+							<ul class="pagination justify-content-end">
+								<li class="page-item disabled">
+									<a class="page-link" href="#" tabindex="-1" aria-disabled="true">Oldingi</a>
+								</li>
+								<li class="page-item active"><a class="page-link" href="#">1</a></li>
+								<li class="page-item"><a class="page-link" href="#">2</a></li>
+								<li class="page-item"><a class="page-link" href="#">3</a></li>
+								<li class="page-item">
+									<a class="page-link" href="#">Keyingi</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+
+			<!-- Yangi Foydalanuvchi Modal -->
+			<div id="addUserModal" class="modal" style="display: none;">
+				<div class="modal-content">
+					<span class="close-add-modal">&times;</span>
+					<h3>Yangi foydalanuvchi qo‘shish</h3>
+					<form id="addUserForm">
+						<input type="text" id="newLogin" placeholder="Login" required />
+						<input type="text" id="newIsm" placeholder="Ism" required />
+						<input type="email" id="newEmail" placeholder="Email" required />
+						<input type="password" id="newPassword" placeholder="Parol" required />
+						<input type="text" id="newTelefon" placeholder="Telefon" />
+						<input type="text" id="newManzil" placeholder="Manzil" />
+						<button type="submit">Saqlash</button>
+					</form>
+				</div>
+			</div>
+
+			<!-- Xodimlar bulimi -->
+			<div id="employeeSection" style="display:none;">
+				<div class="card">
+					<div class="card-header d-flex justify-content-between align-items-center">
+						<h6 class="mb-0">Xodimlar ro‘yxati</h6>
+						<button id="addEmployeeBtn" class="btn btn-sm btn-primary">+ Yangi xodim</button>
+					</div>
+					<div class="card-body">
+						<table class="table table-bordered table-hover" id="employeeTable">
+							<thead class="table-light">
+								<tr>
+									<th>#</th>
+									<th>Avatar</th>
+									<th>Ism</th>
+									<th>Lavozim</th>
+									<th>Telefon</th>
+									<th>Email</th>
+									<th>Rol</th>
+									<th>Amallar</th>
+								</tr>
+							</thead>
+							<tbody>
+								<!-- JS orqali to‘ldiriladi -->
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- 🧾 Modal – Xodim qo‘shish / tahrirlash uchun -->
+			<div class="modal fade" id="employeeModal" tabindex="-1" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<form id="employeeForm" enctype="multipart/form-data">
+							<div class="modal-header">
+								<h5 class="modal-title">Xodim</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+							</div>
+							<div class="modal-body">
+								<input type="hidden" id="employeeId" name="id">
+
+								<div class="mb-3">
+									<label for="fullName" class="form-label">To‘liq ism</label>
+									<input type="text" class="form-control" id="fullName" name="full_name" required>
+								</div>
+
+								<div class="mb-3">
+									<label for="position" class="form-label">Lavozim</label>
+									<input type="text" class="form-control" id="position" name="position">
+								</div>
+
+								<div class="mb-3">
+									<label for="phone" class="form-label">Telefon</label>
+									<input type="text" class="form-control" id="phone" name="phone">
+								</div>
+
+								<div class="mb-3">
+									<label for="email" class="form-label">Email</label>
+									<input type="email" class="form-control" id="email" name="email">
+								</div>
+
+								<div class="mb-3">
+									<label for="role" class="form-label">Rol</label>
+									<select class="form-select" id="role" name="role">
+										<option value="operator">Operator</option>
+										<option value="admin">Admin</option>
+										<option value="oshpaz">Oshpaz</option>
+									</select>
+								</div>
+
+								<!-- 👤 Avatar fayl tanlash -->
+								<div class="mb-3">
+									<label for="avatar" class="form-label">Avatar</label>
+									<input type="file" id="avatar" name="avatar" class="form-control mb-2" accept="image/*">
+									<img id="avatarPreview" src="default-avatar.png" alt="Avatar Preview"
+										style="width: 80px; height: 80px; object-fit: cover;" class="mt-2 rounded-circle border">
+								</div>
+							</div>
+
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-primary">Saqlash</button>
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bekor qilish</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+			<!-- Settings Content -->
+			<div id="settingsContent" style="display: none;">
+				<div class="card">
+					<div class="card-header">
+						<h6 class="mb-0">Sozlamalar</h6>
+					</div>
+					<div class="card-body">
+						<ul class="nav nav-tabs" id="settingsTabs" role="tablist">
+							<li class="nav-item" role="presentation">
+								<button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general"
+									type="button" role="tab" aria-controls="general" aria-selected="true">Umumiy</button>
+							</li>
+							<li class="nav-item" role="presentation">
+								<button class="nav-link" id="notifications-tab" data-bs-toggle="tab" data-bs-target="#notifications"
+									type="button" role="tab" aria-controls="notifications" aria-selected="false">Bildirishnomalar</button>
+							</li>
+							<li class="nav-item" role="presentation">
+								<button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security" type="button"
+									role="tab" aria-controls="security" aria-selected="false">Xavfsizlik</button>
+							</li>
+						</ul>
+						<div class="tab-content p-3 border border-top-0 rounded-bottom" id="settingsTabsContent">
+							<div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+								<form>
+									<div class="row mb-3">
+										<div class="col-md-6">
+											<label for="restaurantName" class="form-label">Restoran nomi</label>
+											<input type="text" class="form-control" id="restaurantName" value="Osiyo Restoran">
+										</div>
+										<div class="col-md-6">
+											<label for="timezone" class="form-label">Vaqt mintaqasi</label>
+											<select class="form-select" id="timezone">
+												<option value="Asia/Tashkent" selected>Toshkent (UTC+5)</option>
+												<option value="Asia/Samarkand">Samarqand (UTC+5)</option>
+											</select>
+										</div>
+									</div>
+									<div class="row mb-3">
+										<div class="col-md-6">
+											<label for="currency" class="form-label">Valyuta</label>
+											<select class="form-select" id="currency">
+												<option value="UZS" selected>So'm (UZS)</option>
+												<option value="USD">Dollar (USD)</option>
+											</select>
+										</div>
+										<div class="col-md-6">
+											<label for="language" class="form-label">Til</label>
+											<select class="form-select" id="language">
+												<option value="uz" selected>O'zbekcha</option>
+												<option value="ru">Ruscha</option>
+												<option value="en">Inglizcha</option>
+											</select>
+										</div>
+									</div>
+									<div class="mb-3">
+										<label for="restaurantLogo" class="form-label">Restoran logosi</label>
+										<input class="form-control" type="file" id="restaurantLogo">
+									</div>
+									<button type="submit" class="btn btn-primary">Saqlash</button>
+								</form>
+							</div>
+							<div class="tab-pane fade" id="notifications" role="tabpanel" aria-labelledby="notifications-tab">
+								<div class="form-check form-switch mb-3">
+									<input class="form-check-input" type="checkbox" id="emailNotifications" checked>
+									<label class="form-check-label" for="emailNotifications">Email bildirishnomalari</label>
+								</div>
+								<div class="form-check form-switch mb-3">
+									<input class="form-check-input" type="checkbox" id="smsNotifications" checked>
+									<label class="form-check-label" for="smsNotifications">SMS bildirishnomalari</label>
+								</div>
+								<div class="form-check form-switch mb-3">
+									<input class="form-check-input" type="checkbox" id="orderAlerts" checked>
+									<label class="form-check-label" for="orderAlerts">Yangi buyurtma haqida ogohlantirish</label>
+								</div>
+								<div class="form-check form-switch mb-3">
+									<input class="form-check-input" type="checkbox" id="promoNotifications">
+									<label class="form-check-label" for="promoNotifications">Promo-aktsiyalar haqida xabarlar</label>
+								</div>
+								<button type="button" class="btn btn-primary">Saqlash</button>
+							</div>
+							<div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
+								<form>
+									<div class="mb-3">
+										<label for="currentPassword" class="form-label">Joriy parol</label>
+										<input type="password" class="form-control" id="currentPassword">
+									</div>
+									<div class="mb-3">
+										<label for="newPassword" class="form-label">Yangi parol</label>
+										<input type="password" class="form-control" id="newPassword">
+									</div>
+									<div class="mb-3">
+										<label for="confirmPassword" class="form-label">Yangi parolni tasdiqlang</label>
+										<input type="password" class="form-control" id="confirmPassword">
+									</div>
+									<button type="submit" class="btn btn-primary">Parolni yangilash</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Add Product Modal -->
+	<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="addProductModalLabel">Yangi mahsulot qo'shish</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form id="productForm">
+						<div class="row mb-3">
+							<div class="col-md-6">
+								<label for="productName" class="form-label">Mahsulot nomi</label>
+								<input type="text" class="form-control" id="productName" required>
+							</div>
+							<div class="col-md-6">
+								<label for="productCategory" class="form-label">Kategoriya</label>
+								<select class="form-select" id="productCategory" required>
+									<option value="">Tanlang</option>
+									<option value="1">Milliy taomlar</option>
+									<option value="2">Yevropa taomlari</option>
+									<option value="3">Ichimliklar</option>
+									<option value="4">Shirinliklar</option>
+								</select>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<div class="col-md-6">
+								<label for="productPrice" class="form-label">Narx</label>
+								<input type="number" class="form-control" id="productPrice" required>
+							</div>
+							<div class="col-md-6">
+								<label for="productStatus" class="form-label">Holat</label>
+								<select class="form-select" id="productStatus">
+									<option value="1">Faol</option>
+									<option value="0">Nofaol</option>
+								</select>
+							</div>
+						</div>
+						<div class="mb-3">
+							<label for="productDescription" class="form-label">Tavsif</label>
+							<textarea class="form-control" id="productDescription" rows="3"></textarea>
+						</div>
+						<div class="mb-3">
+							<label for="productImage" class="form-label">Rasm</label>
+							<input class="form-control" type="file" id="productImage">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bekor qilish</button>
+					<button type="button" class="btn btn-primary" id="saveProductBtn">Saqlash</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Order Detail Modal -->
+	<div class="modal fade" id="orderDetailModal" tabindex="-1" aria-labelledby="orderDetailModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="orderDetailModalLabel">Buyurtma #1256</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row mb-4">
+						<div class="col-md-6">
+							<h6>Mijoz ma'lumotlari:</h6>
+							<p><strong>Ism:</strong> Ali Valiyev</p>
+							<p><strong>Telefon:</strong> +998901234567</p>
+							<p><strong>Manzil:</strong> Toshkent sh., Yunusobod t., 12-uy</p>
+						</div>
+						<div class="col-md-6">
+							<h6>Buyurtma ma'lumotlari:</h6>
+							<p><strong>Sana:</strong> 2023-10-15</p>
+							<p><strong>Vaqt:</strong> 18:30</p>
+							<p><strong>Holat:</strong> <span class="status-pending">Jarayonda</span></p>
+						</div>
+					</div>
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Mahsulot</th>
+									<th>Miqdor</th>
+									<th>Narx</th>
+									<th>Jami</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Osh</td>
+									<td>2</td>
+									<td>30,000 so'm</td>
+									<td>60,000 so'm</td>
+								</tr>
+								<tr>
+									<td>Choy</td>
+									<td>2</td>
+									<td>5,000 so'm</td>
+									<td>10,000 so'm</td>
+								</tr>
+								<tr>
+									<td colspan="3" class="text-end"><strong>Umumiy:</strong></td>
+									<td><strong>70,000 so'm</strong></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="mb-3">
+						<label for="orderNotes" class="form-label">Izoh</label>
+						<textarea class="form-control" id="orderNotes" rows="2">Tez yetkazib berilsin</textarea>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" id="completeOrderBtn">Tugallangan</button>
+					<button type="button" class="btn btn-danger" id="cancelOrderBtn">Bekor qilish</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Yopish</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<!-- SheetJS Excel (xlsx.js) kutubxonasi -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+	<script src="admin.js"></script>
+</body>
+
+</html>

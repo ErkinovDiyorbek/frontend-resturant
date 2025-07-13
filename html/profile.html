@@ -62,12 +62,53 @@
 			height: 70px;
 		}
 
-		.logo {
-			font-size: 24px;
-			font-weight: 700;
-			color: var(--primary);
+		.nav-logo {
 			text-decoration: none;
+			color: inherit;
 		}
+
+		.logo-container {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+		}
+
+		.logo-icon {
+			font-size: 2rem;
+			background: #bd631f;
+			color: white;
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			box-shadow: 0 4px 8px rgba(230, 57, 70, 0.3);
+		}
+
+		.logo-text {
+			display: flex;
+			flex-direction: column;
+			line-height: 1.2;
+		}
+
+		.logo-name {
+			font-family: 'Playfair Display', serif;
+			font-size: 1.8rem;
+			font-weight: 700;
+			color: #e42051;
+			letter-spacing: 1px;
+		}
+
+		.logo-tagline {
+			font-family: 'Poppins', sans-serif;
+			font-size: 0.7rem;
+			font-weight: 500;
+			color: #6c757d;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+		}
+
 
 		.user-menu {
 			display: flex;
@@ -230,6 +271,33 @@
 			background: var(--primary-light);
 			color: var(--primary);
 		}
+
+		/* Bayroq ikonkalari uchun stil */
+		.flag-icon {
+			display: inline-block;
+			width: 24px;
+			height: 16px;
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-position: center;
+			margin-right: 8px;
+			border: 1px solid #eee;
+			border-radius: 2px;
+		}
+
+		.flag-uz {
+			background-image: url('https://industriation.ru/image/catalog/0news/uzbekistan.jpg');
+		}
+
+		.flag-ru {
+			background-image: url('https://avatars.mds.yandex.net/i?id=d39e7d877397383eca9fb22ba9d80374_l-5353188-images-thumbs&n=13');
+		}
+
+		.flag-en {
+			background-image: url('https://www.soccer.ru/sites/default/files/news/velikobritaniya.jpg');
+		}
+
+
 
 		/* Main Content Area */
 		.section-tab {
@@ -411,6 +479,40 @@
 			background-color: #f8f9fa;
 		}
 
+		.order-tabs {
+			margin-bottom: 10px;
+			text-align: center;
+		}
+
+		.order-tab-btn {
+			padding: 8px 16px;
+			margin: 0 5px;
+			background-color: #3c3a38e3;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+
+		.order-tab-btn.active {
+			background-color: #007bff;
+		}
+
+		.orders-table-wrapper {
+			margin-top: 10px;
+		}
+
+		.delete-icon {
+			color: red;
+			cursor: pointer;
+		}
+
+		.delete-icon:hover {
+			transform: scale(1.2);
+			color: darkred;
+			transition: 0.2s ease;
+		}
+
 		/* Responsive Design */
 		@media (max-width: 992px) {
 			.main-content {
@@ -441,12 +543,21 @@
 	<!-- Header -->
 	<header class="header">
 		<div class="container header-content">
-			<a href="#" class="logo">EventPro</a>
+			<a href="../index.html" class="nav-logo">
+				<div class="logo-container">
+					<div class="logo-icon">🦅</div>
+					<div class="logo-text">
+						<span class="logo-name">HUMO</span>
+						<span class="logo-tagline">CHOYXONASI</span>
+					</div>
+				</div>
+			</a>
 			<div class="user-menu">
-				<img
+				<img id="userMenuAvatar"
 					src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
 					alt="User" class="user-avatar">
 			</div>
+
 		</div>
 
 
@@ -469,22 +580,34 @@
 
 			<ul class="sidebar-menu">
 				<li>
-					<a href="#" class="active" data-section="profile" data-translate="Kabinet"><i
-							class="fa-solid fa-user-tie"></i> Kabinet </a>
+					<a href="#" class="active" data-section="profile">
+						<i class="fa-solid fa-user-tie"></i>
+						<span data-translate="Kabinet">Kabinet</span>
+					</a>
 				</li>
 				<li>
-					<a href="#" data-section="orders" data-translate="Zakazlarim"><i class="fas fa-cart-shopping"></i>
-						Zakazlarim </a>
+					<a href="#" data-section="orders">
+						<i class="fas fa-cart-shopping"></i>
+						<span data-translate="Zakazlarim">Zakazlarim</span>
+					</a>
 				</li>
 				<li>
-					<a href="#" data-section="password" data-translate="Parolni o'zgartish"><i class="fas fa-unlock"></i> Parolni
-						o'zgartish</a>
+					<a href="#" data-section="password">
+						<i class="fas fa-unlock"></i>
+						<span data-translate="Parolni o'zgartish">Parolni o'zgartish</span>
+					</a>
 				</li>
 				<li>
-					<a href="#" data-section="home" data-translate="Bosh sahifa"><i class="fas fa-home"></i> Bosh sahifa</a>
+					<a href="#" data-section="home">
+						<i class="fas fa-home"></i>
+						<span data-translate="Bosh sahifa">Bosh sahifa</span>
+					</a>
 				</li>
 				<li>
-					<a href="#" data-section="logout" data-translate="Chiqish"><i class="fas fa-sign-out-alt"></i> Chiqish</a>
+					<a href="#" data-section="logout">
+						<i class="fas fa-sign-out-alt"></i>
+						<span data-translate="Chiqish">Chiqish</span>
+					</a>
 				</li>
 			</ul>
 
@@ -499,25 +622,65 @@
 		<!-- Zakazlarim bo'limi -->
 		<div id="ordersSection" class="section-tab" style="display: none;">
 			<h2 class="section-title" data-translate="Zakazlarim">Zakazlarim</h2>
-			<table class="orders-table">
-				<thead>
-					<tr>
-						<th data-translate="Zakaz ID">Zakaz ID</th>
-						<th data-translate="Ism">Ism</th>
-						<th data-translate="Telefon">Telefon</th>
-						<th data-translate="Manzil">Manzil</th>
-						<th data-translate="Izoh">Izoh</th>
-						<th data-translate="Mahsulotlar">Mahsulotlar</th>
-						<th data-translate="Umumiy summa">Umumiy summa</th>
-					</tr>
-				</thead>
-				<tbody>
-					<!-- Zakazlar bu yerga keladi -->
-				</tbody>
-			</table>
+
+			<!-- Tugmalar -->
+			<div class="order-tabs">
+				<button class="order-tab-btn active" onclick="showTable('product')">
+					<i class="fas fa-box-open"></i>
+					<span data-translate="Buyurtmalar">Buyurtmalar</span>
+				</button>
+				<button class="order-tab-btn" onclick="showTable('place')">
+					<i class="fas fa-chair"></i>
+					<span data-translate="Joy buyurtmasi">Joy buyurtmasi</span>
+				</button>
+			</div>
+
+
+			<!-- Mahsulot zakazlari -->
+			<div id="productOrders" class="orders-table-wrapper">
+				<table class="orders-table">
+					<thead>
+						<tr>
+							<th data-translate="Zakaz ID">Zakaz ID</th>
+							<th data-translate="Ism">Ism</th>
+							<th data-translate="Telefon">Telefon</th>
+							<th data-translate="Manzil">Manzil</th>
+							<th data-translate="Izoh">Izoh</th>
+							<th data-translate="Mahsulotlar">Mahsulotlar</th>
+							<th data-translate="Umumiy summa">Umumiy summa</th>
+							<th data-translate="Amal">Amal</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- Zakazlar bu yerga keladi -->
+					</tbody>
+				</table>
+			</div>
+
+			<!-- Joy zakazlari -->
+			<div id="placeOrders" class="orders-table-wrapper" style="display: none;">
+				<h2 class="section-title" data-translate="Joy zakazlari">Joy zakazlari</h2>
+				<table class="orders-table">
+					<thead>
+						<tr>
+							<th data-translate="Zakaz ID">Zakaz ID</th>
+							<th data-translate="Ism">Ism</th>
+							<th data-translate="Telefon">Telefon</th>
+							<th data-translate="Email">Email</th>
+							<th data-translate="Sana">Sana</th>
+							<th data-translate="Vaqt">Vaqt</th>
+							<th data-translate="Mehmonlar soni">Mehmonlar soni</th>
+							<th data-translate="Xona">Xona</th>
+							<th data-translate="Izoh">Izoh</th>
+							<th data-translate="Amallar">Amallar</th>
+						</tr>
+					</thead>
+					<tbody id="placeOrdersBody">
+						<!-- Joy zakazlari bu yerga keladi -->
+					</tbody>
+				</table>
+			</div>
 		</div>
-
-
 
 		<!-- Parolni o'zgartirish formasi -->
 		<div id="passwordChangeForm" style="display: none; margin-top: 30px;">
@@ -551,7 +714,7 @@
 				<p><strong data-translate="Ism">Ism:</strong> <span id="profileName">Ali Valiyev</span></p>
 				<p><strong data-translate="Email">Email:</strong> <span id="profileEmail">ali@mail.com</span></p>
 				<p><strong data-translate="Telefon">Telefon:</strong> <span id="profilePhone">+998 90 123 45 67</span></p>
-				<p><strong data-translate="Manzil">Manzil:</strong> <span id="profileAddress">Toshkent shahar</span></p>
+				<p><strong data-translate="Manzil">Manzil:</strong> <span id="profileAddress">Jizzax shahar</span></p>
 
 				<button id="editProfileBtn" class="btn btn-primary" data-translate="Tahrirlash">Tahrirlash</button>
 			</div>
@@ -609,7 +772,7 @@
 
 
 	<script>
-		document.addEventListener("DOMContentLoaded", () => {
+		window.addEventListener("DOMContentLoaded", () => {
 			const userId = localStorage.getItem('user_id')
 			const token = localStorage.getItem('auth_token')
 
@@ -625,7 +788,6 @@
 			initProfilePage(userId, token)
 		})
 
-		// 🔁 Barcha sahifa funksiyalarini ishga tushuradi
 		function initProfilePage(userId, token) {
 			fetchProfile(userId, token)
 			fetchOrders(userId, token)
@@ -633,26 +795,32 @@
 			setupProfileEvents(userId, token)
 			setupPasswordChange(token)
 			setupLogout()
+			setupAvatarUpload()
 		}
 
-		// ✅ Foydalanuvchi profilini olish
+		// ✅ Profil ma’lumotlarini olish
 		function fetchProfile(userId, token) {
 			console.log('fetchProfile chaqirildi')
-			fetch(`http://192.168.197.227:3003/user/${userId}`, {
-				headers: { 'Authorization': `Bearer ${token}` }
+			fetch(`http://localhost:3003/user/${userId}`, {
+				headers: { 'Authorization': `Bearer ${token}` },
+				cache: 'no-store'
 			})
-				.then(res => res.json())
+				.then(handleAuthError)
+				.then(res => {
+					if (!res.ok) throw new Error('Serverdan noto‘g‘ri javob olindi')
+					return res.json()
+				})
 				.then(data => {
-					console.log('Backend javobi:', data.user)
-					if (data.success && data.user) {
-						const { ism, email, telefon, manzil } = data.user
-						document.getElementById('profileName').textContent = ism || ''
-						document.getElementById('profileEmail').textContent = email || ''
-						document.getElementById('profilePhone').textContent = telefon || ''
-						document.getElementById('profileAddress').textContent = manzil || ''
-					} else {
-						alert("Foydalanuvchi topilmadi.")
-					}
+
+					// APIdan kelayotgan bevosita qiymatlar
+					const { ism, email, telefon, manzil } = data
+
+					document.getElementById('profileName').textContent = ism || ''
+					document.getElementById('profileEmail').textContent = email || ''
+					document.getElementById('profilePhone').textContent = telefon || ''
+					document.getElementById('profileAddress').textContent = manzil || ''
+
+					console.log('DOM yangilandi')
 				})
 				.catch(err => {
 					console.error("Xatolik:", err)
@@ -661,6 +829,7 @@
 		}
 
 
+		// ✅ Profilni tahrirlash
 		function setupProfileEvents(userId, token) {
 			const editBtn = document.getElementById('editProfileBtn')
 			const cancelBtn = document.getElementById('cancelEditBtn')
@@ -671,7 +840,6 @@
 				document.getElementById('editEmail').value = document.getElementById('profileEmail').textContent.trim()
 				document.getElementById('editPhone').value = document.getElementById('profilePhone').textContent.trim()
 				document.getElementById('editAddress').value = document.getElementById('profileAddress').textContent.trim()
-
 				toggleProfileView(false)
 			})
 
@@ -692,7 +860,7 @@
 					return
 				}
 
-				fetch(`http://192.168.197.227:3003/user/${userId}/update`, {
+				fetch(`http://localhost:3003/user/${userId}/update`, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json',
@@ -703,6 +871,7 @@
 					.then(res => res.json())
 					.then(data => {
 						if (data.success) {
+							// console.log('Profil yangilangan:', data.user) 
 							alert("Profil muvaffaqiyatli yangilandi.")
 							fetchProfile(userId, token)
 							toggleProfileView(true)
@@ -714,6 +883,7 @@
 						console.error("Xatolik:", err)
 						alert("Tizimda xatolik yuz berdi.")
 					})
+
 			})
 		}
 
@@ -722,55 +892,14 @@
 			document.getElementById('profileEditForm').style.display = showDisplay ? 'none' : 'block'
 		}
 
-		document.addEventListener('DOMContentLoaded', () => {
-			const userId = localStorage.getItem('user_id')
-			const token = localStorage.getItem('auth_token')
-
-			if (!userId || !token) {
-				alert("Avval tizimga kiring.")
-				return
-			}
-
-			fetchProfile(userId, token)
-			setupProfileEvents(userId, token)
-		})
-
-
-		// Avatar upload
-		document.getElementById('avatarInput').addEventListener('change', function (e) {
-			const file = e.target.files[0]
-			if (file) {
-				const reader = new FileReader()
-				reader.onload = function (event) {
-					document.getElementById('avatarImage').src = event.target.result
-					document.querySelector('.user-avatar').src = event.target.result
-				}
-				reader.readAsDataURL(file)
-			}
-		})
-
-
 		// ✅ Zakazlarni olish
-		const token = localStorage.getItem('auth_token')
-		if (!token) {
-			alert('Tizimga kirilmagan')
-			// redirect qilishingiz mumkin
-		} else {
-			const decoded = jwt_decode(token)
-			const userId = decoded.userId || decoded.id || decoded.sub
-			fetchProfile(userId, token)
-		}
-
 		function fetchOrders(userId, token) {
-			fetch(`http://192.168.197.227:3003/user/${userId}/orders`, {
-				headers: {
-					'Authorization': `Bearer ${token}`
-				}
+			fetch(`http://localhost:3003/user/${userId}/orders`, {
+				headers: { 'Authorization': `Bearer ${token}` }
 			})
+				.then(handleAuthError)
 				.then(response => {
-					if (!response.ok) {
-						throw new Error('Serverdan xatolik javob keldi: ' + response.status)
-					}
+					if (!response.ok) throw new Error('Serverdan xatolik: ' + response.status)
 					return response.json()
 				})
 				.then(data => {
@@ -786,18 +915,21 @@
 
 							const row = document.createElement('tr')
 							row.innerHTML = `
-              <td>${order.id}</td>
-              <td>${order.name}</td>
-              <td>${order.phone}</td>
-              <td>${order.address || '-'}</td>
-              <td>${order.note || '-'}</td>
-              <td>${itemsText}</td>
-              <td>${order.total_amount} so'm</td>
-            `
+						<td>${order.id}</td>
+						<td>${order.name}</td>
+						<td>${order.phone}</td>
+						<td>${order.address || '-'}</td>
+						<td>${order.note || '-'}</td>
+						<td>${itemsText}</td>
+						<td>${order.total_amount} so'm</td>
+						<td>
+							<i class="fas fa-trash-alt delete-icon" title="O‘chirish" onclick="deleteOrder(${order.id}, this)"></i>
+						</td>
+					`
 							ordersTableBody.appendChild(row)
 						})
 					} else {
-						ordersTableBody.innerHTML = `<tr><td colspan="7" style="text-align:center;">Buyurtmalar topilmadi</td></tr>`
+						ordersTableBody.innerHTML = `<tr><td colspan="8" style="text-align:center;">Buyurtmalar topilmadi</td></tr>`
 					}
 				})
 				.catch(error => {
@@ -806,7 +938,171 @@
 				})
 		}
 
+		// ✅ Zakazlarni o'chirish
+		function deleteOrder(orderId, iconElement) {
+			// console.log("Yuborilayotgan orderId:", orderId)
+
+			if (!confirm("Ushbu zakazni o‘chirishni xohlaysizmi?")) return
+
+			const token = localStorage.getItem('auth_token') || ''
+			// console.log("Token:", token)
+
+			fetch(`http://localhost:3003/orders/${orderId}`, {
+				method: 'DELETE',
+				headers: {
+					'Authorization': `Bearer ${token}`,
+					'Content-Type': 'application/json'
+				}
+			})
+				.then(response => {
+					if (!response.ok) throw new Error('Server xatosi: ' + response.status)
+					const row = iconElement.closest('tr')
+					if (row) row.remove()
+				})
+				.catch(error => {
+					console.error('O‘chirishda xatolik:', error)
+					alert("Zakazni o‘chirishda xatolik yuz berdi.")
+				})
+		}
+
+
+		// ✅ Joy Zakazlarni olish
+		async function loadUserOrders() {
+			const userId = localStorage.getItem('user_id')
+			const token = localStorage.getItem('auth_token')
+			if (!userId || !token) {
+				alert("Tizimga kiring")
+				return
+			}
+
+			try {
+				const response = await fetch(`http://localhost:3008/users/${userId}/orders`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				})
+
+				if (!response.ok) throw new Error('Buyurtmalarni olishda xatolik')
+
+				const data = await response.json()
+				const orders = Array.isArray(data) ? data : data.orders
+
+				const tbody = document.getElementById('placeOrdersBody')
+				tbody.innerHTML = ''
+
+				if (!orders || orders.length === 0) {
+					tbody.innerHTML = '<tr><td colspan="10">Zakaz topilmadi.</td></tr>'
+					return
+				}
+
+				orders.forEach(order => {
+					const formattedDate = new Date(order.date)
+						.toLocaleDateString('uz-UZ', {
+							day: '2-digit',
+							month: '2-digit',
+							year: 'numeric',
+						})
+						.replace(/\./g, '-')
+
+					const row = document.createElement('tr')
+					row.innerHTML = `
+				<td>${order.id}</td>
+				<td>${order.name}</td>
+				<td>${order.phone}</td>
+				<td>${order.email}</td>
+				<td>${formattedDate}</td>
+				<td>${order.time}</td>
+				<td>${order.guests}</td>
+				<td>${order.room}</td>
+				<td>${order.special_request || '—'}</td>
+				<td>
+					<button class="delete-order-btn" data-id="${order.id}">🗑️</button>
+				</td>
+			`
+					tbody.appendChild(row)
+				})
+
+				// 💥 Hamma tugmalarga event qo‘shamiz:
+				document.querySelectorAll('.delete-order-btn').forEach(button => {
+					button.addEventListener('click', async () => {
+						const orderId = button.dataset.id
+						const confirmDelete = confirm("Bu zakazni o‘chirishni istaysizmi?")
+						if (!confirmDelete) return
+
+						try {
+							const res = await fetch(`http://localhost:3003/orders/${orderId}`, {
+								method: 'DELETE',
+								headers: {
+									Authorization: `Bearer ${token}`,
+								},
+							})
+
+							if (!res.ok) throw new Error("O‘chirishda xatolik yuz berdi.")
+
+							alert("Zakaz o‘chirildi.")
+							loadUserOrders() // yangilab chiqamiz
+						} catch (err) {
+							console.error(err)
+							alert("Zakazni o‘chirishda xatolik.")
+						}
+					})
+				})
+
+				document.getElementById('placeOrders').style.display = 'block'
+			} catch (err) {
+				console.error(err)
+				alert('Buyurtmalarni yuklashda xatolik yuz berdi.')
+			}
+		}
+
+		// Tugmalarni almashtirish
+		function showTable(type) {
+			const productOrders = document.getElementById('productOrders')
+			const placeOrders = document.getElementById('placeOrders')
+
+			const buttons = document.querySelectorAll('.order-tab-btn')
+			buttons.forEach(btn => btn.classList.remove('active'))
+
+			if (type === 'product') {
+				productOrders.style.display = 'block'
+				placeOrders.style.display = 'none'
+				buttons[0].classList.add('active')
+			} else {
+				productOrders.style.display = 'none'
+				placeOrders.style.display = 'block'
+				buttons[1].classList.add('active')
+
+				// ✅ Joy buyurtmalarini yuklash
+				loadUserOrders()
+			}
+		}
+
 		// ✅ Parolni o‘zgartirish
+		function validatePassword(password) {
+			const minLength = 8
+			const hasUpper = /[A-Z]/.test(password)
+			const hasLower = /[a-z]/.test(password)
+			const hasNumber = /\d/.test(password)
+			const hasSpecial = /[!@#$%^&*(),.?":{}|<>_]/.test(password)
+
+			if (password.length < minLength) {
+				return "Parol kamida 8 ta belgidan iborat bo'lishi kerak."
+			}
+			if (!hasUpper) {
+				return "Parol katta harfni o'z ichiga olishi kerak."
+			}
+			if (!hasLower) {
+				return "Parol kichik harfni o'z ichiga olishi kerak."
+			}
+			if (!hasNumber) {
+				return "Parol raqamni o'z ichiga olishi kerak."
+			}
+			if (!hasSpecial) {
+				return "Parol maxsus belgi (masalan, !@#$%) bo'lishi kerak."
+			}
+			return ""
+		}
+
 		function setupPasswordChange(token) {
 			const form = document.querySelector('#changePasswordForm')
 			if (!form) return
@@ -823,12 +1119,19 @@
 					return
 				}
 
+				// Parolni validator bilan tekshirish
+				const error = validatePassword(newPassword)
+				if (error) {
+					alert(error)
+					return
+				}
+
 				if (newPassword !== confirmPassword) {
 					alert("Yangi parollar mos kelmadi!")
 					return
 				}
 
-				fetch('http://192.168.197.227:3003/api/change-password', {
+				fetch('http://localhost:3003/api/change-password', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
@@ -836,24 +1139,14 @@
 					},
 					body: JSON.stringify({ currentPassword, newPassword })
 				})
-					.then(res => res.text())
-					.then(text => {
-						try {
-							const data = JSON.parse(text)
-
-							if (!data.success && data.message === 'Eski parol noto‘g‘ri') {
-								alert("Eski parol noto‘g‘ri.")
-								return
-							}
-
+					.then(handleAuthError)
+					.then(res => res.json())
+					.then(data => {
+						if (!data.success && data.message === 'Eski parol noto‘g‘ri') {
+							alert("Eski parol noto‘g‘ri.")
+						} else {
 							alert(data.message)
-
-							if (data.success) {
-								form.reset()
-							}
-						} catch {
-							console.error('Javob JSON emas:', text)
-							alert('Serverdan kutilmagan javob keldi.')
+							if (data.success) form.reset()
 						}
 					})
 					.catch(err => {
@@ -863,8 +1156,100 @@
 			})
 		}
 
+		// ✅  AVATAR   serverga yuborish 
+		function setupAvatarUpload() {
+			const avatarInput = document.getElementById('avatarInput')
+			const avatarImage = document.getElementById('avatarImage')
+			const userMenuAvatar = document.getElementById('userMenuAvatar')
 
-		// ✅ Sidebar hodisalari
+			const userId = localStorage.getItem('user_id')
+			const token = localStorage.getItem('auth_token')
+
+			if (!userId || !token) return
+
+			// 1. Sahifa yuklanganda avatarni yuklash
+			loadAvatarFromServer(userId, token)
+
+			// 2. Avatar tanlanganda yuklash
+			avatarInput.addEventListener('change', async function () {
+				const file = this.files[0]
+				if (!file) return
+
+				const formData = new FormData()
+				formData.append('avatar', file)
+
+				try {
+					const response = await fetch(`http://localhost:3003/api/foydalanuvchilar/${userId}/avatar`, {
+						method: 'POST',
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+						body: formData,
+					})
+
+					const result = await response.json()
+					console.log('✅ Avatar serverdan qaytdi:', result)
+
+					if (result.success) {
+						let fullUrl = result.avatarUrl
+						if (!fullUrl.startsWith('http')) {
+							fullUrl = 'http://localhost:3003' + fullUrl
+						}
+
+						const newUrl = fullUrl + '?t=' + Date.now() // cache bust
+
+						console.log('🖼 Yangilangan avatar URL:', newUrl)
+
+						if (avatarImage) avatarImage.src = newUrl
+						if (userMenuAvatar) userMenuAvatar.src = newUrl
+
+						alert('Avatar muvaffaqiyatli yangilandi!')
+					} else {
+						alert('❌ Avatar yangilashda xatolik: ' + result.message)
+					}
+				} catch (err) {
+					console.error('❗ Avatar yuklashda xatolik:', err)
+					alert('Avatar yuklashda xatolik yuz berdi.')
+				}
+			})
+		}
+
+		// ✅  AVATAR  backenddan olish
+		async function loadAvatarFromServer(userId, token) {
+			try {
+				const res = await fetch(`http://localhost:3003/api/foydalanuvchilar/${userId}/avatar`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				})
+
+				if (!res.ok) {
+					console.error('❌ Avatarni yuklab bo‘lmadi. Status:', res.status)
+					return
+				}
+
+				const result = await res.json()
+				// console.log('ℹ️ Serverdan olingan avatar:', result)
+
+				if (result.success && result.avatarUrl) {
+					let fullUrl = result.avatarUrl
+					if (!fullUrl.startsWith('http')) {
+						fullUrl = 'http://localhost:3003' + fullUrl
+					}
+					const newUrl = fullUrl + '?t=' + Date.now()
+
+					if (document.getElementById('avatarImage'))
+						document.getElementById('avatarImage').src = newUrl
+					if (document.getElementById('userMenuAvatar'))
+						document.getElementById('userMenuAvatar').src = newUrl
+				}
+			} catch (err) {
+				console.error('❌ Avatarni serverdan olishda xatolik:', err)
+			}
+		}
+
+
+		// ✅ Sidebar bo‘limlari
 		function setupSidebarEvents() {
 			const tabs = document.querySelectorAll('.sidebar-menu a')
 			const sections = document.querySelectorAll('.section-tab')
@@ -898,24 +1283,26 @@
 			})
 		}
 
-
-
-		// ✅ Logout funksiyasi
+		// ✅ Chiqish funksiyasi
 		function setupLogout() {
-			const logoutBtn = document.querySelector(".sidebar-menu li:last-child a")
-			logoutBtn?.addEventListener("click", (e) => {
-				e.preventDefault()
-				logoutUser()
-			})
+			window.logoutUser = () => {
+				localStorage.removeItem('user_id')
+				localStorage.removeItem('auth_token')
+				alert("Tizimdan chiqdingiz.")
+				window.location.href = 'login.html'
+			}
 		}
 
-		function logoutUser() {
-			localStorage.removeItem('user_id')
-			localStorage.removeItem('auth_token')
-			alert("Tizimdan chiqdingiz!")
-			window.location.href = "login.html"
+		function handleAuthError(response) {
+			if (response.status === 401 || response.status === 403) {
+				alert("Sessiya tugadi. Iltimos, qaytadan tizimga kiring.")
+				localStorage.removeItem('auth_token')
+				localStorage.removeItem('user_id')
+				window.location.href = 'login.html'
+				throw new Error("Token muddati tugagan.")
+			}
+			return response
 		}
-
 
 
 

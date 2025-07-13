@@ -1,80 +1,97 @@
 function orderRoom() {
-	const form = document.getElementById('bookingForm')
+	const form =
+		document.getElementById('bookingForm') ||
+		document.querySelector('.booking-form')
 	if (!form) return console.error('Forma topilmadi')
 
 	const dateInput = document.getElementById('date')
 	const timeInput = document.getElementById('time')
+	const submitBtn = form.querySelector('button[type="submit"]')
 
-	const updateDateTimeLimits = () => {
+	// Sana va vaqt chegaralari funksiyasi...
+	const getTodayDate = () => new Date().toISOString().split('T')[0]
+	const getCurrentTime = () => {
 		const now = new Date()
-		const today = now.toISOString().split('T')[0]
-		const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(
+		return `${String(now.getHours()).padStart(2, '0')}:${String(
 			now.getMinutes()
 		).padStart(2, '0')}`
+	}
+	const updateDateTimeLimits = () => {
+		const today = getTodayDate()
+		const currentTime = getCurrentTime()
 		dateInput.min = today
 		if (!dateInput.value) dateInput.value = today
-		timeInput.min = dateInput.value === today ? currentTime : '09:00'
+
+		if (dateInput.value === today) {
+			timeInput.min = currentTime
+			if (timeInput.value < currentTime) {
+				timeInput.value = currentTime
+			}
+		} else {
+			timeInput.min = '10:00'
+		}
 		timeInput.max = '22:00'
 	}
-
 	updateDateTimeLimits()
 	dateInput.addEventListener('change', updateDateTimeLimits)
+	setInterval(updateDateTimeLimits, 30000)
 
-	function validateEmail(email) {
-		const regex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/i
-		return regex.test(email)
-	}
+	// Email va telefon validatsiya
+	const validateEmail = email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+	const validatePhone = phone => /^\+998\d{9}$/.test(phone)
 
-	form.addEventListener('submit', async function (event) {
+	// 🎯 Avvalgi listenerni olib tashlaymiz
+	form.removeEventListener('submit', form._submitHandler)
+
+	// ✅ Yangi listener
+	form._submitHandler = async function (event) {
 		event.preventDefault()
 
 		const userId = localStorage.getItem('user_id')
 		const token = localStorage.getItem('auth_token')
 		if (!userId || !token) {
-			alert('Buyurtma berish uchun tizimga kirgan bo‘lishingiz kerak.')
+			alert('Iltimos, tizimga kiring.')
+			window.location.href = '/frontend-resturant/html/login.html'
 			return
 		}
 
-		const name = document.getElementById('name').value.trim()
-		const phone = document.getElementById('phone').value.trim()
-		const email = document.getElementById('email').value.trim()
+		const name = form.name.value.trim()
+		const phone = form.phone.value.trim()
+		const email = form.email.value.trim()
 		const date = dateInput.value
 		const time = timeInput.value
-		const room = parseInt(document.getElementById('room').value, 10)
-		const guests = parseInt(document.getElementById('guests').value, 10)
-		const special_request =
-			document.getElementById('special_request').value?.trim() || ''
+		const room = parseInt(form.room.value, 10)
+		const guests = parseInt(form.guests.value, 10)
+		const special_request = form.special_request.value.trim() || ''
 
-		const now = new Date()
 		const selectedDateTime = new Date(`${date}T${time}`)
+		const now = new Date()
 
-		if (!date || !time) {
-			alert('Sana va vaqtni tanlang!')
+		if (!date || !time || selectedDateTime <= now) {
+			alert('To‘g‘ri sana va vaqt tanlang.')
 			return
 		}
-		if (selectedDateTime <= now) {
-			alert('O‘tgan vaqtga zakaz berib bo‘lmaydi.')
+		const selectedHour = selectedDateTime.getHours()
+		const selectedMinutes = selectedDateTime.getMinutes()
+		if (
+			selectedHour < 10 ||
+			selectedHour > 22 ||
+			(selectedHour === 22 && selectedMinutes > 0)
+		) {
+			alert('Buyurtma faqat 10:00–22:00 oralig‘ida qabul qilinadi.')
 			return
 		}
-		if (!/^\+998\d{9}$/.test(phone)) {
-			alert('Telefon raqam +998... formatida bo‘lishi kerak.')
-			return
-		}
-		if (!validateEmail(email)) {
-			alert('Email faqat @gmail.com bilan tugashi kerak.')
-			return
-		}
-		if (guests > 20 || guests < 1) {
-			alert('Mehmonlar soni 1 dan 20 gacha bo‘lishi kerak.')
-			return
-		}
-		if (room > 14 || room < 1) {
-			alert('Xonalar soni 1 dan 14 gacha bo‘lishi kerak.')
-			return
-		}
+		if (!validatePhone(phone)) return alert('Telefon noto‘g‘ri.')
+		if (!validateEmail(email)) return alert('Email noto‘g‘ri.')
+		if (isNaN(guests) || guests < 1 || guests > 20)
+			return alert('Mehmonlar soni noto‘g‘ri.')
+		if (isNaN(room) || room < 1 || room > 14) return alert('Xona noto‘g‘ri.')
+
+		submitBtn.disabled = true
+		submitBtn.textContent = 'Yuborilmoqda...'
 
 		try {
-			const response = await fetch('http://192.168.197.227:3001/book-table', {
+			const res = await fetch('http://localhost:3008/book-table', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -93,34 +110,27 @@ function orderRoom() {
 				}),
 			})
 
-			if (!response.ok) {
-				const errorText = await response.text()
-				throw new Error(errorText || `Xatolik: ${response.status}`)
-			}
-
-			const contentType = response.headers.get('content-type')
-
-			if (contentType && contentType.includes('text/html')) {
-				// EJS dan render qilingan sahifa kelsa, to‘g‘ridan-to‘g‘ri sahifani almashtiramiz
-				const html = await response.text()
-				document.open()
-				document.write(html)
-				document.close()
-			} else if (contentType && contentType.includes('application/json')) {
-				const data = await response.json()
-				alert(data.message || 'Buyurtma muvaffaqiyatli yuborildi!')
-				form.reset()
-				updateDateTimeLimits()
+			if (!res.ok) throw new Error(await res.text())
+			const contentType = res.headers.get('content-type')
+			if (contentType?.includes('application/json')) {
+				const data = await res.json()
+				alert(data.message || 'Buyurtma yuborildi!')
 			} else {
-				// Noaniq javob
 				alert('Buyurtma yuborildi.')
 			}
+			form.reset()
+			updateDateTimeLimits()
 		} catch (err) {
-			console.error('Buyurtma yuborishda xatolik:', err)
-			alert('Xatolik yuz berdi, keyinroq urinib ko‘ring.')
+			alert(`Xatolik: ${err.message}`)
+		} finally {
+			submitBtn.disabled = false
+			submitBtn.textContent = 'Buyurtma berish'
 		}
-	})
+	}
+
+	form.addEventListener('submit', form._submitHandler)
 }
 
 document.addEventListener('DOMContentLoaded', orderRoom)
+
 export default orderRoom
